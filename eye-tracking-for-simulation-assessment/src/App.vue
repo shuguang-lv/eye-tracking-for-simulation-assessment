@@ -1,56 +1,106 @@
 <template>
-  <v-app>
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+    <v-app>
+        <v-app-bar app color="primary" dark>
+            <div class="d-flex align-center">
+                <v-img
+                    alt="Vuetify Logo"
+                    class="shrink mr-2"
+                    contain
+                    src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+                    transition="scale-transition"
+                    width="40"
+                />
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
+                <v-img
+                    alt="Vuetify Name"
+                    class="shrink mt-1 hidden-sm-and-down"
+                    contain
+                    min-width="100"
+                    src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
+                    width="100"
+                />
+            </div>
 
-      <v-spacer></v-spacer>
+            <v-spacer></v-spacer>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
+            <v-btn
+                href="https://github.com/vuetifyjs/vuetify/releases/latest"
+                target="_blank"
+                text
+            >
+                <span class="mr-2">Latest Release</span>
+                <v-icon>mdi-open-in-new</v-icon>
+            </v-btn>
+        </v-app-bar>
 
-    <v-main>
-      <HelloWorld />
-    </v-main>
-  </v-app>
+        <v-main>
+            <HelloWorld />
+        </v-main>
+    </v-app>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld";
+import HelloWorld from './components/HelloWorld'
 
 export default {
-  name: "App",
+    name: 'App',
 
-  components: {
-    HelloWorld
-  },
+    components: {
+        HelloWorld,
+    },
 
-  data: () => ({
-    //
-  })
-};
+    data: () => ({
+        //
+    }),
+
+    mounted() {
+      this.sendToPython()
+      // console.log(process.env.BASE_URL)
+    },
+
+    methods: {
+        async sendToPython() {
+            const { PythonShell } = require('python-shell')
+            const path = require('path')
+
+            const filePath = path.resolve(process.env.BASE_URL)
+
+            const options = {
+                mode: 'text', // 'json', 'binary'
+                pythonOptions: ['-u'],
+                scriptPath: filePath,
+                args: [this.input],
+            }
+
+            PythonShell.run('calc.py', options, (err) => {
+                if (err) throw err
+                // results is an array consisting of messages collected during execution
+                // console.log('results: ', results);
+                // this.result = results[0];
+            })
+
+            // exchange data between node and python ////////////////////
+
+            // const pyshell = new PythonShell('my_script.py');
+
+            // // sends a message to the Python script via stdin
+            // pyshell.send('hello');
+
+            // pyshell.on('message', (message) => {
+            //   // received a message sent from the Python script (a simple "print" statement)
+            //   console.log(message);
+            // });
+
+            // // end the input stream and allow the process to exit
+            // pyshell.end((err, code, signal) => {
+            //   if (err) throw err;
+            //   console.log(`The exit code was: ${code}`);
+            //   console.log(`The exit signal was: ${signal}`);
+            //   console.log('finished');
+            // });
+
+            // ////////////////////////////////////////////////////////////
+        },
+    },
+}
 </script>
