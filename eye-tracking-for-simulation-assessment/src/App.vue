@@ -54,26 +54,31 @@ export default {
     }),
 
     mounted() {
-      this.sendToPython()
-      // console.log(process.env.BASE_URL)
+        // this.sendToPython()
+        // console.log(process.env.BASE_URL)
     },
 
     methods: {
         async sendToPython() {
-            const { PythonShell } = require('python-shell')
-            const path = require('path')
+            // var cp = require('child_process')
+            // const path = require('path')
+            // const filePath = path.join(process.env.BASE_URL, 'calc.py')
+            // cp.spawn('python', [filePath])
 
-            const filePath = path.resolve(process.env.BASE_URL)
+            const { PythonShell } = require('python-shell')
+            // const path = require('path')
+
+            // const filePath = path.resolve(process.env.BASE_URL)
 
             const options = {
                 mode: 'text', // 'json', 'binary'
                 pythonOptions: ['-u'],
-                scriptPath: filePath,
-                args: [this.input],
+                scriptPath: 'public/',
             }
 
             PythonShell.run('calc.py', options, (err) => {
                 if (err) throw err
+                console.log('finished')
                 // results is an array consisting of messages collected during execution
                 // console.log('results: ', results);
                 // this.result = results[0];

@@ -52,15 +52,6 @@ async function createWindow() {
         // Load the index.html when not in development
         win.loadURL('app://./index.html')
     }
-
-    // wait for 'ready-to-show' to display window
-    win.once('ready-to-show', () => {
-        win.show()
-    })
-
-    win.on('closed', () => {
-        win = null
-    })
 }
 
 // Quit when all windows are closed.
