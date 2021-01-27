@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-app-bar app color="primary" dark>
+        <!-- <v-app-bar app color="primary" dark>
             <div class="d-flex align-center">
                 <v-img
                     alt="Vuetify Logo"
@@ -31,22 +31,26 @@
                 <span class="mr-2">Latest Release</span>
                 <v-icon>mdi-open-in-new</v-icon>
             </v-btn>
-        </v-app-bar>
-
+        </v-app-bar> -->
+        <Header />
         <v-main>
-            <HelloWorld />
+            <transition name="fade">
+                <router-view></router-view>
+            </transition>
         </v-main>
     </v-app>
 </template>
 
+<script src="./storeUtil.js"></script>
 <script>
-import HelloWorld from './components/HelloWorld'
+// import HelloWorld from './components/HelloWorld'
+import Header from "./components/Header";
 
 export default {
     name: 'App',
 
     components: {
-        HelloWorld,
+        Header
     },
 
     data: () => ({
@@ -109,3 +113,14 @@ export default {
     },
 }
 </script>
+
+<style>
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.2s;
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+}
+</style>
