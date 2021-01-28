@@ -1,17 +1,49 @@
 <template>
   <div class="home">
+    <v-btn depressed color="primary" @click="runPython">
+      spawn python
+    </v-btn>
+    <v-alert v-if="isRun" type="success">success</v-alert>
     <HelloWorld msg="Welcome to Your Vue.js App" />
+    <iframe
+      width="1000"
+      height="650"
+      loading="lazy"
+      allowfullscreen="true"
+      frameborder="0"
+      importance="high"
+      src="https://cloud.anylogic.com/assets/embed?modelId=78d1f8ac-cf3f-4126-b5e4-cbbde700e20d"
+    ></iframe>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
-  name: "Home",
+  name: 'Home',
+
   components: {
-    HelloWorld
-  }
-};
+    HelloWorld,
+  },
+
+  data() {
+    return {
+      isRun: false,
+    }
+  },
+
+  mounted() {
+    this.ipc.on('success', () => {
+      this.isRun = true
+    })
+  },
+
+  methods: {
+    runPython() {
+      this.ipc.send('run')
+    },
+  },
+}
 </script>

@@ -108,3 +108,56 @@ setInterval(() => {
 }, 5000)
 
 //////////////////////////////////////////////////////////////////////////////////
+
+ipcMain.on('run', (event) => {
+    sendToPython()
+    event.reply('success')
+})
+
+async function sendToPython() {
+    // var cp = require('child_process')
+    // const path = require('path')
+    // const filePath = path.join(process.env.BASE_URL, 'calc.py')
+    // cp.spawn('python', [filePath])
+
+    const { PythonShell } = require('python-shell')
+    // const path = require('path')
+
+    // const filePath = path.resolve(process.env.BASE_URL)
+
+    const options = {
+      mode: 'text', // 'json', 'binary'
+      pythonOptions: ['-u'],
+      scriptPath: 'public/',
+    }
+
+    PythonShell.run('calc.py', options, (err) => {
+      if (err) throw err
+      console.log('finished')
+      // results is an array consisting of messages collected during execution
+      // console.log('results: ', results);
+      // this.result = results[0];
+    })
+
+    // exchange data between node and python ////////////////////
+
+    // const pyshell = new PythonShell('my_script.py');
+
+    // // sends a message to the Python script via stdin
+    // pyshell.send('hello');
+
+    // pyshell.on('message', (message) => {
+    //   // received a message sent from the Python script (a simple "print" statement)
+    //   console.log(message);
+    // });
+
+    // // end the input stream and allow the process to exit
+    // pyshell.end((err, code, signal) => {
+    //   if (err) throw err;
+    //   console.log(`The exit code was: ${code}`);
+    //   console.log(`The exit signal was: ${signal}`);
+    //   console.log('finished');
+    // });
+
+    // ////////////////////////////////////////////////////////////
+  }
