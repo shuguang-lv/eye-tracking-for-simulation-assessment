@@ -1,6 +1,8 @@
 <template>
   <v-app>
-    <Header />
+    <v-app-bar app>
+      <Header />
+    </v-app-bar>
 
     <!-- Sizes your content based upon application components -->
     <v-main>

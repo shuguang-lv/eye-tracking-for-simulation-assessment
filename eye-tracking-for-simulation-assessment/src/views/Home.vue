@@ -1,7 +1,10 @@
 <template>
-  <div class="home">
+  <div class="home dark">
     <v-btn depressed color="primary" @click="runPython">
       spawn python
+    </v-btn>
+    <v-btn depressed color="primary" @click="changeMode">
+      mode
     </v-btn>
     <v-alert v-if="isRun" type="success">success</v-alert>
     <HelloWorld msg="Welcome to Your Vue.js App" />
@@ -44,6 +47,9 @@ export default {
     runPython() {
       this.ipc.send('run')
     },
+    changeMode() {
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark
+    }
   },
 }
 </script>
