@@ -1,32 +1,61 @@
 <template>
   <v-app>
-    <v-app-bar app>
+    <v-app-bar app dense dark class="primary">
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-      <Header />
+      <v-tabs center-active dark>
+        <v-tab :to="{ path: '/' }">One</v-tab>
+        <v-tab :to="{ path: '/about' }">Two</v-tab>
+      </v-tabs>
       <v-spacer></v-spacer>
+      <v-btn icon>
+        <v-icon>mdi-reply</v-icon>
+      </v-btn>
       <v-btn icon>
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
+      <v-menu left bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn icon v-bind="attrs" v-on="on">
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item v-for="n in 5" :key="n" @click="() => {}">
+            <v-list-item-title>Option {{ n }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" absolute temporary>
+      <v-list>
+        <v-list-item>
+          <v-list-item-avatar>
+            <v-img src="https://cdn.vuetifyjs.com/images/john.png"></v-img>
+          </v-list-item-avatar>
+        </v-list-item>
+        <v-list-item link>
+          <v-list-item-content>
+            <v-list-item-title class="title">
+              John Leider
+            </v-list-item-title>
+            <v-list-item-subtitle>john@vuetifyjs.com</v-list-item-subtitle>
+          </v-list-item-content>
+          <v-list-item-action>
+            <v-icon>mdi-menu-down</v-icon>
+          </v-list-item-action>
+        </v-list-item>
+      </v-list>
+      <v-divider></v-divider>
       <v-list nav dense>
-        <v-list-item-group
-          v-model="group"
-          active-class="deep-purple--text text--accent-4"
-        >
-          <v-list-item>
+        <v-list-item-group v-model="selectedItem" color="primary">
+          <v-list-item v-for="(item, i) in items" :key="i">
             <v-list-item-icon>
-              <v-icon>mdi-home</v-icon>
+              <v-icon v-text="item.icon"></v-icon>
             </v-list-item-icon>
-            <v-list-item-title>Home</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-account</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Account</v-list-item-title>
+            <v-list-item-content>
+              <v-list-item-title v-text="item.text"></v-list-item-title>
+            </v-list-item-content>
           </v-list-item>
         </v-list-item-group>
       </v-list>
@@ -41,29 +70,75 @@
             <router-view></router-view>
           </keep-alive>
         </transition>
+        <div class="text-center mb-8">
+          <v-btn
+            color="deep-purple"
+            outlined
+            @click="bottomNavActive = !bottomNavActive"
+          >
+            Toggle Navigation
+          </v-btn>
+        </div>
       </v-container>
     </v-main>
 
-    <v-footer app>
-      <!-- -->
-    </v-footer>
+    <v-bottom-navigation
+      v-model="value"
+      :input-value="bottomNavActive"
+      class="primary"
+      app
+      dark
+      shift
+      grow
+    >
+      <v-btn>
+        <span>Video</span>
+        <v-icon>mdi-television-play</v-icon>
+      </v-btn>
+      <v-btn>
+        <span>Music</span>
+        <v-icon>mdi-music-note</v-icon>
+      </v-btn>
+      <v-btn>
+        <span>Book</span>
+        <v-icon>mdi-book</v-icon>
+      </v-btn>
+      <v-btn>
+        <span>Image</span>
+        <v-icon>mdi-image</v-icon>
+      </v-btn>
+    </v-bottom-navigation>
   </v-app>
 </template>
 
 <script>
 import './utils/storeUtil.js'
 import Header from './components/Header'
+import BottomNav from './components/BottomNav'
 
 export default {
   name: 'App',
 
   components: {
     Header,
+    BottomNav
   },
 
   data: () => ({
     drawer: false,
     group: null,
+    value: 1,
+    bottomNavActive: true,
+    selectedItem: 0,
+    items: [
+      { text: 'My Files', icon: 'mdi-folder' },
+      { text: 'Shared with me', icon: 'mdi-account-multiple' },
+      { text: 'Starred', icon: 'mdi-star' },
+      { text: 'Recent', icon: 'mdi-history' },
+      { text: 'Offline', icon: 'mdi-check-circle' },
+      { text: 'Uploads', icon: 'mdi-upload' },
+      { text: 'Backups', icon: 'mdi-cloud-upload' },
+    ],
   }),
 
   mounted() {},
@@ -73,6 +148,10 @@ export default {
 </script>
 
 <style>
+html::-webkit-scrollbar {
+    display: none;
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.2s;
