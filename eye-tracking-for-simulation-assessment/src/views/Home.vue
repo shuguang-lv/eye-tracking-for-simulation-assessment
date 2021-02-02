@@ -1,5 +1,5 @@
 <template>
-  <div class="home dark">
+  <div class="home dark d-flex flex-column justify-center align-center">
     <v-btn depressed color="primary" @click="runPython">
       spawn python
     </v-btn>
