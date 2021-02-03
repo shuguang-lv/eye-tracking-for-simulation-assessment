@@ -2,18 +2,21 @@
   <v-app>
     <v-app-bar app dense dark class="primary">
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-      <v-tabs center-active dark>
-        <v-tab :to="{ path: '/' }">One</v-tab>
-        <v-tab :to="{ path: '/about' }">Two</v-tab>
+      <v-tabs center-active dark class="drag">
+        <v-tab class="no-drag" :to="{ path: '/' }">One</v-tab>
+        <v-tab class="no-drag" :to="{ path: '/about' }">Two</v-tab>
       </v-tabs>
       <v-spacer></v-spacer>
       <v-btn icon>
-        <v-icon>mdi-reply</v-icon>
-      </v-btn>
-      <v-btn icon>
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
-      <v-menu left bottom>
+      <v-btn icon @click="minimizeApp">
+        <v-icon>mdi-minus</v-icon>
+      </v-btn>
+      <v-btn icon @click="closeApp">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+      <!-- <v-menu left bottom>
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on">
             <v-icon>mdi-dots-vertical</v-icon>
@@ -24,7 +27,7 @@
             <v-list-item-title>Option {{ n }}</v-list-item-title>
           </v-list-item>
         </v-list>
-      </v-menu>
+      </v-menu> -->
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" absolute temporary>
@@ -121,7 +124,7 @@ export default {
 
   components: {
     Header,
-    BottomNav
+    BottomNav,
   },
 
   data: () => ({
@@ -143,13 +146,32 @@ export default {
 
   mounted() {},
 
-  methods: {},
+  created() {
+    document.body.removeChild(document.getElementById('Loading'))
+  },
+
+  methods: {
+    closeApp() {
+      this.$electron.remote.app.quit()
+    },
+    minimizeApp() {
+      this.$electron.remote.getCurrentWindow().minimize()
+    },
+  },
 }
 </script>
 
 <style>
 html::-webkit-scrollbar {
-    display: none;
+  display: none;
+}
+
+.drag {
+  -webkit-app-region: drag !important;
+}
+
+.no-drag {
+  -webkit-app-region: no-drag !important;
 }
 
 .fade-enter-active,

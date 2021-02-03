@@ -23,10 +23,6 @@ export const bus = new Vue()
 
 ///////////////////////////////////////////////////////////////
 
-// ipc module
-const { ipcRenderer } = require('electron')
-Vue.prototype.ipc = ipcRenderer
-
 // leancloud sdk
 const AV = require('leancloud-storage')
 AV.init({

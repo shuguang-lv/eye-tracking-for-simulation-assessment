@@ -38,14 +38,14 @@ export default {
   },
 
   mounted() {
-    this.ipc.on('success', () => {
+    this.$electron.ipcRenderer.on('success', () => {
       this.isRun = true
     })
   },
 
   methods: {
     runPython() {
-      this.ipc.send('run')
+      this.$electron.ipcRenderer.send('run')
     },
     changeMode() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark
