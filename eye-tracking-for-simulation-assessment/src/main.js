@@ -20,6 +20,7 @@ new Vue({
 
 // event bus
 export const bus = new Vue()
+Vue.prototype.eventBus = bus
 
 ///////////////////////////////////////////////////////////////
 

@@ -1,19 +1,19 @@
 <template>
   <v-app>
     <v-app-bar app dense dark class="primary">
-      <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="drawer = true"> </v-app-bar-nav-icon>
       <v-tabs center-active dark class="drag">
         <v-tab class="no-drag" :to="{ path: '/' }">One</v-tab>
         <v-tab class="no-drag" :to="{ path: '/about' }">Two</v-tab>
       </v-tabs>
       <v-spacer></v-spacer>
-      <v-btn icon>
+      <v-btn plain dark>
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
-      <v-btn icon @click="minimizeApp">
+      <v-btn plain dark @click="minimizeApp">
         <v-icon>mdi-minus</v-icon>
       </v-btn>
-      <v-btn icon @click="closeApp">
+      <v-btn plain dark @click="closeApp">
         <v-icon>mdi-close</v-icon>
       </v-btn>
       <!-- <v-menu left bottom>
@@ -148,6 +148,7 @@ export default {
 
   created() {
     document.body.removeChild(document.getElementById('Loading'))
+    document.body.removeChild(document.getElementById('LoadingBg'))
   },
 
   methods: {
