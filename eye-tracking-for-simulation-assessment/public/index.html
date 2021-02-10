@@ -7,6 +7,16 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
     <title><%= htmlWebpackPlugin.options.title %></title>
     <style type="text/css">
+      html::-webkit-scrollbar {
+        display: none;
+      }
+
+      body {
+        width: 100vw;
+        height: 100vh;
+        background-color: #3a3a44;
+      }
+
       #Loading {
         top: 50%;
         left: 50%;
@@ -14,17 +24,6 @@
         -webkit-transform: translateY(-50%) translateX(-50%);
         transform: translateY(-50%) translateX(-50%);
         z-index: 100;
-      }
-
-      .loadingBg {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background-color: #3A3A44;
-        -webkit-transform: translateY(0%) translateX(0%);
-        transform: translateY(0%) translateX(0%);
       }
 
       .sk-cube-grid {
@@ -35,7 +34,7 @@
       .sk-cube-grid .sk-cube {
         width: 33%;
         height: 33%;
-        background-color: #1EB980;
+        background-color: #1eb980;
         float: left;
         -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
         animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
@@ -103,7 +102,10 @@
         }
       }
     </style>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,500,700:100,300,400,500,700,900|Eczar:400:100,300,400,500,700,900&display=swap">
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,500,700:100,300,400,500,700,900|Eczar:400:100,300,400,500,700,900&display=swap"
+    />
   </head>
   <body>
     <noscript>
@@ -113,7 +115,6 @@
         continue.</strong
       >
     </noscript>
-    <div class="loadingBg" id="LoadingBg"></div>
     <div class="sk-cube-grid" id="Loading">
       <div class="sk-cube sk-cube1"></div>
       <div class="sk-cube sk-cube2"></div>
