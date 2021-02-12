@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* global styles */
-@layer base {
+/* @layer base {
   h1 {
     @apply text-2xl;
   }
@@ -56,4 +56,4 @@
       filter: grayscale(100%);
     }
   }
-}
+} */

@@ -4,9 +4,6 @@
       <v-btn depressed color="primary" class="mr-4" @click="runPython">
         spawn python
       </v-btn>
-      <v-btn depressed color="primary" @click="changeMode">
-        mode
-      </v-btn>
     </v-flex>
     <v-alert v-if="isRun" type="success">success</v-alert>
     <iframe
@@ -42,9 +39,6 @@ export default {
   methods: {
     runPython() {
       this.$electron.ipcRenderer.send('run')
-    },
-    changeMode() {
-      this.$vuetify.theme.dark = !this.$vuetify.theme.dark
     },
   },
 }
