@@ -5,13 +5,13 @@
     <!-- Sizes your content based upon application components -->
     <v-main>
       <!-- Provides the application the proper gutter -->
-      <v-container>
+      <v-content>
         <transition name="fade">
           <keep-alive>
             <router-view></router-view>
           </keep-alive>
         </transition>
-      </v-container>
+      </v-content>
     </v-main>
   </v-app>
 </template>

@@ -1,15 +1,15 @@
 <template>
-  <v-layout class="mt-4">
+    <v-layout class="mt-4">
     <h1>
-      About
+      Eye Tracking
     </h1>
   </v-layout>
 </template>
 
 <script>
-  export default {
-    
-  }
+    export default {
+        
+    }
 </script>
 
 <style scoped>

@@ -1,17 +1,13 @@
 <template>
   <v-layout class="mt-4">
     <h1>
-      About
+      Records
     </h1>
   </v-layout>
 </template>
 
 <script>
-  export default {
-    
-  }
+export default {}
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

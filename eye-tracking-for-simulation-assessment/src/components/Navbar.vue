@@ -6,6 +6,7 @@
         <v-tab class="no-drag" :to="{ path: '/' }">Home</v-tab>
         <v-tab class="no-drag" :to="{ path: '/simulation' }">Simulation</v-tab>
         <v-tab class="no-drag" :to="{ path: '/visualization' }">Visualization</v-tab>
+        <v-tab class="no-drag" :to="{ path: '/eyeTracking' }">Eye Tracking</v-tab>
       </v-tabs>
       <v-spacer></v-spacer>
 
@@ -60,7 +61,7 @@
       <v-divider></v-divider>
       <v-list nav dense>
         <v-list-item-group v-model="selectedItem" color="primary">
-          <v-list-item v-for="(item, i) in items" :key="i">
+          <v-list-item v-for="(item, i) in items" :key="i" :to="{ path: '/' + item.link }">
             <v-list-item-icon>
               <v-icon v-text="item.icon"></v-icon>
             </v-list-item-icon>
@@ -113,12 +114,12 @@ export default {
       items: [
         { text: 'Login', icon: 'mdi-login' },
         { text: 'Logout', icon: 'mdi-logout' },
-        { text: 'Records', icon: 'mdi-history' },
+        { text: 'Records', icon: 'mdi-history', link:'records' },
         { text: 'My Files', icon: 'mdi-folder' },
         { text: 'Uploads', icon: 'mdi-upload' },
-        { text: 'About', icon: 'mdi-information' },
+        { text: 'About', icon: 'mdi-information', link:'about' },
         { text: 'Blog', icon: 'mdi-blogger' },
-        { text: 'FAQ', icon: 'mdi-frequently-asked-questions' },
+        { text: 'FAQ', icon: 'mdi-frequently-asked-questions', link:'faq' },
       ],
       value: 1,
       bottomNavActive: true,
