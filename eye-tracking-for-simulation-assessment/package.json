@@ -15,6 +15,8 @@
   },
   "main": "background.js",
   "dependencies": {
+    "@cloudbase/js-sdk": "^1.4.0",
+    "@cloudbase/vue-provider": "^0.4.0",
     "@mdi/font": "^3.6.95",
     "@tailwindcss/postcss7-compat": "^2.0.2",
     "autoprefixer": "^9.8.6",

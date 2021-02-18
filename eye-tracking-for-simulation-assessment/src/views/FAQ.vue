@@ -1,5 +1,5 @@
 <template>
-    <v-layout class="mt-4">
+    <v-layout class="">
     <h1>
       FAQ
     </h1>

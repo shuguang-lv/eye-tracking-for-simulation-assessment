@@ -1,9 +1,11 @@
 <template>
-  <v-layout class="mt-4">
-    <h1>
-      Visualization
-    </h1>
-  </v-layout>
+  <div>
+    <v-row>
+      <v-col v-for="n in 24" :key="n" cols="4">
+        <v-card height="200"></v-card>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>

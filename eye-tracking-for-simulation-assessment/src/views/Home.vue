@@ -1,16 +1,32 @@
 <template>
   <v-layout column class="dark">
-    <v-flex align-self-center class="button-start">
-      <v-btn depressed rounded color="primary" large width="170" to="simulation">
-        start now !
-      </v-btn>
-    </v-flex>
-    <v-flex align-self-center>
+    <LoginState v-slot="{ loginState }">
+      <h1>{{ loginState ? '已登录' : '未登录' }}</h1>
+    </LoginState>
+    <CloudFile
+      id="cloud://grp2020-4glv8fo5cd87cf9a.6772-grp2020-4glv8fo5cd87cf9a-1302562267/calc.py"
+      v-slot="{ url, loading }"
+    >
+      {{ url ? url : 'loading...' }}
+    </CloudFile>
+    <v-flex align-self-start>
       <v-btn depressed color="primary" @click="runPython">
         spawn python
       </v-btn>
     </v-flex>
     <v-alert v-if="isRun" type="success">success</v-alert>
+    <v-flex align-self-center class="button-start">
+      <v-btn
+        depressed
+        rounded
+        color="primary"
+        large
+        width="170"
+        to="simulation"
+      >
+        start now !
+      </v-btn>
+    </v-flex>
     <!-- <iframe
       width="1000"
       height="650"
@@ -43,21 +59,54 @@ export default {
 
   methods: {
     runPython() {
-      this.$electron.ipcRenderer.send('run')
+      // this.$electron.ipcRenderer.send('run')
+      // this.$cloudbase
+      //   .downloadFile({
+      //     fileID:
+      //       'cloud://grp2020-4glv8fo5cd87cf9a.6772-grp2020-4glv8fo5cd87cf9a-1302562267/calc.py',
+      //   })
+      //   .then((res) => {
+      //     console.log(res)
+      //   })
+      this.$cloudbase
+        .getTempFileURL({
+          fileList: ['cloud://grp2020-4glv8fo5cd87cf9a.6772-grp2020-4glv8fo5cd87cf9a-1302562267/calc.py'],
+        })
+        .then((res) => {
+          // fileList 是一个有如下结构的对象数组
+          // [{
+          //    fileID: 'cloud://webtestjimmy-5328c3.7765-webtestjimmy-5328c3-1251059088/腾讯云.png', // 文件 ID
+          //    tempFileURL: '', // 临时文件网络链接
+          //    maxAge: 120 * 60 * 1000, // 有效期
+          // }]
+          console.log(res.fileList)
+          this.$electron.ipcRenderer.send('download', res.fileList[0].tempFileURL)
+        })
+      //   this.$cloudbase
+      //     .callFunction({
+      //       // 云函数名称
+      //       name: 'eye-tracking',
+      //       // 传给云函数的参数
+      //       data: {
+      //       },
+      //     })
+      //     .then((res) => {
+      //       console.log(res)
+      //     })
+      //     .catch(error)
     },
   },
 }
 </script>
 
 <style scoped>
+.background {
+  width: 100vw;
+  height: 100vh;
+}
 
-  .background {
-    width: 100vw;
-    height: 100vh;
-  }
-
-  .button-start {
-    position: fixed;
-    bottom: 20vh;
-  }
+.button-start {
+  position: fixed;
+  bottom: 20vh;
+}
 </style>

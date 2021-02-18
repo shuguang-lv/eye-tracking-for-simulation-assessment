@@ -12,8 +12,9 @@ import {
 } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
-import FS from 'fs'
+import fs from 'fs'
 import path from 'path'
+import request from 'request'
 import store from './store'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -47,7 +48,7 @@ async function createWindow() {
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
       enableRemoteModule: true,
-      backgroundThrottling: false // 当页面被置于非激活窗口的时候是否停止动画和计时器
+      backgroundThrottling: false, // 当页面被置于非激活窗口的时候是否停止动画和计时器
     },
   })
 
@@ -109,9 +110,9 @@ if (isDevelopment) {
 
 // Example of usage of Vuex Store from the main process
 // Results of action will be automatically passed to all renderer processes
-setInterval(() => {
-  store.dispatch('decrement')
-}, 5000)
+// setInterval(() => {
+//   store.dispatch('decrement')
+// }, 5000)
 
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -120,7 +121,12 @@ ipcMain.on('run', (event) => {
   event.reply('success')
 })
 
-async function sendToPython() {
+ipcMain.on('download', (event, url) => {
+  downloadPython(url)
+  event.reply('success')
+})
+
+function sendToPython() {
   // var cp = require('child_process')
   // const path = require('path')
   // const filePath = path.join(process.env.BASE_URL, 'calc.py')
@@ -134,7 +140,7 @@ async function sendToPython() {
   const options = {
     mode: 'text', // 'json', 'binary'
     pythonOptions: ['-u'],
-    scriptPath: 'public/',
+    scriptPath: __dirname,
   }
 
   PythonShell.run('calc.py', options, (err) => {
@@ -166,4 +172,19 @@ async function sendToPython() {
   // });
 
   // ////////////////////////////////////////////////////////////
+}
+
+function downloadPython(url) {
+  let filePath = path.join(__dirname, 'calc.py')
+  if (fs.existsSync(filePath)) {
+    console.log('文件已存在');
+  } else {
+    let stream = fs.createWriteStream(filePath)
+    request(url)
+      .pipe(stream)
+      .on('close', (err) => {
+        console.log('文件下载完毕')
+      })
+  }
+  sendToPython()
 }

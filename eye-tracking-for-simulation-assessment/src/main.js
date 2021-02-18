@@ -4,12 +4,16 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import VueElectron from 'vue-electron'
+import Cloudbase from '@cloudbase/vue-provider'
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import '@mdi/font/css/materialdesignicons.css'
 import './assets/tailwind.css'
 
 Vue.config.productionTip = false
 Vue.use(VueElectron)
+Vue.use(Cloudbase, {
+  env: 'grp2020-4glv8fo5cd87cf9a',
+})
 
 new Vue({
   router,
@@ -33,3 +37,9 @@ Vue.prototype.eventBus = bus
 // })
 // AV.debug.enable() // 启用
 // Vue.prototype.cloud = AV
+
+// import cloudbase from '@cloudbase/js-sdk'
+
+// const app = cloudbase.init({
+//   env: 'grp2020-4glv8fo5cd87cf9a',
+// })

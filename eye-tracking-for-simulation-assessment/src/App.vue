@@ -1,17 +1,16 @@
 <template>
   <v-app>
     <Navbar />
-
     <!-- Sizes your content based upon application components -->
     <v-main>
       <!-- Provides the application the proper gutter -->
-      <v-content>
+      <v-container class="mt-12">
         <transition name="fade">
           <keep-alive>
             <router-view></router-view>
           </keep-alive>
         </transition>
-      </v-content>
+      </v-container>
     </v-main>
   </v-app>
 </template>
@@ -27,19 +26,19 @@ export default {
     Navbar,
   },
 
-  data: () => ({
-    
-  }),
+  data: () => ({}),
 
   mounted() {},
 
-  created() {
+  async created() {
     document.body.removeChild(document.getElementById('Loading'))
+    await this.$cloudbase
+      .auth({ persistence: 'local' })
+      .anonymousAuthProvider()
+      .signIn()
   },
 
-  methods: {
-
-  },
+  methods: {},
 }
 </script>
 

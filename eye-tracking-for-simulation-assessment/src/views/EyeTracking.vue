@@ -1,5 +1,5 @@
 <template>
-    <v-layout class="mt-4">
+  <v-layout class="">
     <h1>
       Eye Tracking
     </h1>
@@ -7,11 +7,7 @@
 </template>
 
 <script>
-    export default {
-        
-    }
+export default {}
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
