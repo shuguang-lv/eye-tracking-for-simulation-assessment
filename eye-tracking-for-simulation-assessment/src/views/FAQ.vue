@@ -1,15 +1,15 @@
 <template>
-  <v-layout class="">
+    <v-layout class="">
     <h1>
-      About
+      FAQ
     </h1>
   </v-layout>
 </template>
 
 <script>
-  export default {
-    
-  }
+    export default {
+        
+    }
 </script>
 
 <style scoped>

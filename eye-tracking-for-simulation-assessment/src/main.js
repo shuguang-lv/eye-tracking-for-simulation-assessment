@@ -4,12 +4,16 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import VueElectron from 'vue-electron'
+import Cloudbase from '@cloudbase/vue-provider'
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import '@mdi/font/css/materialdesignicons.css'
 import './assets/tailwind.css'
 
 Vue.config.productionTip = false
 Vue.use(VueElectron)
+Vue.use(Cloudbase, {
+  env: 'grp2020-4glv8fo5cd87cf9a',
+})
 
 new Vue({
   router,
@@ -20,19 +24,22 @@ new Vue({
 
 // event bus
 export const bus = new Vue()
+Vue.prototype.eventBus = bus
 
 ///////////////////////////////////////////////////////////////
 
-// ipc module
-const { ipcRenderer } = require('electron')
-Vue.prototype.ipc = ipcRenderer
-
 // leancloud sdk
-const AV = require('leancloud-storage')
-AV.init({
-  appId: 'cnzf7bIFLuObfxzx3r0ByDQU-gzGzoHsz',
-  appKey: 'h6HGnV1AHXsy45JIX7M42PKi',
-  serverURL: 'https://cnzf7bif.lc-cn-n1-shared.com',
-})
-AV.debug.enable() // 启用
-Vue.prototype.cloud = AV
+// const AV = require('leancloud-storage')
+// AV.init({
+//   appId: 'cnzf7bIFLuObfxzx3r0ByDQU-gzGzoHsz',
+//   appKey: 'h6HGnV1AHXsy45JIX7M42PKi',
+//   serverURL: 'https://cnzf7bif.lc-cn-n1-shared.com',
+// })
+// AV.debug.enable() // 启用
+// Vue.prototype.cloud = AV
+
+// import cloudbase from '@cloudbase/js-sdk'
+
+// const app = cloudbase.init({
+//   env: 'grp2020-4glv8fo5cd87cf9a',
+// })

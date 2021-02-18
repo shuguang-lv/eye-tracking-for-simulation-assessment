@@ -1,17 +1,13 @@
 <template>
   <v-layout class="">
     <h1>
-      About
+      Eye Tracking
     </h1>
   </v-layout>
 </template>
 
 <script>
-  export default {
-    
-  }
+export default {}
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

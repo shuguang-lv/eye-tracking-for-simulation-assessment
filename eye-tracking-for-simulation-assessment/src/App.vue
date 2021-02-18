@@ -1,11 +1,10 @@
 <template>
   <v-app>
-    <Header />
-
+    <Navbar />
     <!-- Sizes your content based upon application components -->
     <v-main>
       <!-- Provides the application the proper gutter -->
-      <v-container fluid>
+      <v-container class="mt-12">
         <transition name="fade">
           <keep-alive>
             <router-view></router-view>
@@ -13,33 +12,33 @@
         </transition>
       </v-container>
     </v-main>
-
-    <v-footer app>
-      <!-- -->
-    </v-footer>
   </v-app>
 </template>
 
 <script>
 import './utils/storeUtil.js'
-import Header from './components/Header'
+import Navbar from './components/Navbar'
 
 export default {
   name: 'App',
 
   components: {
-    Header,
+    Navbar,
   },
 
-  data: () => ({
-    //
-  }),
+  data: () => ({}),
 
-  mounted() {
+  mounted() {},
+
+  async created() {
+    document.body.removeChild(document.getElementById('Loading'))
+    await this.$cloudbase
+      .auth({ persistence: 'local' })
+      .anonymousAuthProvider()
+      .signIn()
   },
 
-  methods: {
-  },
+  methods: {},
 }
 </script>
 
