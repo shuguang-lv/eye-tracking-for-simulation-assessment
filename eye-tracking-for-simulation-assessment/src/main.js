@@ -25,11 +25,11 @@ Vue.prototype.eventBus = bus
 ///////////////////////////////////////////////////////////////
 
 // leancloud sdk
-const AV = require('leancloud-storage')
-AV.init({
-  appId: 'cnzf7bIFLuObfxzx3r0ByDQU-gzGzoHsz',
-  appKey: 'h6HGnV1AHXsy45JIX7M42PKi',
-  serverURL: 'https://cnzf7bif.lc-cn-n1-shared.com',
-})
-AV.debug.enable() // 启用
-Vue.prototype.cloud = AV
+// const AV = require('leancloud-storage')
+// AV.init({
+//   appId: 'cnzf7bIFLuObfxzx3r0ByDQU-gzGzoHsz',
+//   appKey: 'h6HGnV1AHXsy45JIX7M42PKi',
+//   serverURL: 'https://cnzf7bif.lc-cn-n1-shared.com',
+// })
+// AV.debug.enable() // 启用
+// Vue.prototype.cloud = AV
