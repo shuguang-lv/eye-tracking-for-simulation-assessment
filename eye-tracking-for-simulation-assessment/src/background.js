@@ -49,9 +49,9 @@ async function createWindow() {
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
       enableRemoteModule: true,
       backgroundThrottling: false, // 当页面被置于非激活窗口的时候是否停止动画和计时器
+      webSecurity: false
     },
   })
-
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
@@ -140,7 +140,7 @@ function sendToPython() {
   const options = {
     mode: 'text', // 'json', 'binary'
     pythonOptions: ['-u'],
-    scriptPath: __dirname,
+    scriptPath: './',
   }
 
   PythonShell.run('calc.py', options, (err) => {
@@ -175,7 +175,7 @@ function sendToPython() {
 }
 
 function downloadPython(url) {
-  let filePath = path.join(__dirname, 'calc.py')
+  let filePath = path.join('./', 'calc.py')
   if (fs.existsSync(filePath)) {
     console.log('文件已存在');
   } else {
