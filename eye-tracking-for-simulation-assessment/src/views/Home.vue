@@ -1,8 +1,6 @@
 <template>
   <v-layout column class="dark">
-    <LoginState v-slot="{ loginState }">
-      <h1>{{ loginState ? '已登录' : '未登录' }}</h1>
-    </LoginState>
+    <h1>{{ this.leanCloud.User.current() }}</h1>
     <v-flex align-self-start>
       <v-btn depressed color="primary" @click="runPython">
         spawn python
@@ -53,7 +51,10 @@ export default {
 
   methods: {
     runPython() {
-      this.$electron.ipcRenderer.send('download', 'https://6772-grp2020-4glv8fo5cd87cf9a-1302562267.tcb.qcloud.la/calc.py?sign=0a48a152394001da0e724f5a02ed9544&t=1613720364')
+      this.$electron.ipcRenderer.send(
+        'download',
+        'https://6772-grp2020-4glv8fo5cd87cf9a-1302562267.tcb.qcloud.la/calc.py?sign=0a48a152394001da0e724f5a02ed9544&t=1613720364'
+      )
       // this.$electron.ipcRenderer.send('run')
       // this.$cloudbase
       //   .downloadFile({

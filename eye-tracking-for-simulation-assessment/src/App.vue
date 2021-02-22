@@ -30,12 +30,21 @@ export default {
 
   mounted() {},
 
-  async created() {
+  created() {
     document.body.removeChild(document.getElementById('Loading'))
-    await this.$cloudbase
-      .auth({ persistence: 'local' })
-      .anonymousAuthProvider()
-      .signIn()
+    this.leanCloud.User.loginAnonymously().then((user) => {
+      console.log(user);
+    })
+    // await this.$cloudbase
+    //   .auth({ persistence: 'local' })
+    //   .anonymousAuthProvider()
+    //   .signIn()
+    //   .then(() => {
+    //     console.log('登录成功');
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   })
   },
 
   methods: {},
