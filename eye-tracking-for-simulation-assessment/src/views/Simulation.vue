@@ -10,10 +10,18 @@
       <!-- <v-col v-for="j in 6" :key="`${n}${j}`" cols="3" md="2">
           <v-sheet height="200"></v-sheet>
         </v-col> -->
-      <v-col v-for="n in 3" :key="n" cols="12" md="4">
-        <v-item>
-          <v-card class="d-flex align-center" dark height="300" @click="dialog = true"> </v-card>
-        </v-item>
+      <v-col v-for="j in 3" :key="`${n}${j}`" cols="12" md="4">
+        <v-item-group>
+          <v-item>
+            <v-card
+              class="d-flex align-center"
+              dark
+              height="300"
+              @click="dialog = true"
+            >
+            </v-card>
+          </v-item>
+        </v-item-group>
       </v-col>
     </template>
 

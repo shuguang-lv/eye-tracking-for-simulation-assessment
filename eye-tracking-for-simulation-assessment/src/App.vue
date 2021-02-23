@@ -32,9 +32,35 @@ export default {
 
   created() {
     document.body.removeChild(document.getElementById('Loading'))
-    this.leanCloud.User.loginAnonymously().then((user) => {
-      console.log(user);
-    })
+
+    const currentUser = this.leanCloud.User.current()
+    if (currentUser == null) {
+      this.leanCloud.User.loginAnonymously().then((user) => {
+        console.log(user)
+      })
+    } else {
+      currentUser.isAuthenticated().then((authenticated) => {
+        if (authenticated) {
+          console.log('session token 有效')
+          this.leanCloud.User.become(currentUser.getSessionToken()).then(
+            (user) => {
+              console.log(user)
+            },
+            (error) => {
+              console.log(error)
+              this.leanCloud.User.loginAnonymously().then((user) => {
+                console.log(user)
+              })
+            }
+          )
+        } else {
+          console.log('session token 无效')
+          this.leanCloud.User.loginAnonymously().then((user) => {
+            console.log(user)
+          })
+        }
+      })
+    }
     // await this.$cloudbase
     //   .auth({ persistence: 'local' })
     //   .anonymousAuthProvider()
