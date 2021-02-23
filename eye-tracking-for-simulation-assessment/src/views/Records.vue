@@ -1,10 +1,35 @@
 <template>
-  <div>
-    <v-row>
-      <h1>
-        Records
-      </h1>
-      <v-col v-for="card in cards" :key="card" cols="12">
+  <div class="flex-row">
+    <v-data-table
+      dark
+      :headers="headers"
+      :items="items"
+      :items-per-page="10"
+      :search="search"
+      class="elevation-1 mt-8"
+      item-key="number"
+      show-expand
+    >
+      <template v-slot:top>
+        <v-toolbar flat>
+          <v-toolbar-title>
+            Records
+          </v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+          ></v-text-field>
+        </v-toolbar>
+      </template>
+      <template v-slot:expanded-item="{ headers }">
+        <td :colspan="headers.length">More info</td>
+      </template>
+    </v-data-table>
+    <!-- <v-col v-for="card in cards" :key="card" cols="12">
         <v-card>
           <v-subheader>{{ card }}</v-subheader>
           <v-list two-line>
@@ -23,15 +48,88 @@
             </template>
           </v-list>
         </v-card>
-      </v-col>
-    </v-row>
+      </v-col> -->
   </div>
 </template>
 
 <script>
 export default {
   data: () => ({
-    cards: ['Today', 'Yesterday'],
+    search: '',
+    headers: [
+      {
+        text: 'No.',
+        align: 'start',
+        // sortable: false,
+        value: 'number',
+      },
+      { text: 'Topic', value: 'topic' },
+      { text: 'Score', value: 'score' },
+      { text: 'Date', value: 'date' },
+      { text: '', value: 'data-table-expand' },
+    ],
+    items: [
+      {
+        number: '1',
+        topic: 'Airport',
+        score: 6.0,
+        date: '10/23/2020',
+      },
+      {
+        number: '2',
+        topic: 'Airport',
+        score: 6.0,
+        date: '10/23/2020',
+      },
+      {
+        number: '3',
+        topic: 'Airport',
+        score: 6.0,
+        date: '10/23/2020',
+      },
+      {
+        number: '4',
+        topic: 'Airport',
+        score: 6.0,
+        date: '10/23/2020',
+      },
+      {
+        number: '5',
+        topic: 'Airport',
+        score: 6.0,
+        date: '10/23/2020',
+      },
+      {
+        number: '6',
+        topic: 'Airport',
+        score: 6.0,
+        date: '10/23/2020',
+      },
+      {
+        number: '7',
+        topic: 'Airport',
+        score: 6.0,
+        date: '10/23/2020',
+      },
+      {
+        number: '8',
+        topic: 'Airport',
+        score: 6.0,
+        date: '10/23/2020',
+      },
+      {
+        number: '9',
+        topic: 'Airport',
+        score: 6.0,
+        date: '10/23/2020',
+      },
+      {
+        number: '10',
+        topic: 'Airport',
+        score: 6.0,
+        date: '10/23/2020',
+      },
+    ],
   }),
 }
 </script>

@@ -1,14 +1,6 @@
 <template>
   <v-layout column class="dark">
-    <LoginState v-slot="{ loginState }">
-      <h1>{{ loginState ? '已登录' : '未登录' }}</h1>
-    </LoginState>
-    <CloudFile
-      id="cloud://grp2020-4glv8fo5cd87cf9a.6772-grp2020-4glv8fo5cd87cf9a-1302562267/calc.py"
-      v-slot="{ url, loading }"
-    >
-      {{ url ? url : 'loading...' }}
-    </CloudFile>
+    <h1>{{ this.leanCloud.User.current() }}</h1>
     <v-flex align-self-start>
       <v-btn depressed color="primary" @click="runPython">
         spawn python
@@ -59,6 +51,10 @@ export default {
 
   methods: {
     runPython() {
+      this.$electron.ipcRenderer.send(
+        'download',
+        'https://6772-grp2020-4glv8fo5cd87cf9a-1302562267.tcb.qcloud.la/calc.py?sign=0a48a152394001da0e724f5a02ed9544&t=1613720364'
+      )
       // this.$electron.ipcRenderer.send('run')
       // this.$cloudbase
       //   .downloadFile({
@@ -68,20 +64,20 @@ export default {
       //   .then((res) => {
       //     console.log(res)
       //   })
-      this.$cloudbase
-        .getTempFileURL({
-          fileList: ['cloud://grp2020-4glv8fo5cd87cf9a.6772-grp2020-4glv8fo5cd87cf9a-1302562267/calc.py'],
-        })
-        .then((res) => {
-          // fileList 是一个有如下结构的对象数组
-          // [{
-          //    fileID: 'cloud://webtestjimmy-5328c3.7765-webtestjimmy-5328c3-1251059088/腾讯云.png', // 文件 ID
-          //    tempFileURL: '', // 临时文件网络链接
-          //    maxAge: 120 * 60 * 1000, // 有效期
-          // }]
-          console.log(res.fileList)
-          this.$electron.ipcRenderer.send('download', res.fileList[0].tempFileURL)
-        })
+      // this.$cloudbase
+      //   .getTempFileURL({
+      //     fileList: ['cloud://grp2020-4glv8fo5cd87cf9a.6772-grp2020-4glv8fo5cd87cf9a-1302562267/calc.py'],
+      //   })
+      //   .then((res) => {
+      //     // fileList 是一个有如下结构的对象数组
+      //     // [{
+      //     //    fileID: 'cloud://webtestjimmy-5328c3.7765-webtestjimmy-5328c3-1251059088/腾讯云.png', // 文件 ID
+      //     //    tempFileURL: '', // 临时文件网络链接
+      //     //    maxAge: 120 * 60 * 1000, // 有效期
+      //     // }]
+      //     console.log(res.fileList)
+      //     this.$electron.ipcRenderer.send('download', res.fileList[0].tempFileURL)
+      //   })
       //   this.$cloudbase
       //     .callFunction({
       //       // 云函数名称

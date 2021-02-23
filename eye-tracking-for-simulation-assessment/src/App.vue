@@ -30,12 +30,47 @@ export default {
 
   mounted() {},
 
-  async created() {
+  created() {
     document.body.removeChild(document.getElementById('Loading'))
-    await this.$cloudbase
-      .auth({ persistence: 'local' })
-      .anonymousAuthProvider()
-      .signIn()
+
+    const currentUser = this.leanCloud.User.current()
+    if (currentUser == null) {
+      this.leanCloud.User.loginAnonymously().then((user) => {
+        console.log(user)
+      })
+    } else {
+      currentUser.isAuthenticated().then((authenticated) => {
+        if (authenticated) {
+          console.log('session token 有效')
+          this.leanCloud.User.become(currentUser.getSessionToken()).then(
+            (user) => {
+              console.log(user)
+            },
+            (error) => {
+              console.log(error)
+              this.leanCloud.User.loginAnonymously().then((user) => {
+                console.log(user)
+              })
+            }
+          )
+        } else {
+          console.log('session token 无效')
+          this.leanCloud.User.loginAnonymously().then((user) => {
+            console.log(user)
+          })
+        }
+      })
+    }
+    // await this.$cloudbase
+    //   .auth({ persistence: 'local' })
+    //   .anonymousAuthProvider()
+    //   .signIn()
+    //   .then(() => {
+    //     console.log('登录成功');
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   })
   },
 
   methods: {},

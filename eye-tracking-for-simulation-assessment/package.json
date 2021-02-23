@@ -5,7 +5,7 @@
   "description": "GRP project by Team11",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --skip-plugins path,python-shell,vue-electron,vuex-electron,@types/electron-devtools-installer,@types/node,electron,electron-devtools-installer,electron-icon-builder,vue-cli-plugin-electron-builder",
     "lint": "vue-cli-service lint",
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
@@ -21,6 +21,7 @@
     "@tailwindcss/postcss7-compat": "^2.0.2",
     "autoprefixer": "^9.8.6",
     "core-js": "^3.6.5",
+    "leancloud-storage": "^4.10.0",
     "lodash": "^4.17.20",
     "path": "^0.12.7",
     "postcss": "^7",
