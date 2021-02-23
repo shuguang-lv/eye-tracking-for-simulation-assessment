@@ -2,11 +2,14 @@
   <v-layout column class="dark">
     <h1>{{ this.leanCloud.User.current() }}</h1>
     <v-flex align-self-start>
-      <v-btn depressed color="primary" @click="runPython">
-        spawn python
+      <v-btn depressed color="primary" @click="play">
+        play simulation
+      </v-btn>
+      <v-btn depressed color="primary" class="ml-4" @click="test">
+        test
       </v-btn>
     </v-flex>
-    <v-alert v-if="isRun" type="success">success</v-alert>
+    <v-alert v-if="isRun" border="left" type="success" dismissible>success</v-alert>
     <v-flex align-self-center class="button-start">
       <v-btn
         depressed
@@ -50,11 +53,28 @@ export default {
   },
 
   methods: {
-    runPython() {
-      this.$electron.ipcRenderer.send(
-        'download',
-        'https://6772-grp2020-4glv8fo5cd87cf9a-1302562267.tcb.qcloud.la/calc.py?sign=0a48a152394001da0e724f5a02ed9544&t=1613720364'
+    test() {
+      const data = { base64: 'TGVhbkNsb3Vk' }
+      // resume.txt 是文件名
+      const file = new this.leanCloud.File('resume.txt', data)
+      file.save().then(
+        (file) => {
+          console.log(`文件保存完成。objectId：${file.id}`)
+        },
+        (error) => {
+          // 保存失败，可能是文件无法被读取，或者上传过程中出现问题
+        }
       )
+    },
+
+    play() {
+      this.$electron.ipcRenderer.send('play')
+
+      // this.$electron.ipcRenderer.send(
+      //   'download',
+      //   'https://6772-grp2020-4glv8fo5cd87cf9a-1302562267.tcb.qcloud.la/calc.py?sign=0a48a152394001da0e724f5a02ed9544&t=1613720364'
+      // )
+
       // this.$electron.ipcRenderer.send('run')
       // this.$cloudbase
       //   .downloadFile({

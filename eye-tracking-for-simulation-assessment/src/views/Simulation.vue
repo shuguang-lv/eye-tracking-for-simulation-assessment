@@ -1,29 +1,23 @@
 <template>
   <v-row>
-    <h1>
-      Simulation
-    </h1>
-    <template v-for="n in 4">
-      <v-col :key="n" class="mt-2" cols="12">
-        <h3>Category {{ n }}</h3>
-      </v-col>
-      <!-- <v-col v-for="j in 6" :key="`${n}${j}`" cols="3" md="2">
-          <v-sheet height="200"></v-sheet>
-        </v-col> -->
-      <v-col v-for="j in 3" :key="`${n}${j}`" cols="12" md="4">
-        <v-item-group>
-          <v-item>
-            <v-card
-              class="d-flex align-center"
-              dark
-              height="300"
-              @click="dialog = true"
-            >
-            </v-card>
-          </v-item>
-        </v-item-group>
-      </v-col>
-    </template>
+    <v-col cols="12">
+      <h1>
+        Simulation
+      </h1>
+    </v-col>
+    <v-col v-for="j in 9" :key="`${n}${j}`" cols="4">
+      <v-item-group>
+        <v-item>
+          <v-card
+            class="d-flex align-center"
+            dark
+            height="300"
+            @click="dialog = true"
+          >
+          </v-card>
+        </v-item>
+      </v-item-group>
+    </v-col>
 
     <v-dialog v-model="dialog" width="500">
       <v-card>
