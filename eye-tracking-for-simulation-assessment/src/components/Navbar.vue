@@ -5,8 +5,12 @@
       <v-tabs center-active dark class="drag">
         <v-tab class="no-drag" :to="{ path: '/' }">Home</v-tab>
         <v-tab class="no-drag" :to="{ path: '/simulation' }">Simulation</v-tab>
-        <v-tab class="no-drag" :to="{ path: '/visualization' }">Visualization</v-tab>
-        <v-tab class="no-drag" :to="{ path: '/eyeTracking' }">Eye Tracking</v-tab>
+        <v-tab class="no-drag" :to="{ path: '/visualization' }"
+          >Visualization</v-tab
+        >
+        <v-tab class="no-drag" :to="{ path: '/eyeTracking' }"
+          >Eye Tracking</v-tab
+        >
       </v-tabs>
       <v-spacer></v-spacer>
 
@@ -46,22 +50,31 @@
             <v-img src="https://cdn.vuetifyjs.com/images/john.png"></v-img>
           </v-list-item-avatar>
         </v-list-item>
-        <v-list-item link>
+        <v-list-item>
           <v-list-item-content>
             <v-list-item-title class="title">
-              John Leider
+              {{ this.currentUser.getUsername() }}
             </v-list-item-title>
-            <v-list-item-subtitle>john@vuetifyjs.com</v-list-item-subtitle>
+            <v-list-item-subtitle>{{ this.currentUser.getEmail() }}</v-list-item-subtitle>
           </v-list-item-content>
-          <v-list-item-action>
-            <v-icon>mdi-menu-down</v-icon>
-          </v-list-item-action>
         </v-list-item>
       </v-list>
       <v-divider></v-divider>
       <v-list nav dense>
         <v-list-item-group v-model="selectedItem" color="primary">
-          <v-list-item v-for="(item, i) in items" :key="i" :to="{ path: '/' + item.link }">
+          <v-list-item v-if="currentUser.isAnonymous()" @click="register">
+            <v-list-item-icon>
+              <v-icon>mdi-login</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Sign up</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item
+            v-for="(item, i) in items"
+            :key="i"
+            :to="{ path: '/' + item.link }"
+          >
             <v-list-item-icon>
               <v-icon v-text="item.icon"></v-icon>
             </v-list-item-icon>
@@ -109,17 +122,16 @@
 export default {
   data() {
     return {
+      currentUser: this.leanCloud.User.current(),
       drawer: false,
       selectedItem: 0,
       items: [
-        { text: 'Login', icon: 'mdi-login' },
-        { text: 'Logout', icon: 'mdi-logout' },
-        { text: 'Records', icon: 'mdi-history', link:'records' },
+        { text: 'Records', icon: 'mdi-history', link: 'records' },
         { text: 'My Files', icon: 'mdi-folder' },
         { text: 'Uploads', icon: 'mdi-upload' },
-        { text: 'About', icon: 'mdi-information', link:'about' },
+        { text: 'About', icon: 'mdi-information', link: 'about' },
         { text: 'Blog', icon: 'mdi-blogger' },
-        { text: 'FAQ', icon: 'mdi-frequently-asked-questions', link:'faq' },
+        { text: 'FAQ', icon: 'mdi-frequently-asked-questions', link: 'faq' },
       ],
       value: 1,
       bottomNavActive: true,
@@ -136,6 +148,9 @@ export default {
     changeMode() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark
     },
+    register() {
+      
+    }
   },
 }
 </script>
