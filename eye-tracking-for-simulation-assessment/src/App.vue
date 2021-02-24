@@ -5,11 +5,9 @@
     <v-main>
       <!-- Provides the application the proper gutter -->
       <v-container class="mt-12">
-        <transition name="fade">
-          <keep-alive>
-            <router-view></router-view>
-          </keep-alive>
-        </transition>
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
       </v-container>
     </v-main>
   </v-app>
