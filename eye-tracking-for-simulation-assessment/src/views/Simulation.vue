@@ -1,7 +1,7 @@
 <template>
   <v-row>
-    <v-col cols="12">
-      <h1>
+    <v-col cols="12" class="mb-8">
+      <h1 class="pageTitle">
         Simulation
       </h1>
     </v-col>
@@ -39,6 +39,22 @@
           pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
           culpa qui officia deserunt mollit anim id est laborum.
         </v-card-text>
+        <v-expand-transition>
+          <v-data-table
+            dark
+            v-if="showRecord"
+            :headers="headers"
+            :items="items"
+            :items-per-page="5"
+            class="elevation-1 mb-12"
+            item-key="number"
+            show-expand
+          >
+            <template v-slot:expanded-item="{ headers }">
+              <td :colspan="headers.length">More info</td>
+            </template>
+          </v-data-table>
+        </v-expand-transition>
         <v-divider></v-divider>
         <v-card-actions class="pa-6">
           <v-spacer></v-spacer>
@@ -73,7 +89,13 @@
         <v-card-text>
           If you enjoy using Vuetify, please take a few seconds to rate your
           experience with the framework. It really helps!
-          <v-slider class="mt-12" v-model="rating" step="10" thumb-label ticks></v-slider>
+          <v-slider
+            class="mt-12"
+            v-model="rating"
+            step="10"
+            thumb-label
+            ticks
+          ></v-slider>
           <!-- <div class="text-center mt-12">
             <v-rating
               v-model="rating"
@@ -106,6 +128,81 @@ export default {
       rateDialog: false,
       loading: false,
       rating: 0,
+      showRecord: false,
+      headers: [
+        {
+          text: 'No.',
+          align: 'start',
+          // sortable: false,
+          value: 'number',
+        },
+        { text: 'Topic', value: 'topic' },
+        { text: 'Score', value: 'score' },
+        { text: 'Date', value: 'date' },
+        { text: '', value: 'data-table-expand' },
+      ],
+      items: [
+        {
+          number: '1',
+          topic: 'Airport',
+          score: 6.0,
+          date: '10/23/2020',
+        },
+        {
+          number: '2',
+          topic: 'Airport',
+          score: 6.0,
+          date: '10/23/2020',
+        },
+        {
+          number: '3',
+          topic: 'Airport',
+          score: 6.0,
+          date: '10/23/2020',
+        },
+        {
+          number: '4',
+          topic: 'Airport',
+          score: 6.0,
+          date: '10/23/2020',
+        },
+        {
+          number: '5',
+          topic: 'Airport',
+          score: 6.0,
+          date: '10/23/2020',
+        },
+        {
+          number: '6',
+          topic: 'Airport',
+          score: 6.0,
+          date: '10/23/2020',
+        },
+        {
+          number: '7',
+          topic: 'Airport',
+          score: 6.0,
+          date: '10/23/2020',
+        },
+        {
+          number: '8',
+          topic: 'Airport',
+          score: 6.0,
+          date: '10/23/2020',
+        },
+        {
+          number: '9',
+          topic: 'Airport',
+          score: 6.0,
+          date: '10/23/2020',
+        },
+        {
+          number: '10',
+          topic: 'Airport',
+          score: 6.0,
+          date: '10/23/2020',
+        },
+      ],
     }
   },
 
@@ -161,6 +258,10 @@ export default {
       //       console.log(res)
       //     })
       //     .catch(error)
+    },
+
+    showRecords() {
+      this.showRecord = !this.showRecord
     },
   },
 }

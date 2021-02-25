@@ -84,4 +84,9 @@ export default {
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
+
+.pageTitle {
+  padding-left: 15px;
+  border-left: 6px solid #1eb980;
+}
 </style>
