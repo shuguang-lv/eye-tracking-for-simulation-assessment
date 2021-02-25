@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col cols="12">
-      <h1>
+      <h1 class="pageTitle">
         Eye Tracking
       </h1>
     </v-col>

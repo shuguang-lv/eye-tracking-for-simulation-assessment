@@ -19,7 +19,7 @@
       </v-card>
     </v-col>
 
-    <v-dialog v-model="dialog" width="1000">
+    <v-dialog v-model="dialog" width="1000" persistent>
       <v-card>
         <v-img
           class=""
@@ -81,7 +81,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="rateDialog">
+    <v-dialog v-model="rateDialog" persistent>
       <v-card class="elevation-16 pa-4 mx-auto" width="500">
         <v-card-title class="headline">
           Rate Our Framework
