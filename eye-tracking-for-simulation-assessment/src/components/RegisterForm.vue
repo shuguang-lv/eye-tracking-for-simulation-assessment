@@ -38,9 +38,19 @@
           ></v-text-field>
         </v-form>
       </v-card-text>
+      <v-alert v-model="warning" dense text type="error">
+        Signup failed! The username has been taken
+      </v-alert>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn class="mr-2" :disabled="!valid" color="primary" @click="validate" outlined>
+        <v-btn
+          class="mr-2"
+          :disabled="!valid || loading"
+          color="primary"
+          @click="validate"
+          outlined
+          :loading="loading"
+        >
           Submit
         </v-btn>
         <v-btn class="mr-2" color="error" @click="reset" outlined>
@@ -61,6 +71,7 @@
 export default {
   data() {
     return {
+      loading: false,
       dialog: false,
       valid: true,
       name: '',
@@ -78,7 +89,8 @@ export default {
         (v) => !!v || 'Password is required',
         (v) => v.length >= 8 || 'Min 8 characters',
       ],
-      showPwd: false
+      showPwd: false,
+      warning: false
     }
   },
 
@@ -90,7 +102,49 @@ export default {
 
   methods: {
     validate() {
-      this.$refs.form.validate()
+      if (this.$refs.form.validate()) {
+        if (this.currentUser != null) {
+          this.currentUser.setUsername(this.name)
+          this.currentUser.setPassword(this.password)
+          this.currentUser.setEmail(this.email)
+          this.currentUser.signUp().then(
+            (user) => {
+              console.log('currentUser 已经转化为普通用户')
+              localStorage.setItem('userName', this.name)
+              localStorage.setItem('userEmail', this.email)
+              this.eventBus.$emit('updateUserInfo')
+              this.dialog = false
+            },
+            (error) => {
+              console.log('注册失败（通常是因为用户名已被使用）')
+            }
+          )
+        } else {
+          // 创建实例
+          const newUser = new this.user()
+
+          // 等同于 user.set('username', 'Tom')
+          newUser.setUsername(this.name)
+          newUser.setPassword(this.password)
+          newUser.setEmail(this.email)
+
+          this.warning = false
+          newUser.signUp().then(
+            (user) => {
+              // 注册成功
+              console.log(`注册成功。objectId：${newUser.id}`)
+              localStorage.setItem('userName', this.name)
+              localStorage.setItem('userEmail', this.email)
+              this.eventBus.$emit('updateUserInfo')
+              this.dialog = false
+            },
+            (error) => {
+              console.log('注册失败（通常是因为用户名已被使用）')
+              this.warning = true
+            }
+          )
+        }
+      }
     },
     reset() {
       this.$refs.form.reset()

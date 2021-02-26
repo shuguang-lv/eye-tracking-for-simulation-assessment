@@ -3,8 +3,9 @@
     <TopBar />
     <Drawer />
     <RegisterForm />
-    
-    <v-bottom-navigation
+    <LoginForm />
+
+    <!-- <v-bottom-navigation
       v-model="value"
       :input-value="bottomNavActive"
       class="primary"
@@ -13,23 +14,22 @@
       shift
       grow
     >
-      <v-btn>
-        <span>Video</span>
-        <v-icon>mdi-television-play</v-icon>
-      </v-btn>
-      <v-btn>
-        <span>Music</span>
-        <v-icon>mdi-music-note</v-icon>
-      </v-btn>
-      <v-btn>
-        <span>Book</span>
-        <v-icon>mdi-book</v-icon>
-      </v-btn>
-      <v-btn>
-        <span>Image</span>
-        <v-icon>mdi-image</v-icon>
-      </v-btn>
-    </v-bottom-navigation>
+    </v-bottom-navigation> -->
+    <div class="float-group">
+      <v-btn fab large color="primary" @click="upload"
+        ><v-icon>mdi-cloud-upload</v-icon></v-btn
+      >
+      <v-btn fab large color="primary" @click="download"
+        ><v-icon>mdi-cloud-download</v-icon></v-btn
+      >
+    </div>
+    <v-footer padless app>
+      <v-progress-linear
+        indeterminate
+        color="primary"
+        height="20"
+      ></v-progress-linear>
+    </v-footer>
   </nav>
 </template>
 
@@ -37,12 +37,14 @@
 import TopBar from './TopBar'
 import Drawer from './Drawer'
 import RegisterForm from './RegisterForm'
+import LoginForm from './LoginForm'
 
 export default {
   components: {
     TopBar,
     Drawer,
-    RegisterForm
+    RegisterForm,
+    LoginForm,
   },
 
   data() {
@@ -52,6 +54,12 @@ export default {
   },
 
   methods: {
+    upload() {
+
+    },
+    download() {
+
+    }
   },
 }
 </script>
@@ -63,5 +71,16 @@ export default {
 
 .no-drag {
   -webkit-app-region: no-drag !important;
+}
+
+.float-group {
+  position: fixed;
+  bottom: 80px;
+  right: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 150px;
+  z-index: 999;
 }
 </style>
