@@ -129,9 +129,9 @@ ipcMain.on('download', (event, url) => {
   event.reply('success')
 })
 
-ipcMain.on('play', (event) => {
+ipcMain.on('play', (event, source) => {
   playSimulation()
-  event.reply('success')
+  event.reply('success' + source)
 })
 
 function sendToPython() {

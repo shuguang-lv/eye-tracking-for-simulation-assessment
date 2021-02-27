@@ -4,6 +4,7 @@
     <Drawer />
     <RegisterForm />
     <LoginForm />
+    <FloatButton />
 
     <!-- <v-bottom-navigation
       v-model="value"
@@ -15,17 +16,9 @@
       grow
     >
     </v-bottom-navigation> -->
-    <div class="float-group">
-      <v-btn fab large color="primary" @click="upload"
-        ><v-icon>mdi-cloud-upload</v-icon></v-btn
-      >
-      <v-btn fab large color="primary" @click="download"
-        ><v-icon>mdi-cloud-download</v-icon></v-btn
-      >
-    </div>
-    <v-footer padless app>
+    <v-footer padless app height="20">
       <v-progress-linear
-        indeterminate
+        :indeterminate="progress"
         color="primary"
         height="20"
       ></v-progress-linear>
@@ -38,6 +31,7 @@ import TopBar from './TopBar'
 import Drawer from './Drawer'
 import RegisterForm from './RegisterForm'
 import LoginForm from './LoginForm'
+import FloatButton from './FloatButton'
 
 export default {
   components: {
@@ -45,21 +39,19 @@ export default {
     Drawer,
     RegisterForm,
     LoginForm,
+    FloatButton,
   },
 
   data() {
     return {
       bottomNavActive: true,
+      progress: false,
     }
   },
 
   methods: {
-    upload() {
-
-    },
-    download() {
-
-    }
+    upload() {},
+    download() {},
   },
 }
 </script>
@@ -71,16 +63,5 @@ export default {
 
 .no-drag {
   -webkit-app-region: no-drag !important;
-}
-
-.float-group {
-  position: fixed;
-  bottom: 80px;
-  right: 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 150px;
-  z-index: 999;
 }
 </style>

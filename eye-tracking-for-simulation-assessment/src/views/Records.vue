@@ -4,7 +4,7 @@
       dark
       :headers="headers"
       :items="items"
-      :items-per-page="10"
+      :items-per-page="15"
       :search="search"
       class="elevation-1 mt-8"
       item-key="number"
@@ -57,80 +57,44 @@ export default {
   data: () => ({
     search: '',
     headers: [
-      {
-        text: 'No.',
-        align: 'start',
-        // sortable: false,
-        value: 'number',
-      },
-      { text: 'Topic', value: 'topic' },
-      { text: 'Score', value: 'score' },
+      { text: 'No.', value: 'number' },
+      { text: 'Simulation', value: 'simulation' },
+      { text: 'User Score', value: 'userScore' },
+      { text: 'Calculated Score', value: 'calculatedScore' },
       { text: 'Date', value: 'date' },
+      { text: 'Uploaded', value: 'sync' },
       { text: '', value: 'data-table-expand' },
     ],
-    items: [
-      {
-        number: '1',
-        topic: 'Airport',
-        score: 6.0,
-        date: '10/23/2020',
-      },
-      {
-        number: '2',
-        topic: 'Airport',
-        score: 6.0,
-        date: '10/23/2020',
-      },
-      {
-        number: '3',
-        topic: 'Airport',
-        score: 6.0,
-        date: '10/23/2020',
-      },
-      {
-        number: '4',
-        topic: 'Airport',
-        score: 6.0,
-        date: '10/23/2020',
-      },
-      {
-        number: '5',
-        topic: 'Airport',
-        score: 6.0,
-        date: '10/23/2020',
-      },
-      {
-        number: '6',
-        topic: 'Airport',
-        score: 6.0,
-        date: '10/23/2020',
-      },
-      {
-        number: '7',
-        topic: 'Airport',
-        score: 6.0,
-        date: '10/23/2020',
-      },
-      {
-        number: '8',
-        topic: 'Airport',
-        score: 6.0,
-        date: '10/23/2020',
-      },
-      {
-        number: '9',
-        topic: 'Airport',
-        score: 6.0,
-        date: '10/23/2020',
-      },
-      {
-        number: '10',
-        topic: 'Airport',
-        score: 6.0,
-        date: '10/23/2020',
-      },
-    ],
+    items: [],
   }),
+
+  mounted() {
+    this.eventBus.$on('newRecord', () => {
+      this.update()
+    })
+    this.update()
+  },
+
+  methods: {
+    update() {
+      this.items = []
+      let count = 1
+      if ('records' in localStorage) {
+        let records = JSON.parse(localStorage.getItem('records'))
+        console.log(records)
+        records.forEach((value, index, array) => {
+          this.items.push({
+            number: count++,
+            simulation: value.simulation,
+            userScore: value.userScore,
+            calculatedScore: value.calculatedScore,
+            date: value.date,
+            sync: value.sync ? 'Yes' : 'No',
+          })
+        })
+      }
+    },
+  },
 }
 </script>
 
