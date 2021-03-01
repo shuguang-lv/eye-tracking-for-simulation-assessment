@@ -43,8 +43,17 @@
             item-key="number"
             show-expand
           >
-            <template v-slot:expanded-item="{ headers }">
-              <td :colspan="headers.length">More info</td>
+            <template v-slot:expanded-item="{ headers, item }">
+              <td :colspan="headers.length">
+                <v-btn
+                  class="mx-4 my-2"
+                  color="primary"
+                  @click="showChart(item)"
+                >
+                  Visualization
+                  <v-icon right>mdi-eye-check</v-icon>
+                </v-btn>
+              </td>
             </template>
           </v-data-table>
         </v-expand-transition>
@@ -217,6 +226,7 @@ export default {
               calculatedScore: value.calculatedScore,
               date: value.date,
               sync: value.sync ? 'Yes' : 'No',
+              visualization: '',
             })
           }
         })
@@ -236,7 +246,16 @@ export default {
         sync: false,
       })
       localStorage.setItem('records', JSON.stringify(records))
+      localStorage.setItem('score', this.rating)
       this.eventBus.$emit('newRecord')
+      this.$router.push({
+        name: 'Visualization',
+        params: { name: this.name, rating: this.rating },
+      })
+    },
+
+    showChart(item) {
+      localStorage.setItem('score', item.userScore)
       this.$router.push({
         name: 'Visualization',
         params: { name: this.name, rating: this.rating },

@@ -5,8 +5,8 @@
         Simulation
       </h1>
     </v-col>
-    <v-col v-for="j in 9" :key="`${n}${j}`" cols="4">
-      <Card :name="'Simulation' + j" />
+    <v-col v-for="n in 9" :key="n" cols="4">
+      <Card :name="'Simulation' + n" />
     </v-col>
   </v-row>
 </template>

@@ -25,8 +25,13 @@
           ></v-text-field>
         </v-toolbar>
       </template>
-      <template v-slot:expanded-item="{ headers }">
-        <td :colspan="headers.length">More info</td>
+      <template v-slot:expanded-item="{ headers, item }">
+        <td :colspan="headers.length">
+          <v-btn class="mx-4 my-2" color="primary" @click="showChart(item)">
+            Visualization
+            <v-icon right>mdi-eye-check</v-icon>
+          </v-btn>
+        </td>
       </template>
     </v-data-table>
     <!-- <v-col v-for="card in cards" :key="card" cols="12">
@@ -90,9 +95,18 @@ export default {
             calculatedScore: value.calculatedScore,
             date: value.date,
             sync: value.sync ? 'Yes' : 'No',
+            visualization: '',
           })
         })
       }
+    },
+
+    showChart(item) {
+      localStorage.setItem('score', item.userScore)
+      this.$router.push({
+        name: 'Visualization',
+        params: { name: item.simulation },
+      })
     },
   },
 }
