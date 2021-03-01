@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 2021/02/27-21:09:41.910 1f24 Reusing MANIFEST E:\GRP\eye-tracking-for-simulation-assessment\eye-tracking-for-simulation-assessment\GulouSubwayStation\chromium\userData\Default\Sync Data\LevelDB/MANIFEST-000001
 2021/02/27-21:09:41.910 1f24 Recovering log #3
 2021/02/27-21:09:41.911 1f24 Reusing old log E:\GRP\eye-tracking-for-simulation-assessment\eye-tracking-for-simulation-assessment\GulouSubwayStation\chromium\userData\Default\Sync Data\LevelDB/000003.log 
+=======
+2021/03/01-13:34:44.955 4188 Reusing MANIFEST E:\GRP\project\eye-tracking-for-simulation-assessment\GulouSubwayStation\chromium\userData\Default\Sync Data\LevelDB/MANIFEST-000001
+2021/03/01-13:34:44.957 4188 Recovering log #3
+2021/03/01-13:34:44.958 4188 Reusing old log E:\GRP\project\eye-tracking-for-simulation-assessment\GulouSubwayStation\chromium\userData\Default\Sync Data\LevelDB/000003.log 
+>>>>>>> dd6d3f1c92c19ffa8382d8d1e3299a8981f4a4af
