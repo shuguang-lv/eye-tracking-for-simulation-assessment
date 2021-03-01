@@ -50,6 +50,8 @@ export default {
   },
 
   mounted() {
+    this.initScore()
+
     // initialize the echarts instance
     var heatMap = echarts.init(document.getElementById('heatMap'), 'rally')
     var x = [
@@ -299,84 +301,88 @@ export default {
         },
       ],
     })
+  },
 
-    // initialize the echarts instance
-    this.score = echarts.init(document.getElementById('score'), 'rally')
-    // Draw the chart
-    this.score.setOption({
-      series: [
-        {
-          type: 'gauge',
-          startAngle: 180,
-          endAngle: 0,
-          min: 0,
-          max: 1,
-          splitNumber: 8,
-          axisLine: {
-            lineStyle: {
-              width: 6,
-              color: [
-                [0.25, '#FF6E76'],
-                [0.5, '#FDDD60'],
-                [0.75, '#58D9F9'],
-                [1, '#1EB980'],
-              ],
+  methods: {
+    initScore() {
+      // initialize the echarts instance
+      this.score = echarts.init(document.getElementById('score'), 'rally')
+      // Draw the chart
+      this.score.setOption({
+        series: [
+          {
+            type: 'gauge',
+            startAngle: 180,
+            endAngle: 0,
+            min: 0,
+            max: 1,
+            splitNumber: 8,
+            axisLine: {
+              lineStyle: {
+                width: 6,
+                color: [
+                  [0.25, '#FF6E76'],
+                  [0.5, '#FDDD60'],
+                  [0.75, '#58D9F9'],
+                  [1, '#1EB980'],
+                ],
+              },
             },
-          },
-          pointer: {
-            icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
-            length: '12%',
-            width: 20,
-            offsetCenter: [0, '-60%'],
-            itemStyle: {
+            pointer: {
+              icon: 'path://M12.8,0.7l12,40.1H0.7L12.8,0.7z',
+              length: '12%',
+              width: 20,
+              offsetCenter: [0, '-60%'],
+              itemStyle: {
+                color: 'auto',
+              },
+            },
+            axisTick: {
+              length: 12,
+              lineStyle: {
+                color: 'auto',
+                width: 2,
+              },
+            },
+            splitLine: {
+              length: 30,
+              lineStyle: {
+                color: 'auto',
+                width: 5,
+              },
+            },
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: '#eeeeee',
+              },
+            },
+            title: {
+              offsetCenter: [0, '-20%'],
+              fontSize: 30,
+              textStyle: {
+                color: '#eeeeee',
+              },
+            },
+            detail: {
+              fontSize: 50,
+              offsetCenter: [0, '0%'],
+              valueAnimation: true,
+              formatter: function(value) {
+                return Math.round(value * 100) + '%'
+              },
               color: 'auto',
             },
+            data: [
+              {
+                value: 0,
+                name: 'Score',
+              },
+            ],
           },
-          axisTick: {
-            length: 12,
-            lineStyle: {
-              color: 'auto',
-              width: 2,
-            },
-          },
-          splitLine: {
-            length: 30,
-            lineStyle: {
-              color: 'auto',
-              width: 5,
-            },
-          },
-          axisLabel: {
-            show: true,
-            textStyle: {
-              color: '#eeeeee',
-            },
-          },
-          title: {
-            offsetCenter: [0, '-20%'],
-            fontSize: 30,
-            textStyle: {
-              color: '#eeeeee',
-            },
-          },
-          detail: {
-            fontSize: 50,
-            offsetCenter: [0, '0%'],
-            valueAnimation: true,
-            formatter: function(value) {
-              return Math.round(value * 100) + '%'
-            },
-            color: 'auto',
-          },
-          data: [
-            {
-              value: 0,
-              name: 'Score',
-            },
-          ],
-        },
-      ],
-    })
+        ],
+      })
+    },
   },
 }
 </script>
