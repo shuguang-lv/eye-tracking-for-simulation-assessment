@@ -11,6 +11,10 @@
     </v-tabs>
     <v-spacer></v-spacer>
 
+    <div class="text-no-wrap mr-4">
+      {{ userName }}
+    </div>
+
     <!-- dropdown menu -->
     <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
@@ -42,8 +46,19 @@
 export default {
   data() {
     return {
-      
+      userName: '',
     }
+  },
+
+  mounted() {
+    this.userName =
+      this.currentUser == null || this.currentUser.isAnonymous()
+        ? ''
+        : 'Hi, ' + this.currentUser.getUsername()
+    this.eventBus.$on('updateUserInfo', () => {
+      let name = localStorage.getItem('userName')
+      this.userName = name == '' ? '' : 'Hi, ' + name
+    })
   },
 
   methods: {

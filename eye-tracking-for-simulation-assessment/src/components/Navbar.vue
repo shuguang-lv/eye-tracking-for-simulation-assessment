@@ -3,8 +3,10 @@
     <TopBar />
     <Drawer />
     <RegisterForm />
-    
-    <v-bottom-navigation
+    <LoginForm />
+    <FloatButton />
+
+    <!-- <v-bottom-navigation
       v-model="value"
       :input-value="bottomNavActive"
       class="primary"
@@ -13,23 +15,14 @@
       shift
       grow
     >
-      <v-btn>
-        <span>Video</span>
-        <v-icon>mdi-television-play</v-icon>
-      </v-btn>
-      <v-btn>
-        <span>Music</span>
-        <v-icon>mdi-music-note</v-icon>
-      </v-btn>
-      <v-btn>
-        <span>Book</span>
-        <v-icon>mdi-book</v-icon>
-      </v-btn>
-      <v-btn>
-        <span>Image</span>
-        <v-icon>mdi-image</v-icon>
-      </v-btn>
-    </v-bottom-navigation>
+    </v-bottom-navigation> -->
+    <v-footer padless app height="20">
+      <v-progress-linear
+        :indeterminate="progress"
+        color="primary"
+        height="20"
+      ></v-progress-linear>
+    </v-footer>
   </nav>
 </template>
 
@@ -37,21 +30,28 @@
 import TopBar from './TopBar'
 import Drawer from './Drawer'
 import RegisterForm from './RegisterForm'
+import LoginForm from './LoginForm'
+import FloatButton from './FloatButton'
 
 export default {
   components: {
     TopBar,
     Drawer,
-    RegisterForm
+    RegisterForm,
+    LoginForm,
+    FloatButton,
   },
 
   data() {
     return {
       bottomNavActive: true,
+      progress: false,
     }
   },
 
   methods: {
+    upload() {},
+    download() {},
   },
 }
 </script>

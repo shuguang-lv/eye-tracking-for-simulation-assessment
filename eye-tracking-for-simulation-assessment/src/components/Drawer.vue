@@ -11,23 +11,48 @@
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title class="title">
-            {{ this.currentUser.getUsername() }}
+            {{ userName }}
           </v-list-item-title>
-          <v-list-item-subtitle>{{
-            this.currentUser.getEmail()
-          }}</v-list-item-subtitle>
+          <v-list-item-subtitle>
+            {{ userEmail }}
+          </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </v-list>
     <v-divider></v-divider>
     <v-list nav dense>
       <v-list-item-group v-model="selectedItem" color="primary">
-        <v-list-item v-if="currentUser.isAnonymous()" @click="register">
+        <v-list-item
+          v-if="userName == 'unknown'"
+          @click="login"
+        >
           <v-list-item-icon>
-            <v-icon>mdi-login</v-icon>
+            <v-icon>mdi-login-variant</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Login</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          v-if="userName == 'unknown'"
+          @click="register"
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-clipboard-text</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Sign up</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          v-if="userName != 'unknown'"
+          @click="logout"
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-logout</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Log out</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item
@@ -54,7 +79,6 @@
 export default {
   data() {
     return {
-      currentUser: this.leanCloud.User.current(),
       drawer: false,
       selectedItem: 0,
       items: [
@@ -66,10 +90,25 @@ export default {
         { text: 'FAQ', icon: 'mdi-frequently-asked-questions', link: 'faq' },
       ],
       value: 1,
+      userName: '',
+      userEmail: '',
     }
   },
 
   mounted() {
+    this.userName =
+      this.currentUser == null || this.currentUser.isAnonymous()
+        ? 'unknown'
+        : this.currentUser.getUsername()
+    this.userEmail =
+      this.currentUser == null || this.currentUser.isAnonymous()
+        ? ''
+        : this.currentUser.getEmail()
+    this.eventBus.$on('updateUserInfo', () => {
+      let name = localStorage.getItem('userName')
+      this.userName = name == '' ? 'unknown' : name
+      this.userEmail = localStorage.getItem('userEmail')
+    })
     this.eventBus.$on('openDrawer', () => {
       this.drawer = true
     })
@@ -77,8 +116,17 @@ export default {
 
   methods: {
     register() {
-        this.eventBus.$emit('signUp')
-    }
+      this.eventBus.$emit('signUp')
+    },
+    login() {
+      this.eventBus.$emit('login')
+    },
+    logout() {
+      this.user.logOut()
+      localStorage.setItem('userName', '')
+      localStorage.setItem('userEmail', '')
+      this.eventBus.$emit('updateUserInfo')
+    },
   },
 }
 </script>

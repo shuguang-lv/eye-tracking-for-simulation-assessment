@@ -1,9 +1,7 @@
 <template>
   <v-row>
     <v-col cols="12">
-      <h1 class="pageTitle">
-        Choose the way you want to visualize the results
-      </h1>
+      <h1 class="pageTitle">{{ name }}</h1>
     </v-col>
     <v-col cols="12" class="d-flex justify-center">
       <div id="score" style="width:1300px; height:700px;"></div>
@@ -22,6 +20,35 @@ import * as echarts from 'echarts'
 import '../assets/rally'
 
 export default {
+  data() {
+    return {
+      name: 'Visualization',
+      // userScore: 0,
+      score: null,
+    }
+  },
+
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      if (to.params.rating) {
+        vm.score.setOption({
+          series: [
+            {
+              data: [
+                {
+                  value: to.params.rating / 100,
+                },
+              ],
+            },
+          ],
+        })
+      }
+      if (to.params.name) {
+        vm.name = `Visualization for ${to.params.name}`
+      }
+    })
+  },
+
   mounted() {
     // initialize the echarts instance
     var heatMap = echarts.init(document.getElementById('heatMap'), 'rally')
@@ -274,9 +301,9 @@ export default {
     })
 
     // initialize the echarts instance
-    var score = echarts.init(document.getElementById('score'), 'rally')
+    this.score = echarts.init(document.getElementById('score'), 'rally')
     // Draw the chart
-    score.setOption({
+    this.score.setOption({
       series: [
         {
           type: 'gauge',
@@ -343,7 +370,7 @@ export default {
           },
           data: [
             {
-              value: 0.8,
+              value: 0,
               name: 'Score',
             },
           ],
