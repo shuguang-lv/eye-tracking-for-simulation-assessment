@@ -16,6 +16,9 @@ import fs from 'fs'
 import path from 'path'
 import request from 'request'
 import store from './store'
+// Load the full build.
+var lodash = require('lodash')
+
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Scheme must be registered before the app is ready
@@ -49,7 +52,7 @@ async function createWindow() {
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
       enableRemoteModule: true,
       backgroundThrottling: false, // 当页面被置于非激活窗口的时候是否停止动画和计时器
-      webSecurity: false
+      webSecurity: false,
     },
   })
   if (process.env.WEBPACK_DEV_SERVER_URL) {
@@ -126,6 +129,11 @@ ipcMain.on('download', (event, url) => {
   event.reply('success')
 })
 
+ipcMain.on('play', (event, source) => {
+  playSimulation()
+  event.reply('success' + source)
+})
+
 function sendToPython() {
   // var cp = require('child_process')
   // const path = require('path')
@@ -177,7 +185,7 @@ function sendToPython() {
 function downloadPython(url) {
   let filePath = path.join('./', 'calc.py')
   if (fs.existsSync(filePath)) {
-    console.log('文件已存在');
+    console.log('文件已存在')
   } else {
     let stream = fs.createWriteStream(filePath)
     request(url)
@@ -187,4 +195,19 @@ function downloadPython(url) {
       })
   }
   sendToPython()
+}
+
+function playSimulation() {
+  const { execSync } = require('child_process')
+  execSync(
+    'GulouSubwayStation_windows.bat',
+    { cwd: path.join('./', 'GulouSubwayStation/') },
+    (err, stdout, stderr) => {
+      if (err) {
+        console.error(err)
+        return
+      }
+      console.log(stdout)
+    }
+  )
 }

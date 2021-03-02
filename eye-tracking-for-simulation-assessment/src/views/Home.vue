@@ -1,12 +1,53 @@
 <template>
-  <v-layout column class="dark">
-    <h1>{{ this.leanCloud.User.current() }}</h1>
+  <v-row>
+    <v-col cols="12" class="mb-8"
+      ><h1 class="pageTitle">Eye Tracking for Simulation Assessment</h1>
+    </v-col>
+    <v-carousel
+      cycle
+      height="700"
+      reverse-transition="fade-transition"
+      transition="fade-transition"
+    >
+      <v-carousel-item v-for="(slide, i) in slides" :key="i">
+        <v-sheet :color="colors[i]" height="100%">
+          <v-row class="fill-height" align="center" justify="center">
+            <div class="display-3">{{ slide }} Slide</div>
+          </v-row>
+        </v-sheet>
+      </v-carousel-item>
+    </v-carousel>
+    <v-col cols="12" class="mb-8 text-center">
+      <v-chip class="ma-2" color="success" outlined>
+        <v-icon left>
+          mdi-server-plus
+        </v-icon>
+        Server Status
+      </v-chip>
+      <v-chip class="ma-2" color="primary" outlined pill>
+        User Account
+        <v-icon right>
+          mdi-account-outline
+        </v-icon>
+      </v-chip>
+      <v-chip class="ma-2" color="deep-purple accent-4" outlined>
+        <v-icon left>
+          mdi-wrench
+        </v-icon>
+        Update Settings
+      </v-chip>
+      <v-chip class="ma-2" close color="indigo darken-3" outlined>
+        <v-icon left>
+          mdi-fire
+        </v-icon>
+        New Posts Available
+      </v-chip>
+    </v-col>
     <v-flex align-self-start>
-      <v-btn depressed color="primary" @click="runPython">
-        spawn python
+      <v-btn depressed color="primary" class="ml-4" @click="test">
+        test
       </v-btn>
     </v-flex>
-    <v-alert v-if="isRun" type="success">success</v-alert>
     <v-flex align-self-center class="button-start">
       <v-btn
         depressed
@@ -28,7 +69,7 @@
       importance="high"
       src="https://cloud.anylogic.com/assets/embed?modelId=78d1f8ac-cf3f-4126-b5e4-cbbde700e20d"
     ></iframe> -->
-  </v-layout>
+  </v-row>
 </template>
 
 <script>
@@ -39,57 +80,32 @@ export default {
 
   data() {
     return {
-      isRun: false,
+      colors: [
+        'indigo',
+        'warning',
+        'pink darken-2',
+        'red lighten-1',
+        'deep-purple accent-4',
+      ],
+      slides: ['First', 'Second', 'Third', 'Fourth', 'Fifth'],
     }
   },
 
-  mounted() {
-    this.$electron.ipcRenderer.on('success', () => {
-      this.isRun = true
-    })
-  },
+  mounted() {},
 
   methods: {
-    runPython() {
-      this.$electron.ipcRenderer.send(
-        'download',
-        'https://6772-grp2020-4glv8fo5cd87cf9a-1302562267.tcb.qcloud.la/calc.py?sign=0a48a152394001da0e724f5a02ed9544&t=1613720364'
+    test() {
+      const data = { base64: 'TGVhbkNsb3Vk' }
+      // resume.txt 是文件名
+      const file = new this.leanCloud.File('resume.txt', data)
+      file.save().then(
+        (file) => {
+          console.log(`文件保存完成。objectId：${file.id}`)
+        },
+        (error) => {
+          // 保存失败，可能是文件无法被读取，或者上传过程中出现问题
+        }
       )
-      // this.$electron.ipcRenderer.send('run')
-      // this.$cloudbase
-      //   .downloadFile({
-      //     fileID:
-      //       'cloud://grp2020-4glv8fo5cd87cf9a.6772-grp2020-4glv8fo5cd87cf9a-1302562267/calc.py',
-      //   })
-      //   .then((res) => {
-      //     console.log(res)
-      //   })
-      // this.$cloudbase
-      //   .getTempFileURL({
-      //     fileList: ['cloud://grp2020-4glv8fo5cd87cf9a.6772-grp2020-4glv8fo5cd87cf9a-1302562267/calc.py'],
-      //   })
-      //   .then((res) => {
-      //     // fileList 是一个有如下结构的对象数组
-      //     // [{
-      //     //    fileID: 'cloud://webtestjimmy-5328c3.7765-webtestjimmy-5328c3-1251059088/腾讯云.png', // 文件 ID
-      //     //    tempFileURL: '', // 临时文件网络链接
-      //     //    maxAge: 120 * 60 * 1000, // 有效期
-      //     // }]
-      //     console.log(res.fileList)
-      //     this.$electron.ipcRenderer.send('download', res.fileList[0].tempFileURL)
-      //   })
-      //   this.$cloudbase
-      //     .callFunction({
-      //       // 云函数名称
-      //       name: 'eye-tracking',
-      //       // 传给云函数的参数
-      //       data: {
-      //       },
-      //     })
-      //     .then((res) => {
-      //       console.log(res)
-      //     })
-      //     .catch(error)
     },
   },
 }

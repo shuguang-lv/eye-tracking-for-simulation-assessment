@@ -9,7 +9,8 @@ module.exports = {
       nodeIntegration: true,
       builderOptions: {
         productName: 'Eye Tracking for Simulation Assessment',
-        appId: "com.unnc.grp"
+        appId: "com.unnc.grp",
+        extraResources: ["./GulouSubwayStation/**"],
       },
     },
   },

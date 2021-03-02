@@ -38,6 +38,8 @@ AV.init({
 })
 AV.debug.enable() // 启用
 Vue.prototype.leanCloud = AV
+Vue.prototype.user = AV.User
+Vue.prototype.currentUser = AV.User.current()
 
 new Vue({
   router,
