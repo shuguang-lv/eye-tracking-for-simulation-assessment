@@ -24,7 +24,7 @@
         >
       </v-badge>
     </div>
-    <v-dialog v-model="dialog" max-width="400" persistent>
+    <v-dialog v-model="dialog" max-width="500" persistent>
       <v-card>
         <v-card-title class="headline">
           Upload the local records?
@@ -35,9 +35,10 @@
           review them next time you reinstall or run this App in a new
           machine</v-card-text
         >
+        <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary darken-1" text @click="dialog = false">
+          <v-btn color="warning darken-1" text @click="dialog = false">
             Reject
           </v-btn>
           <v-btn color="primary darken-1" text @click="uploadRecords">
@@ -50,6 +51,9 @@
 </template>
 
 <script>
+import { getLocalRecords, syncRecord } from '../utils/indexedDB.js'
+var lodash = require('lodash')
+
 export default {
   data() {
     return {
@@ -59,53 +63,50 @@ export default {
     }
   },
 
-  mounted() {
+  async mounted() {
     this.eventBus.$on('newRecord', () => {
       this.upload++
     })
 
-    if ('records' in localStorage) {
-      let records = JSON.parse(localStorage.getItem('records'))
-      records.forEach((value, index, array) => {
-        if (!value.sync) {
-          this.upload++
-        }
-      })
-    }
+    let records = await getLocalRecords()
+    records.forEach((value, index, array) => {
+      if (value.sync == 0) {
+        this.upload++
+      }
+    })
   },
 
   methods: {
-    uploadRecords() {
-      if ('records' in localStorage) {
-        let records = JSON.parse(localStorage.getItem('records'))
-        records.forEach((value, index, array) => {
-          if (!value.sync) {
-            // 构建对象
-            const EyeTracking = this.leanCloud.Object.extend('EyeTracking')
-            const eyeTracking = new EyeTracking()
-            eyeTracking.set('user', value.user)
-            eyeTracking.set('simulation', value.simulation)
-            eyeTracking.set('visualization', value.visualization)
-            eyeTracking.set('userScore', value.userScore)
-            eyeTracking.set('calculatedScore', value.calculatedScore)
-            eyeTracking.set('date', value.date)
-            // 将对象保存到云端
-            eyeTracking.save().then(
-              (eyeTracking) => {
-                // 成功保存之后，执行其他逻辑
-                console.log('upload success')
-                value.sync = true
-                this.upload--
-              },
-              (error) => {
-                console.log('upload failed');
-              }
-            )
-          }
-        })
-        localStorage.setItem('records', records)
-      }
+    async uploadRecords() {
+      this.eventBus.$emit('startProgress')
+      let records = await getLocalRecords()
+      records.forEach((value, index, array) => {
+        if (value.sync == 0) {
+          // 构建对象
+          const eyeTracking = new this.leanCloud.Object('EyeTracking')
+          eyeTracking.set('userId', value.user)
+          eyeTracking.set('simulation', value.simulation)
+          eyeTracking.set('visualization', value.visualization)
+          eyeTracking.set('userScore', value.userScore)
+          eyeTracking.set('calculatedScore', value.calculatedScore)
+          eyeTracking.set('date', value.date)
+          // 将对象保存到云端
+          eyeTracking.save().then(
+            (eyeTracking) => {
+              // 成功保存之后，执行其他逻辑
+              console.log('upload success')
+              syncRecord(value.id)
+              this.upload--
+            },
+            (error) => {
+              console.log('upload failed')
+            }
+          )
+        }
+      })
       this.dialog = false
+      this.eventBus.$emit('uploadRecord')
+      this.eventBus.$emit('finishProgress')
     },
   },
 }

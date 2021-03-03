@@ -123,7 +123,9 @@
 </template>
 
 <script>
+import { insertRecord, getRecordsBySimulation } from '../utils/indexedDB.js'
 import { format } from 'fecha'
+var lodash = require('lodash')
 
 export default {
   props: {
@@ -212,41 +214,35 @@ export default {
       //     .catch(error)
     },
 
-    showRecords() {
+    async showRecords() {
       this.items = []
+      let records = await getRecordsBySimulation(this.name)
       let count = 1
-      if ('records' in localStorage) {
-        let records = JSON.parse(localStorage.getItem('records'))
-        console.log(records)
-        records.forEach((value, index, array) => {
-          if (value.simulation == this.name) {
-            this.items.push({
-              number: count++,
-              userScore: value.userScore,
-              calculatedScore: value.calculatedScore,
-              date: value.date,
-              sync: value.sync ? 'Yes' : 'No',
-              visualization: '',
-            })
-          }
+      records.forEach((value, index, array) => {
+        this.items.push({
+          number: count++,
+          userScore: value.userScore,
+          calculatedScore: value.calculatedScore,
+          date: value.date,
+          sync: value.sync == 1 ? 'Yes' : 'No',
+          visualization: '',
         })
-      }
+      })
       this.showRecord = !this.showRecord
     },
 
-    saveRecord() {
-      let records = JSON.parse(localStorage.getItem('records'))
-      records.push({
+    async saveRecord() {
+      await insertRecord({
         user: localStorage.getItem('userName'),
         simulation: this.name,
         visualization: '',
         userScore: this.rating,
         calculatedScore: 0,
         date: format(new Date(), 'YYYY-MM-DD hh:mm:ss'),
-        sync: false,
+        sync: 0,
       })
-      localStorage.setItem('records', JSON.stringify(records))
       localStorage.setItem('score', this.rating)
+      this.eventBus.$emit('startProgress')
       this.eventBus.$emit('newRecord')
       this.$router.push({
         name: 'Visualization',

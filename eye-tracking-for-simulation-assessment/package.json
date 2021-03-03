@@ -23,6 +23,7 @@
     "core-js": "^3.6.5",
     "echarts": "^5.0.2",
     "fecha": "^4.2.0",
+    "idb": "^6.0.0",
     "leancloud-storage": "^4.10.0",
     "lodash": "^4.17.20",
     "path": "^0.12.7",

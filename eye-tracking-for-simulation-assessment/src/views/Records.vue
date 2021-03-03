@@ -58,6 +58,9 @@
 </template>
 
 <script>
+import { getRecords } from '../utils/indexedDB.js'
+var lodash = require('lodash')
+
 export default {
   data: () => ({
     search: '',
@@ -77,28 +80,28 @@ export default {
     this.eventBus.$on('newRecord', () => {
       this.update()
     })
+    this.eventBus.$on('uploadRecord', () => {
+      this.update()
+    })
     this.update()
   },
 
   methods: {
-    update() {
+    async update() {
       this.items = []
       let count = 1
-      if ('records' in localStorage) {
-        let records = JSON.parse(localStorage.getItem('records'))
-        console.log(records)
-        records.forEach((value, index, array) => {
-          this.items.push({
-            number: count++,
-            simulation: value.simulation,
-            userScore: value.userScore,
-            calculatedScore: value.calculatedScore,
-            date: value.date,
-            sync: value.sync ? 'Yes' : 'No',
-            visualization: '',
-          })
+      let records = await getRecords()
+      records.forEach((value, index, array) => {
+        this.items.push({
+          number: count++,
+          simulation: value.simulation,
+          userScore: value.userScore,
+          calculatedScore: value.calculatedScore,
+          date: value.date,
+          sync: value.sync == 1 ? 'Yes' : 'No',
+          visualization: '',
         })
-      }
+      })
     },
 
     showChart(item) {

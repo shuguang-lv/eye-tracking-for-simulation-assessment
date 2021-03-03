@@ -49,6 +49,15 @@ export default {
     }
   },
 
+  mounted () {
+    this.eventBus.$on('startProgress', () => {
+      this.progress = true
+    })
+    this.eventBus.$on('finishProgress', () => {
+      this.progress = false
+    })
+  },
+
   methods: {
     upload() {},
     download() {},

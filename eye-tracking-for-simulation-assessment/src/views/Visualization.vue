@@ -45,6 +45,7 @@ export default {
       if (localStorage.score) {
         vm.$refs.gauge.option.series[0].data[0].value = localStorage.getItem('score') / 100
       }
+      vm.eventBus.$emit('finishProgress')
     })
   },
 
