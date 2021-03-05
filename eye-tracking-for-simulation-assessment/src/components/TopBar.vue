@@ -15,8 +15,10 @@
       {{ userName }}
     </div>
 
+    <FloatButton class="mr-6" />
+
     <!-- dropdown menu -->
-    <v-menu offset-y>
+    <!-- <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
         <v-btn plain dark v-bind="attrs" v-on="on">
           <v-icon left>mdi-menu-down</v-icon>
@@ -31,7 +33,7 @@
           Toggle Bottom Bar
         </v-list-item>
       </v-list>
-    </v-menu>
+    </v-menu> -->
 
     <v-btn plain dark @click="minimizeApp">
       <v-icon>mdi-minus</v-icon>
@@ -43,7 +45,13 @@
 </template>
 
 <script>
+import FloatButton from './FloatButton'
+
 export default {
+  components: {
+    FloatButton,
+  },
+
   data() {
     return {
       userName: '',

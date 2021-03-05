@@ -1,5 +1,5 @@
 <template>
-  <v-row>
+  <v-row class="mb-4">
     <v-col cols="12" class="mb-8 d-flex">
       <h1 class="page-title px-5">
         Simulation

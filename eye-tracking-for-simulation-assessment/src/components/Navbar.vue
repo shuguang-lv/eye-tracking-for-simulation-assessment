@@ -4,7 +4,6 @@
     <Drawer />
     <RegisterForm />
     <LoginForm />
-    <FloatButton />
 
     <!-- <v-bottom-navigation
       v-model="value"
@@ -31,7 +30,6 @@ import TopBar from './TopBar'
 import Drawer from './Drawer'
 import RegisterForm from './RegisterForm'
 import LoginForm from './LoginForm'
-import FloatButton from './FloatButton'
 
 export default {
   components: {
@@ -39,7 +37,6 @@ export default {
     Drawer,
     RegisterForm,
     LoginForm,
-    FloatButton,
   },
 
   data() {

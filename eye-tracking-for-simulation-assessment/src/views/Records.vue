@@ -4,7 +4,7 @@
       dark
       :headers="headers"
       :items="items"
-      :items-per-page="15"
+      :items-per-page="20"
       :search="search"
       class="elevation-1 mt-8"
       item-key="number"
@@ -12,6 +12,7 @@
     >
       <template v-slot:top>
         <v-toolbar flat>
+          <v-icon class="mr-2">mdi-history</v-icon>
           <v-toolbar-title>
             Records
           </v-toolbar-title>
@@ -63,6 +64,8 @@ var lodash = require('lodash')
 
 export default {
   data: () => ({
+    selectedScore: 0,
+    selectedName: '',
     search: '',
     headers: [
       { text: 'No.', value: 'number' },
@@ -106,13 +109,22 @@ export default {
 
     showChart(item) {
       this.eventBus.$emit('startProgress')
-      this.$electron.ipcRenderer.on('mapLoaded', (event, arg) => {
-        this.$router.push({
-          name: 'Visualization',
-          params: { name: item.simulation, score: item.userScore, map: arg },
-        })
-      })
-      this.$electron.ipcRenderer.send('loadMap', this.name)
+      this.selectedScore = item.userScore
+      this.selectedName = item.simulation
+      this.$electron.ipcRenderer.on(
+        'mapLoaded' + this.selectedName + ' ',
+        (event, arg) => {
+          this.$router.push({
+            name: 'Visualization',
+            params: {
+              name: this.selectedName,
+              score: this.selectedScore,
+              map: arg,
+            },
+          })
+        }
+      )
+      this.$electron.ipcRenderer.send('loadMap', this.selectedName + ' ')
     },
   },
 }

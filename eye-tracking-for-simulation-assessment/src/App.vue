@@ -3,12 +3,13 @@
     <Navbar />
     <!-- Sizes your content based upon application components -->
     <v-main>
-      <!-- Provides the application the proper gutter -->
-      <v-container class="mt-12">
-        <keep-alive>
-          <router-view></router-view>
-        </keep-alive>
-      </v-container>
+      <scrollbar
+        ><!-- Provides the application the proper gutter -->
+        <v-container class="mt-12">
+          <keep-alive>
+            <router-view></router-view>
+          </keep-alive> </v-container
+      ></scrollbar>
     </v-main>
   </v-app>
 </template>

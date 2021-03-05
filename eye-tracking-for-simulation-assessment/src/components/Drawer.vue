@@ -22,10 +22,7 @@
     <v-divider></v-divider>
     <v-list nav dense>
       <v-list-item-group v-model="selectedItem" color="primary">
-        <v-list-item
-          v-if="userName == 'unknown'"
-          @click="login"
-        >
+        <v-list-item v-if="userName == 'unknown'" @click="login">
           <v-list-item-icon>
             <v-icon>mdi-login-variant</v-icon>
           </v-list-item-icon>
@@ -33,10 +30,7 @@
             <v-list-item-title>Login</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item
-          v-if="userName == 'unknown'"
-          @click="register"
-        >
+        <v-list-item v-if="userName == 'unknown'" @click="register">
           <v-list-item-icon>
             <v-icon>mdi-clipboard-text</v-icon>
           </v-list-item-icon>
@@ -44,10 +38,7 @@
             <v-list-item-title>Sign up</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item
-          v-if="userName != 'unknown'"
-          @click="logout"
-        >
+        <v-list-item v-if="userName != 'unknown'" @click="logout">
           <v-list-item-icon>
             <v-icon>mdi-logout</v-icon>
           </v-list-item-icon>
@@ -84,10 +75,8 @@ export default {
       items: [
         { text: 'Records', icon: 'mdi-history', link: 'records' },
         { text: 'My Files', icon: 'mdi-folder' },
-        { text: 'Uploads', icon: 'mdi-upload' },
         { text: 'About', icon: 'mdi-information', link: 'about' },
-        { text: 'Blog', icon: 'mdi-blogger' },
-        { text: 'FAQ', icon: 'mdi-frequently-asked-questions', link: 'faq' },
+        { text: 'Guide', icon: 'mdi-book', link: 'faq' },
       ],
       value: 1,
       userName: '',

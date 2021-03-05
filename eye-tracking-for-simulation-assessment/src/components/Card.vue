@@ -243,15 +243,18 @@ export default {
         date: format(new Date(), 'YYYY-MM-DD hh:mm:ss'),
       })
       this.eventBus.$emit('newRecord')
-      this.showChart(this.rating)
+      this.showChart()
     },
 
-    showChart(score, map) {
+    showChart(score) {
+      if (score) {
+        this.rating = score
+      }
       this.eventBus.$emit('startProgress')
-      this.$electron.ipcRenderer.on('mapLoaded', (event, arg) => {
+      this.$electron.ipcRenderer.on('mapLoaded' + this.name, (event, arg) => {
         this.$router.push({
           name: 'Visualization',
-          params: { name: this.name, score: score, map: arg },
+          params: { name: this.name, score: this.rating, map: arg },
         })
       })
       this.$electron.ipcRenderer.send('loadMap', this.name)

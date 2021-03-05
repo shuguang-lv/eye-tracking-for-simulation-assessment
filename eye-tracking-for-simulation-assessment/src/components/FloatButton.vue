@@ -1,29 +1,11 @@
 <template>
   <div>
-    <div class="float-group">
-      <v-badge
-        color="warning"
-        :content="upload"
-        :value="upload"
-        bordered
-        overlap
+    <v-badge color="warning" :value="upload" dot overlap>
+      <v-btn small icon @click="dialog = true"
+        ><v-icon>mdi-cloud-upload</v-icon></v-btn
       >
-        <v-btn fab large color="primary" @click="dialog = true"
-          ><v-icon>mdi-cloud-upload</v-icon></v-btn
-        >
-      </v-badge>
-      <v-badge
-        color="warning"
-        :content="download"
-        :value="download"
-        bordered
-        overlap
-      >
-        <v-btn fab large color="primary" @click="download"
-          ><v-icon>mdi-cloud-download</v-icon></v-btn
-        >
-      </v-badge>
-    </div>
+      <!-- <v-icon @click="dialog = true">mdi-cloud-upload</v-icon> -->
+    </v-badge>
     <v-dialog v-model="dialog" max-width="500" persistent>
       <v-card>
         <v-card-title class="headline">
@@ -58,7 +40,6 @@ export default {
   data() {
     return {
       upload: 0,
-      download: 0,
       dialog: false,
     }
   },
@@ -115,8 +96,8 @@ export default {
 <style scoped>
 .float-group {
   position: fixed;
-  bottom: 80px;
-  right: 40px;
+  bottom: 30px;
+  right: 80px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

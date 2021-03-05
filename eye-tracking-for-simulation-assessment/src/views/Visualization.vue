@@ -1,17 +1,67 @@
 <template>
-  <v-row>
-    <v-col cols="12" class="d-flex">
-      <h1 class="page-title px-5">{{ name }}</h1>
+  <v-row class="mb-4">
+    <v-col cols="12" class="d-flex mb-8">
+      <h1 class="page-title px-5">
+        {{ name }}
+        <v-icon class="ml-2">
+          mdi-eye
+        </v-icon>
+      </h1>
       <v-spacer></v-spacer>
     </v-col>
-    <v-col cols="12" class="d-flex justify-center">
-      <GaugeChart ref="gauge" />
+    <v-col cols="6" class="d-flex justify-center">
+      <v-card class="pa-4 overflow-hidden" max-height="700">
+        <v-card-text>
+          <p class="display-1 primary--text font-weight-bold">
+            User Score
+          </p>
+          <p class="subtitle-1 text--secondary">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias,
+            illum debitis. Architecto, doloribus voluptatum nulla itaque facilis
+            dolor quas provident laudantium asperiores non. Maxime vel
+            aspernatur commodi deserunt assumenda perspiciatis.
+          </p>
+          <div class="d-flex justify-center">
+            <GaugeChart ref="gauge" />
+          </div>
+        </v-card-text>
+      </v-card>
+    </v-col>
+    <v-col cols="6" class="d-flex justify-center">
+      <v-card class="pa-4 overflow-hidden" max-height="700">
+        <v-card-text>
+          <p class="display-1 primary--text font-weight-bold">
+            Calculated Score
+          </p>
+          <p class="subtitle-1 text--secondary">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias,
+            illum debitis. Architecto, doloribus voluptatum nulla itaque facilis
+            dolor quas provident laudantium asperiores non. Maxime vel
+            aspernatur commodi deserunt assumenda perspiciatis.
+          </p>
+          <div class="d-flex justify-center">
+            <GaugeChart />
+          </div>
+        </v-card-text>
+      </v-card>
     </v-col>
     <v-col cols="12" class="d-flex justify-center">
-      <Heatmap ref="heatmap" />
-    </v-col>
-    <v-col v-for="n in 9" :key="n" cols="4">
-      <v-card height="300"></v-card>
+      <v-card class="pa-4 overflow-hidden" max-height="900">
+        <v-card-text>
+          <p class="display-1 primary--text font-weight-bold">
+            Heatmap of eye movements
+          </p>
+          <p class="subtitle-1 text--secondary">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias,
+            illum debitis. Architecto, doloribus voluptatum nulla itaque facilis
+            dolor quas provident laudantium asperiores non. Maxime vel
+            aspernatur commodi deserunt assumenda perspiciatis.
+          </p>
+          <div class="d-flex justify-center">
+            <Heatmap ref="heatmap" />
+          </div>
+        </v-card-text>
+      </v-card>
     </v-col>
   </v-row>
 </template>

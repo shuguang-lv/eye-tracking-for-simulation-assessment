@@ -135,7 +135,7 @@ ipcMain.on('play', (event, source) => {
 })
 
 ipcMain.on('loadMap', (event, source) => {
-  console.log(readMapFile(event))
+  readMapFile(event, source)
 })
 
 function sendToPython() {
@@ -216,7 +216,7 @@ function playSimulation() {
   )
 }
 
-function readMapFile(event) {
+function readMapFile(event, source) {
   let filePath = path.join('./', 'map.csv')
   fs.readFile(filePath, (err, data) => {
     if (err) {
@@ -229,12 +229,12 @@ function readMapFile(event) {
     table = data.match(/\d+(.\d+)?/g)
 
     let result = []
-    for (let row = 0; row < 9; row++) {
+    for (let row = 0; row < 10; row++) {
       for (let col = 0; col < 24; col++) {
-        result.push([row, col, parseInt(table[(8 - row) * 24 + col + 1])])
+        result.push([row, col, parseInt(table[(9 - row) * 24 + col + 1])])
       }
     }
 
-    event.reply('mapLoaded', result)
+    event.reply('mapLoaded' + source, result)
   })
 }
