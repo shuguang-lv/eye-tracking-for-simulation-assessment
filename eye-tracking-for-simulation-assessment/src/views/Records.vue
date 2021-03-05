@@ -105,11 +105,14 @@ export default {
     },
 
     showChart(item) {
-      localStorage.setItem('score', item.userScore)
-      this.$router.push({
-        name: 'Visualization',
-        params: { name: item.simulation },
+      this.eventBus.$emit('startProgress')
+      this.$electron.ipcRenderer.on('mapLoaded', (event, arg) => {
+        this.$router.push({
+          name: 'Visualization',
+          params: { name: item.simulation, score: item.userScore, map: arg },
+        })
       })
+      this.$electron.ipcRenderer.send('loadMap', this.name)
     },
   },
 }

@@ -1,7 +1,8 @@
 <template>
   <v-row>
-    <v-col cols="12" class="mb-8"
-      ><h1 class="pageTitle">Eye Tracking for Simulation Assessment</h1>
+    <v-col cols="12" class="mb-8 d-flex"
+      ><h1 class="page-title px-5">Eye Tracking for Simulation Assessment</h1>
+      <v-spacer></v-spacer>
     </v-col>
     <v-carousel
       cycle

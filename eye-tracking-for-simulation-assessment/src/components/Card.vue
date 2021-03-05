@@ -165,8 +165,10 @@ export default {
   methods: {
     play() {
       this.loading = true
+      this.eventBus.$emit('startProgress')
       this.$electron.ipcRenderer.on('success' + this.name, () => {
         this.loading = false
+        this.eventBus.$emit('finishProgress')
         this.rateDialog = true
       })
       this.$electron.ipcRenderer.send('play', this.name)
@@ -246,11 +248,10 @@ export default {
 
     showChart(score, map) {
       this.eventBus.$emit('startProgress')
-      localStorage.setItem('score', score)
       this.$electron.ipcRenderer.on('mapLoaded', (event, arg) => {
         this.$router.push({
           name: 'Visualization',
-          params: { name: this.name, map: arg },
+          params: { name: this.name, score: score, map: arg },
         })
       })
       this.$electron.ipcRenderer.send('loadMap', this.name)

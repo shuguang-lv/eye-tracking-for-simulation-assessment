@@ -1,7 +1,8 @@
 <template>
   <v-row>
-    <v-col cols="12">
-      <h1 class="pageTitle">{{ name }}</h1>
+    <v-col cols="12" class="d-flex">
+      <h1 class="page-title px-5">{{ name }}</h1>
+      <v-spacer></v-spacer>
     </v-col>
     <v-col cols="12" class="d-flex justify-center">
       <GaugeChart ref="gauge" />
@@ -42,13 +43,14 @@ export default {
       if (to.params.name) {
         vm.name = `Visualization for ${to.params.name}`
       }
-      if (localStorage.score) {
-        vm.$refs.gauge.option.series[0].data[0].value =
-          localStorage.getItem('score') / 100
+      if (to.params.score) {
+        vm.$refs.gauge.option.series[0].data[0].value = to.params.score / 100
       }
       if (to.params.map) {
-        console.log(to.params.map);
-        vm.$refs.heatmap.option.series[0].data = to.params.map.map(function(item) {
+        console.log(to.params.map)
+        vm.$refs.heatmap.option.series[0].data = to.params.map.map(function(
+          item
+        ) {
           return [item[1], item[0], item[2] || '-']
         })
       }

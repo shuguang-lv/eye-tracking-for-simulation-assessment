@@ -1,9 +1,10 @@
 <template>
   <v-row>
-    <v-col cols="12">
-      <h1 class="pageTitle">
+    <v-col cols="12" class="d-flex">
+      <h1 class="page-title px-5">
         Eye Tracking
       </h1>
+      <v-spacer></v-spacer>
     </v-col>
     <v-col cols="6">
       <video id="webcam" width="400" height="300" autoplay></video>

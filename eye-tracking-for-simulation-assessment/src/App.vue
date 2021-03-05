@@ -80,8 +80,8 @@ export default {
   opacity: 0;
 }
 
-.pageTitle {
-  padding-left: 15px;
+.page-title {
   border-left: 6px solid #1eb980;
+  background-color: #3a3a44;
 }
 </style>
