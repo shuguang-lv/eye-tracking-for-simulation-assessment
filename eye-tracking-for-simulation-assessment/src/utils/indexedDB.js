@@ -4,7 +4,7 @@ const db = openDB('records-db', 1, {
   upgrade(db) {
     const store = db.createObjectStore('records', { keyPath: 'id', autoIncrement: true })
     store.createIndex('simulation_idx', 'simulation')
-    store.createIndex('sync_idx', 'sync')
+    store.createIndex('uid_idx', 'uid')
   },
 })
 
@@ -14,7 +14,7 @@ export async function getRecords() {
 
 export async function getLocalRecords() {
   const store = (await db).transaction('records').objectStore('records')
-  return await store.index('sync_idx').getAll(0)
+  return await store.index('uid_idx').getAll(null)
 }
 
 export async function getRecordsBySimulation(name) {
@@ -30,11 +30,11 @@ export async function deleteRecord(id) {
   (await db).delete('records', id)
 }
 
-export async function syncRecord(key) {
+export async function syncRecord(key, uid) {
   const transaction = (await db).transaction('records', 'readwrite')
   const store = transaction.objectStore('records')
   const record = await store.get(key)
-  record.sync = 1
+  record.uid = uid
   await store.put(record)
   await transaction.done
 }

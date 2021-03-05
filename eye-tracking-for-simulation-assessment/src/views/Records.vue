@@ -98,7 +98,7 @@ export default {
           userScore: value.userScore,
           calculatedScore: value.calculatedScore,
           date: value.date,
-          sync: value.sync == 1 ? 'Yes' : 'No',
+          sync: value.uid == '' ? 'No' : 'Yes',
           visualization: '',
         })
       })

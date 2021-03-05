@@ -48,7 +48,7 @@
                 <v-btn
                   class="mx-4 my-2"
                   color="primary"
-                  @click="showChart(item)"
+                  @click="showChart(item.userScore)"
                 >
                   Visualization
                   <v-icon right>mdi-eye-check</v-icon>
@@ -160,16 +160,15 @@ export default {
     }
   },
 
-  mounted() {
-    this.$electron.ipcRenderer.on('success' + this.name, () => {
-      this.loading = false
-      this.rateDialog = true
-    })
-  },
+  mounted() {},
 
   methods: {
     play() {
       this.loading = true
+      this.$electron.ipcRenderer.on('success' + this.name, () => {
+        this.loading = false
+        this.rateDialog = true
+      })
       this.$electron.ipcRenderer.send('play', this.name)
 
       // this.$electron.ipcRenderer.send(
@@ -224,7 +223,7 @@ export default {
           userScore: value.userScore,
           calculatedScore: value.calculatedScore,
           date: value.date,
-          sync: value.sync == 1 ? 'Yes' : 'No',
+          sync: value.uid == '' ? 'No' : 'Yes',
           visualization: '',
         })
       })
@@ -233,29 +232,28 @@ export default {
 
     async saveRecord() {
       await insertRecord({
+        uid: '',
         user: localStorage.getItem('userName'),
         simulation: this.name,
         visualization: '',
         userScore: this.rating,
         calculatedScore: 0,
         date: format(new Date(), 'YYYY-MM-DD hh:mm:ss'),
-        sync: 0,
       })
-      localStorage.setItem('score', this.rating)
-      this.eventBus.$emit('startProgress')
       this.eventBus.$emit('newRecord')
-      this.$router.push({
-        name: 'Visualization',
-        params: { name: this.name, rating: this.rating },
-      })
+      this.showChart(this.rating)
     },
 
-    showChart(item) {
-      localStorage.setItem('score', item.userScore)
-      this.$router.push({
-        name: 'Visualization',
-        params: { name: this.name, rating: this.rating },
+    showChart(score, map) {
+      this.eventBus.$emit('startProgress')
+      localStorage.setItem('score', score)
+      this.$electron.ipcRenderer.on('mapLoaded', (event, arg) => {
+        this.$router.push({
+          name: 'Visualization',
+          params: { name: this.name, map: arg },
+        })
       })
+      this.$electron.ipcRenderer.send('loadMap', this.name)
     },
   },
 }

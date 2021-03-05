@@ -134,6 +134,10 @@ ipcMain.on('play', (event, source) => {
   event.reply('success' + source)
 })
 
+ipcMain.on('loadMap', (event, source) => {
+  console.log(readMapFile(event))
+})
+
 function sendToPython() {
   // var cp = require('child_process')
   // const path = require('path')
@@ -210,4 +214,27 @@ function playSimulation() {
       console.log(stdout)
     }
   )
+}
+
+function readMapFile(event) {
+  let filePath = path.join('./', 'map.csv')
+  fs.readFile(filePath, (err, data) => {
+    if (err) {
+      console.log(err.stack)
+      return
+    }
+
+    let table = []
+    data = data.toString()
+    table = data.match(/\d+(.\d+)?/g)
+
+    let result = []
+    for (let row = 0; row < 9; row++) {
+      for (let col = 0; col < 24; col++) {
+        result.push([row, col, parseInt(table[(8 - row) * 24 + col + 1])])
+      }
+    }
+
+    event.reply('mapLoaded', result)
+  })
 }

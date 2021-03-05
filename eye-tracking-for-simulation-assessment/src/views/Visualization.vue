@@ -7,7 +7,7 @@
       <GaugeChart ref="gauge" />
     </v-col>
     <v-col cols="12" class="d-flex justify-center">
-      <Heatmap />
+      <Heatmap ref="heatmap" />
     </v-col>
     <v-col v-for="n in 9" :key="n" cols="4">
       <v-card height="300"></v-card>
@@ -43,7 +43,14 @@ export default {
         vm.name = `Visualization for ${to.params.name}`
       }
       if (localStorage.score) {
-        vm.$refs.gauge.option.series[0].data[0].value = localStorage.getItem('score') / 100
+        vm.$refs.gauge.option.series[0].data[0].value =
+          localStorage.getItem('score') / 100
+      }
+      if (to.params.map) {
+        console.log(to.params.map);
+        vm.$refs.heatmap.option.series[0].data = to.params.map.map(function(item) {
+          return [item[1], item[0], item[2] || '-']
+        })
       }
       vm.eventBus.$emit('finishProgress')
     })

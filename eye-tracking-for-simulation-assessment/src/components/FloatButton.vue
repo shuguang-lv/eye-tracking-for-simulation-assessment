@@ -70,7 +70,7 @@ export default {
 
     let records = await getLocalRecords()
     records.forEach((value, index, array) => {
-      if (value.sync == 0) {
+      if (value.uid == '') {
         this.upload++
       }
     })
@@ -81,7 +81,7 @@ export default {
       this.eventBus.$emit('startProgress')
       let records = await getLocalRecords()
       records.forEach((value, index, array) => {
-        if (value.sync == 0) {
+        if (value.uid == '') {
           // 构建对象
           const eyeTracking = new this.leanCloud.Object('EyeTracking')
           eyeTracking.set('userId', value.user)
@@ -95,7 +95,7 @@ export default {
             (eyeTracking) => {
               // 成功保存之后，执行其他逻辑
               console.log('upload success')
-              syncRecord(value.id)
+              syncRecord(value.id, eyeTracking.id)
               this.upload--
             },
             (error) => {
