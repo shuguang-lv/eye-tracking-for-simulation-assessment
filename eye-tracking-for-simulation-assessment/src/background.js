@@ -202,10 +202,16 @@ function downloadPython(url) {
 }
 
 function playSimulation() {
+  let url
+  if (process.env.WEBPACK_DEV_SERVER_URL) {
+    url = path.join('./', 'GulouSubwayStation/')
+  } else {
+    url = path.join('./resources/', 'GulouSubwayStation/')
+  }
   const { execSync } = require('child_process')
   execSync(
     'GulouSubwayStation_windows.bat',
-    { cwd: path.join('./', 'GulouSubwayStation/') },
+    { cwd: url },
     (err, stdout, stderr) => {
       if (err) {
         console.error(err)
@@ -217,7 +223,12 @@ function playSimulation() {
 }
 
 function readMapFile(event, source) {
-  let filePath = path.join('./', 'map.csv')
+  let filePath
+  if (process.env.WEBPACK_DEV_SERVER_URL) {
+    filePath = path.join('./', 'map.csv')
+  } else {
+    filePath = path.join('./resources/', 'map.csv')
+  }
   fs.readFile(filePath, (err, data) => {
     if (err) {
       console.log(err.stack)

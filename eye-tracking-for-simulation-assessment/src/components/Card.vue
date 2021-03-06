@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="" dark height="300" @click="dialog = true">
+    <v-card class="elevation-1" dark height="300" @click="dialog = true">
       <v-img
         class=""
         height="200px"
