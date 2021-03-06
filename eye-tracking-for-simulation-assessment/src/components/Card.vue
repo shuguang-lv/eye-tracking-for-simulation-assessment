@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="" dark height="300" @click="dialog = true">
+    <v-card class="elevation-1" dark height="300" @click="dialog = true">
       <v-img
         class=""
         height="200px"
@@ -48,7 +48,7 @@
                 <v-btn
                   class="mx-4 my-2"
                   color="primary"
-                  @click="showChart(item)"
+                  @click="showChart(item.userScore)"
                 >
                   Visualization
                   <v-icon right>mdi-eye-check</v-icon>
@@ -123,7 +123,9 @@
 </template>
 
 <script>
+import { insertRecord, getRecordsBySimulation } from '../utils/indexedDB.js'
 import { format } from 'fecha'
+var lodash = require('lodash')
 
 export default {
   props: {
@@ -158,16 +160,17 @@ export default {
     }
   },
 
-  mounted() {
-    this.$electron.ipcRenderer.on('success' + this.name, () => {
-      this.loading = false
-      this.rateDialog = true
-    })
-  },
+  mounted() {},
 
   methods: {
     play() {
       this.loading = true
+      this.eventBus.$emit('startProgress')
+      this.$electron.ipcRenderer.on('success' + this.name, () => {
+        this.loading = false
+        this.eventBus.$emit('finishProgress')
+        this.rateDialog = true
+      })
       this.$electron.ipcRenderer.send('play', this.name)
 
       // this.$electron.ipcRenderer.send(
@@ -212,54 +215,49 @@ export default {
       //     .catch(error)
     },
 
-    showRecords() {
+    async showRecords() {
       this.items = []
+      let records = await getRecordsBySimulation(this.name)
       let count = 1
-      if ('records' in localStorage) {
-        let records = JSON.parse(localStorage.getItem('records'))
-        console.log(records)
-        records.forEach((value, index, array) => {
-          if (value.simulation == this.name) {
-            this.items.push({
-              number: count++,
-              userScore: value.userScore,
-              calculatedScore: value.calculatedScore,
-              date: value.date,
-              sync: value.sync ? 'Yes' : 'No',
-              visualization: '',
-            })
-          }
+      records.forEach((value, index, array) => {
+        this.items.push({
+          number: count++,
+          userScore: value.userScore,
+          calculatedScore: value.calculatedScore,
+          date: value.date,
+          sync: value.uid == '' ? 'No' : 'Yes',
+          visualization: '',
         })
-      }
+      })
       this.showRecord = !this.showRecord
     },
 
-    saveRecord() {
-      let records = JSON.parse(localStorage.getItem('records'))
-      records.push({
+    async saveRecord() {
+      await insertRecord({
+        uid: '',
         user: localStorage.getItem('userName'),
         simulation: this.name,
         visualization: '',
         userScore: this.rating,
         calculatedScore: 0,
         date: format(new Date(), 'YYYY-MM-DD hh:mm:ss'),
-        sync: false,
       })
-      localStorage.setItem('records', JSON.stringify(records))
-      localStorage.setItem('score', this.rating)
       this.eventBus.$emit('newRecord')
-      this.$router.push({
-        name: 'Visualization',
-        params: { name: this.name, rating: this.rating },
-      })
+      this.showChart()
     },
 
-    showChart(item) {
-      localStorage.setItem('score', item.userScore)
-      this.$router.push({
-        name: 'Visualization',
-        params: { name: this.name, rating: this.rating },
+    showChart(score) {
+      if (score) {
+        this.rating = score
+      }
+      this.eventBus.$emit('startProgress')
+      this.$electron.ipcRenderer.on('mapLoaded' + this.name, (event, arg) => {
+        this.$router.push({
+          name: 'Visualization',
+          params: { name: this.name, score: this.rating, map: arg },
+        })
       })
+      this.$electron.ipcRenderer.send('loadMap', this.name)
     },
   },
 }

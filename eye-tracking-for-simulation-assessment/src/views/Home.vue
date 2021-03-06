@@ -1,23 +1,52 @@
 <template>
   <v-row>
-    <v-col cols="12" class="mb-8"
-      ><h1 class="pageTitle">Eye Tracking for Simulation Assessment</h1>
+    <v-col cols="12" class="my-16 d-flex justify-center">
+      <v-hover v-slot="{ hover }">
+        <v-img
+          src="../assets/logo.png"
+          max-width="500"
+          max-height="500"
+          class="logo-hover"
+        >
+          <v-expand-transition>
+            <div
+              v-if="hover"
+              class="d-flex primary display-1 justify-center align-center"
+              style="height: 100%;"
+            >
+              xxx<br>xxx<br>xxx
+            </div>
+          </v-expand-transition></v-img
+        >
+      </v-hover>
     </v-col>
-    <v-carousel
-      cycle
-      height="700"
-      reverse-transition="fade-transition"
-      transition="fade-transition"
-    >
-      <v-carousel-item v-for="(slide, i) in slides" :key="i">
-        <v-sheet :color="colors[i]" height="100%">
-          <v-row class="fill-height" align="center" justify="center">
-            <div class="display-3">{{ slide }} Slide</div>
-          </v-row>
-        </v-sheet>
-      </v-carousel-item>
-    </v-carousel>
-    <v-col cols="12" class="mb-8 text-center">
+    <v-col cols="12" class="my-16 d-flex justify-center">
+      <div
+        class="display-3 font-weight-bold"
+        elevation="5"
+        style="word-spacing: 0.3em;"
+      >
+        Eye Tracking for Simulation Assessment
+      </div>
+    </v-col>
+    <v-col cols="12" class="d-flex justify-center"
+      ><v-btn
+        depressed
+        rounded
+        color="primary"
+        large
+        width="200"
+        height="60"
+        to="simulation"
+        elevation="5"
+        class="rounded-lg"
+      >
+        <div class="headline font-weight-medium" style="word-spacing: 0.3em;">
+          start now !
+        </div>
+      </v-btn>
+    </v-col>
+    <!-- <v-col cols="12" class="mb-8 text-center">
       <v-chip class="ma-2" color="success" outlined>
         <v-icon left>
           mdi-server-plus
@@ -42,24 +71,7 @@
         </v-icon>
         New Posts Available
       </v-chip>
-    </v-col>
-    <v-flex align-self-start>
-      <v-btn depressed color="primary" class="ml-4" @click="test">
-        test
-      </v-btn>
-    </v-flex>
-    <v-flex align-self-center class="button-start">
-      <v-btn
-        depressed
-        rounded
-        color="primary"
-        large
-        width="170"
-        to="simulation"
-      >
-        start now !
-      </v-btn>
-    </v-flex>
+    </v-col> -->
     <!-- <iframe
       width="1000"
       height="650"
@@ -120,5 +132,10 @@ export default {
 .button-start {
   position: fixed;
   bottom: 20vh;
+}
+
+.logo-hover {
+  border-radius: 50%;
+  overflow: hidden;
 }
 </style>

@@ -66,7 +66,6 @@ export default {
         },
         series: [
           {
-            name: 'Punch Card',
             type: 'heatmap',
             data: 0,
             label: {
@@ -110,7 +109,7 @@ export default {
       '23',
       '24',
     ]
-    var y = ['1', '2', '3', '4', '5', '6', '7']
+    var y = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
     var data = [
       [0, 0, 5],
       [0, 1, 1],

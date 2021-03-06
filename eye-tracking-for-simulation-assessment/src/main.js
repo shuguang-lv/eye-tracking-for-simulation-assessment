@@ -5,6 +5,7 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 import VueElectron from 'vue-electron'
 import Cloudbase from '@cloudbase/vue-provider'
+import vuescroll from 'vuescroll'
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import '@mdi/font/css/materialdesignicons.css'
 import './assets/tailwind.css'
@@ -12,12 +13,39 @@ import './assets/tailwind.css'
 Vue.config.productionTip = false
 Vue.use(VueElectron)
 Vue.use(Cloudbase, {
-  env: 'grp2020-4glv8fo5cd87cf9a'
+  env: 'grp2020-4glv8fo5cd87cf9a',
   // appSign: 'com.unnc.grp',
   // appSecret: {
   //   appAccessKeyId: 1,
   //   appAccessKey: '9c8723d84299331cde9af9613157f89b'
   // }
+})
+// You can set global config here.
+Vue.use(vuescroll, {
+  ops: {
+    vuescroll: {
+      sizeStrategy: 'number',
+      wheelScrollDuration: 500,
+    },
+    scrollPanel: {
+      scrollingX: false,
+      easing: 'easeInOutQuad',
+    },
+    rail: {
+      specifyBorderRadius: '0px',
+      gutterOfEnds: '50px',
+      gutterOfSide: '13px',
+    },
+    bar: {
+      background: '#1eb980',
+      opacity: 0.5,
+      hoverStyle: true,
+      specifyBorderRadius: false,
+      minSize: 0,
+      size: '8px',
+    }
+  },
+  name: 'scrollbar', // customize component name, default -> vueScroll
 })
 
 // event bus

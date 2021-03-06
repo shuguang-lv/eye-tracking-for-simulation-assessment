@@ -134,6 +134,10 @@ ipcMain.on('play', (event, source) => {
   event.reply('success' + source)
 })
 
+ipcMain.on('loadMap', (event, source) => {
+  readMapFile(event, source)
+})
+
 function sendToPython() {
   // var cp = require('child_process')
   // const path = require('path')
@@ -198,10 +202,16 @@ function downloadPython(url) {
 }
 
 function playSimulation() {
+  let url
+  if (process.env.WEBPACK_DEV_SERVER_URL) {
+    url = path.join('./', 'GulouSubwayStation/')
+  } else {
+    url = path.join('./resources/', 'GulouSubwayStation/')
+  }
   const { execSync } = require('child_process')
   execSync(
     'GulouSubwayStation_windows.bat',
-    { cwd: path.join('./', 'GulouSubwayStation/') },
+    { cwd: url },
     (err, stdout, stderr) => {
       if (err) {
         console.error(err)
@@ -210,4 +220,32 @@ function playSimulation() {
       console.log(stdout)
     }
   )
+}
+
+function readMapFile(event, source) {
+  let filePath
+  if (process.env.WEBPACK_DEV_SERVER_URL) {
+    filePath = path.join('./', 'map.csv')
+  } else {
+    filePath = path.join('./resources/', 'map.csv')
+  }
+  fs.readFile(filePath, (err, data) => {
+    if (err) {
+      console.log(err.stack)
+      return
+    }
+
+    let table = []
+    data = data.toString()
+    table = data.match(/\d+(.\d+)?/g)
+
+    let result = []
+    for (let row = 0; row < 10; row++) {
+      for (let col = 0; col < 24; col++) {
+        result.push([row, col, parseInt(table[(9 - row) * 24 + col + 1])])
+      }
+    }
+
+    event.reply('mapLoaded' + source, result)
+  })
 }
