@@ -3,13 +3,14 @@
     <Navbar />
     <!-- Sizes your content based upon application components -->
     <v-main>
-      <scrollbar
-        ><!-- Provides the application the proper gutter -->
+      <!-- <scrollbar> -->
+        <!-- Provides the application the proper gutter -->
         <v-container class="mt-12">
           <keep-alive>
             <router-view></router-view>
-          </keep-alive> </v-container
-      ></scrollbar>
+          </keep-alive>
+        </v-container>
+      <!-- </scrollbar> -->
     </v-main>
   </v-app>
 </template>
@@ -84,5 +85,10 @@ export default {
 .page-title {
   border-left: 6px solid #1eb980;
   background-color: #3a3a44;
+}
+
+* {
+  scroll-behavior: smooth;
+  user-select: none;
 }
 </style>

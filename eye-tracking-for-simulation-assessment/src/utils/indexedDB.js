@@ -12,14 +12,16 @@ export async function getRecords() {
   return (await db).getAll('records')
 }
 
-export async function getLocalRecords() {
-  const store = (await db).transaction('records').objectStore('records')
-  return await store.index('uid_idx').getAll(null)
+export async function getUnsyncedRecords() {
+  return (await db).getAllFromIndex('records', 'uid_idx', '')
+}
+
+export async function getSyncedRecords() {
+  return (await db).getAllFromIndex('records', 'uid_idx', IDBKeyRange.lowerBound('', true))
 }
 
 export async function getRecordsBySimulation(name) {
-  const store = (await db).transaction('records').objectStore('records')
-  return await store.index('simulation_idx').getAll(name)
+  return (await db).getAllFromIndex('records', 'simulation_idx', name)
 }
 
 export async function insertRecord(record) {

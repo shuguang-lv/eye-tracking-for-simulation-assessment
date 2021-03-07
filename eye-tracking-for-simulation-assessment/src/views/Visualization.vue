@@ -49,7 +49,7 @@
       <v-card class="pa-4 overflow-hidden elevation-1" max-height="900">
         <v-card-text>
           <p class="display-1 primary--text font-weight-bold">
-            Heatmap of eye movements
+            Heatmap of Eye Movements
           </p>
           <p class="subtitle-1 text--secondary">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias,

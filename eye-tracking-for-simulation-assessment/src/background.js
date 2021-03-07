@@ -16,8 +16,6 @@ import fs from 'fs'
 import path from 'path'
 import request from 'request'
 import store from './store'
-// Load the full build.
-var lodash = require('lodash')
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 

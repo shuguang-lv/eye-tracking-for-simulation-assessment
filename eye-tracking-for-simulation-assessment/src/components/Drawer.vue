@@ -111,10 +111,7 @@ export default {
       this.eventBus.$emit('login')
     },
     logout() {
-      this.user.logOut()
-      localStorage.setItem('userName', '')
-      localStorage.setItem('userEmail', '')
-      this.eventBus.$emit('updateUserInfo')
+      this.eventBus.$emit('logout')
     },
   },
 }
