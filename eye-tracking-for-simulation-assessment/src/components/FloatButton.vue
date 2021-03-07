@@ -1,12 +1,18 @@
 <template>
-  <div>
-    <v-badge color="warning" :value="upload" dot overlap>
-      <v-btn small icon @click="dialog = true"
+  <div class="d-flex">
+    <v-badge color="warning" :value="upload" dot overlap class="mr-3">
+      <v-btn small icon @click="dialogUpload = true"
         ><v-icon>mdi-cloud-upload</v-icon></v-btn
       >
       <!-- <v-icon @click="dialog = true">mdi-cloud-upload</v-icon> -->
     </v-badge>
-    <v-dialog v-model="dialog" max-width="500" persistent>
+    <v-badge color="warning" :value="download" dot overlap>
+      <v-btn small icon @click="dialogDownload = true"
+        ><v-icon>mdi-cloud-download</v-icon></v-btn
+      >
+      <!-- <v-icon @click="dialog = true">mdi-cloud-upload</v-icon> -->
+    </v-badge>
+    <v-dialog v-model="dialogUpload" max-width="500" persistent>
       <v-card>
         <v-card-title class="headline">
           Upload the local records?
@@ -20,11 +26,33 @@
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="warning darken-1" text @click="dialog = false">
-            Reject
-          </v-btn>
           <v-btn color="primary darken-1" text @click="uploadRecords">
             Accept
+          </v-btn>
+          <v-btn color="warning darken-1" text @click="dialogUpload = false">
+            Reject
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="dialogDownload" max-width="500" persistent>
+      <v-card>
+        <v-card-title class="headline">
+          Download the records from cloud?
+        </v-card-title>
+        <v-card-text
+          >This will download your records data in cloud (including
+          visualization files of eye tracking) and save them into the local
+          storage.
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary darken-1" text @click="downloadRecords">
+            Accept
+          </v-btn>
+          <v-btn color="warning darken-1" text @click="dialogDownload = false">
+            Reject
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -33,14 +61,20 @@
 </template>
 
 <script>
-import { getLocalRecords, syncRecord } from '../utils/indexedDB.js'
-var lodash = require('lodash')
+import {
+  getUnsyncedRecords,
+  getSyncedRecords,
+  syncRecord,
+  insertRecord
+} from '../utils/indexedDB.js'
 
 export default {
   data() {
     return {
       upload: 0,
-      dialog: false,
+      download: 0,
+      dialogUpload: false,
+      dialogDownload: false,
     }
   },
 
@@ -49,18 +83,27 @@ export default {
       this.upload++
     })
 
-    let records = await getLocalRecords()
-    records.forEach((value, index, array) => {
-      if (value.uid == '') {
-        this.upload++
-      }
+    let records = await getUnsyncedRecords()
+    this.upload = records.length
+
+    let recordId = (await getSyncedRecords()).map(function(item) {
+      return item.uid
+    })
+    const query = new this.leanCloud.Query('EyeTracking')
+    query.equalTo('userId', localStorage.getItem('userName'))
+    query.find().then((records) => {
+      records.forEach((value, index, array) => {
+        if (!recordId.includes(value.id)) {
+          this.download++
+        }
+      })
     })
   },
 
   methods: {
     async uploadRecords() {
       this.eventBus.$emit('startProgress')
-      let records = await getLocalRecords()
+      let records = await getUnsyncedRecords()
       records.forEach((value, index, array) => {
         if (value.uid == '') {
           // 构建对象
@@ -85,9 +128,37 @@ export default {
           )
         }
       })
-      this.dialog = false
-      this.eventBus.$emit('uploadRecord')
+      this.dialogUpload = false
+      this.eventBus.$emit('updateRecord')
       this.eventBus.$emit('finishProgress')
+    },
+
+    async downloadRecords() {
+      this.eventBus.$emit('startProgress')
+      let recordId = (await getSyncedRecords()).map(function(item) {
+        return item.uid
+      })
+      const query = new this.leanCloud.Query('EyeTracking')
+      query.equalTo('userId', localStorage.getItem('userName'))
+      query.find().then((records) => {
+        records.forEach((value, index, array) => {
+          if (!recordId.includes(value.id)) {
+            insertRecord({
+              uid: value.id,
+              user: localStorage.getItem('userName'),
+              simulation: value.get('simulation'),
+              visualization: value.get('visualization'),
+              userScore: value.get('userScore'),
+              calculatedScore: value.get('calculatedScore'),
+              date: value.get('date'),
+            })
+          }
+        })
+        this.download = 0
+        this.dialogDownload = false
+        this.eventBus.$emit('updateRecord')
+        this.eventBus.$emit('finishProgress')
+      })
     },
   },
 }

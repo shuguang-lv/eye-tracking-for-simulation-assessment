@@ -4,6 +4,7 @@
     <Drawer />
     <RegisterForm />
     <LoginForm />
+    <Logout />
 
     <!-- <v-bottom-navigation
       v-model="value"
@@ -30,6 +31,7 @@ import TopBar from './TopBar'
 import Drawer from './Drawer'
 import RegisterForm from './RegisterForm'
 import LoginForm from './LoginForm'
+import Logout from './Logout'
 
 export default {
   components: {
@@ -37,6 +39,7 @@ export default {
     Drawer,
     RegisterForm,
     LoginForm,
+    Logout
   },
 
   data() {

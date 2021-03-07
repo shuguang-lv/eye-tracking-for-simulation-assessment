@@ -60,7 +60,6 @@
 
 <script>
 import { getRecords } from '../utils/indexedDB.js'
-var lodash = require('lodash')
 
 export default {
   data: () => ({
@@ -80,10 +79,7 @@ export default {
   }),
 
   mounted() {
-    this.eventBus.$on('newRecord', () => {
-      this.update()
-    })
-    this.eventBus.$on('uploadRecord', () => {
+    this.eventBus.$on('updateRecord', () => {
       this.update()
     })
     this.update()
@@ -103,6 +99,7 @@ export default {
           date: value.date,
           sync: value.uid == '' ? 'No' : 'Yes',
           visualization: '',
+          id: value.id
         })
       })
     },
@@ -112,7 +109,7 @@ export default {
       this.selectedScore = item.userScore
       this.selectedName = item.simulation
       this.$electron.ipcRenderer.on(
-        'mapLoaded' + this.selectedName + ' ',
+        'mapLoaded' + item.id,
         (event, arg) => {
           this.$router.push({
             name: 'Visualization',
@@ -124,7 +121,7 @@ export default {
           })
         }
       )
-      this.$electron.ipcRenderer.send('loadMap', this.selectedName + ' ')
+      this.$electron.ipcRenderer.send('loadMap', item.id)
     },
   },
 }
