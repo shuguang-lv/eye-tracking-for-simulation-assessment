@@ -4,15 +4,15 @@
       dark
       :headers="headers"
       :items="items"
-      :items-per-page="20"
+      :items-per-page="15"
       :search="search"
       class="elevation-1 mt-8"
       item-key="number"
       show-expand
     >
       <template v-slot:top>
-        <v-toolbar flat>
-          <v-icon class="mr-2">mdi-history</v-icon>
+        <v-toolbar flat color="#1eb9801e">
+          <v-icon class="mr-2" color="primary">mdi-history</v-icon>
           <v-toolbar-title>
             Records
           </v-toolbar-title>

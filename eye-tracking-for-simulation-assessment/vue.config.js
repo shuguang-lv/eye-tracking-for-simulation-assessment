@@ -10,7 +10,7 @@ module.exports = {
       builderOptions: {
         productName: 'Eye Tracking for Simulation Assessment',
         appId: "com.unnc.grp",
-        extraResources: ["./GulouSubwayStation/**", "./map.csv"],
+        extraResources: ["./simulation/**", "./map.csv"],
       },
     },
   },
