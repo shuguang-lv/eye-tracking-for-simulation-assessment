@@ -4,7 +4,7 @@
       <v-img
         class=""
         height="200px"
-        src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+        :src.sync="thumbnail"
       >
       </v-img>
       <v-card-title class="mt-4">
@@ -17,20 +17,14 @@
         <v-img
           class=""
           height="400px"
-          src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+          :src.sync="thumbnail"
         >
         </v-img>
         <v-card-title class="mt-4 text-h4">
           {{ name }}
         </v-card-title>
         <v-card-text class="mb-4 text--secondary text-body-1">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
+          {{ description }}
         </v-card-text>
         <v-expand-transition>
           <v-data-table
@@ -86,11 +80,11 @@
     <v-dialog v-model="rateDialog" persistent>
       <v-card class="elevation-16 pa-4 mx-auto" width="500">
         <v-card-title class="headline">
-          Rate Our Framework
+          Rate your watching experience
         </v-card-title>
         <v-card-text>
-          If you enjoy using Vuetify, please take a few seconds to rate your
-          experience with the framework. It really helps!
+          If you enjoy this simulation, please take a few seconds to rate your
+          experience with the simulation. It really helps!
           <v-slider
             class="mt-12"
             v-model="rating"
@@ -159,7 +153,15 @@ export default {
     }
   },
 
-  mounted() {},
+  computed: {
+    thumbnail() {
+      return process.env.BASE_URL + this.name + '.png' 
+    }
+  },
+
+  mounted() {
+    // console.log(this.thumbnail);
+  },
 
   methods: {
     play() {

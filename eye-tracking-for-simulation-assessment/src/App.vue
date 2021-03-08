@@ -5,7 +5,7 @@
     <v-main>
       <!-- <scrollbar> -->
         <!-- Provides the application the proper gutter -->
-        <v-container class="mt-12">
+        <v-container class="mt-16">
           <keep-alive>
             <router-view></router-view>
           </keep-alive>
@@ -84,7 +84,7 @@ export default {
 
 .page-title {
   border-left: 6px solid #1eb980;
-  background-color: #3a3a44;
+  background-color: #1eb9801e;
 }
 
 * {

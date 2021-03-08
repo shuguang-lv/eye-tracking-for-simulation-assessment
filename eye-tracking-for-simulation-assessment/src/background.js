@@ -128,7 +128,7 @@ ipcMain.on('download', (event, url) => {
 })
 
 ipcMain.on('play', (event, source) => {
-  playSimulation()
+  playSimulation(source)
   event.reply('success' + source)
 })
 
@@ -199,16 +199,55 @@ function downloadPython(url) {
   sendToPython()
 }
 
-function playSimulation() {
+function playSimulation(source) {
+  let simulation
+  switch (source) {
+    case 'Air Defense':
+      simulation = 'AirDefense'
+      break
+
+    case 'Billiard Balls':
+      simulation = 'BilliardBalls'
+      break
+
+    case 'Cargo Unload':
+      simulation = 'CargoUnload'
+      break
+
+    case 'City Square':
+      simulation = 'CitySquare'
+      break
+
+    case 'Covid-19':
+      simulation = 'Covid19'
+      break
+
+    case 'Gas Station':
+      simulation = 'GasStation'
+      break
+
+    case 'Maze':
+      simulation = 'Maze'
+      break
+
+    case 'Terrorist Attack On A City Square':
+      simulation = 'TerroristAttackOnCitySquare'
+      break
+
+    case 'Three Body Problem':
+      simulation = 'ThreeBodyProblem'
+      break
+  }
+
   let url
   if (process.env.WEBPACK_DEV_SERVER_URL) {
-    url = path.join('./', 'GulouSubwayStation/')
+    url = path.join('./simulation/')
   } else {
-    url = path.join('./resources/', 'GulouSubwayStation/')
+    url = path.join('./resources/simulation/')
   }
   const { execSync } = require('child_process')
   execSync(
-    'GulouSubwayStation_windows.bat',
+    simulation + '.bat',
     { cwd: url },
     (err, stdout, stderr) => {
       if (err) {

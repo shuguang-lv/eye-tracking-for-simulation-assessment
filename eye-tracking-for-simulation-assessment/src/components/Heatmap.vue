@@ -62,7 +62,10 @@ export default {
           calculable: true,
           orient: 'horizontal',
           left: 'center',
-          bottom: '35%',
+          bottom: '32%',
+          textStyle: {
+            color: '#ffffffe0',
+          }
         },
         series: [
           {

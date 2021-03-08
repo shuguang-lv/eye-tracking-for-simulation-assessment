@@ -35,15 +35,16 @@
         rounded
         color="primary"
         large
-        width="200"
+        width="300"
         height="60"
         to="simulation"
         elevation="5"
         class="rounded-lg"
       >
-        <div class="headline font-weight-medium" style="word-spacing: 0.3em;">
-          start now !
+        <div class="headline font-weight-medium mr-5" style="word-spacing: 0.3em;">
+          start now
         </div>
+        <v-icon>mdi-send</v-icon>
       </v-btn>
     </v-col>
     <!-- <v-col cols="12" class="mb-8 text-center">
