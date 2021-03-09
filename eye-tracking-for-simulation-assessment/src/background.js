@@ -132,13 +132,12 @@ ipcMain.on('play', (event, source) => {
   event.reply('success' + source)
 })
 
-ipcMain.on('loadMap', (event, source) => {
-  readMapFile(event, source)
+ipcMain.on('loadMap', (event, file) => {
+  readMapFile(event, file)
 })
 
 ipcMain.on('rename', (event, name) => {
-  renameFile(name)
-  event.reply('renamed' + name)
+  renameFile(event, name)
 })
 
 function sendToPython() {
@@ -260,13 +259,14 @@ function playSimulation(source) {
   })
 }
 
-function readMapFile(event, source) {
+function readMapFile(event, file) {
   let filePath
   if (process.env.WEBPACK_DEV_SERVER_URL) {
-    filePath = path.join('./', 'map.csv')
+    filePath = path.join('./simulation/', file + '.csv')
   } else {
-    filePath = path.join('./resources/', 'map.csv')
+    filePath = path.join('./resources/simulation/', file + '.csv')
   }
+
   fs.readFile(filePath, (err, data) => {
     if (err) {
       console.log(err.stack)
@@ -284,34 +284,49 @@ function readMapFile(event, source) {
       }
     }
 
-    event.reply('mapLoaded' + source, result)
+    event.reply('mapLoaded' + file, result)
   })
 }
 
-function renameFile(name) {
+function renameFile(event, name) {
   let dir
   if (process.env.WEBPACK_DEV_SERVER_URL) {
-    dir = path.join('./', 'simulation/')
+    dir = path.resolve('./simulation/')
   } else {
-    dir = path.join('./resources/', 'simulation/')
+    dir = path.resolve('./resources/simulation/')
   }
   let oldPath = path.join(dir, 'map.csv')
   let newPath = path.join(dir, name + '.csv')
 
-  fs.readdir(dir, (err, files) => {
-    
-  })
-
-  // fs.mkdirSync(newPath)
-  // fs.renameSync(oldPath, newPath)
-  fs.openSync(newPath)
-  fs.readFile(oldPath, (err, data) => {
+  console.log(oldPath)
+  console.log(newPath)
+  fs.rename(oldPath, newPath, (err) => {
     if (err) {
       console.log(err.stack)
       return
     }
 
-    fs.writeFileSync(newPath, data)
-    fs.closeSync(newPath)
+    event.reply('renamed' + name)
   })
+
+  // fs.readdir(dir, (err, files) => {
+  //   files.forEach((value) => {
+  //     if (value == 'map.csv') {
+  //       console.log(oldPath);
+  //       fs.renameSync(oldPath, newPath)
+  //     }
+  //   })
+  // })
+
+  // fs.mkdirSync(newPath)
+  // fs.openSync(newPath)
+  // fs.readFile(oldPath, (err, data) => {
+  //   if (err) {
+  //     console.log(err.stack)
+  //     return
+  //   }
+
+  //   fs.writeFileSync(newPath, data)
+  //   fs.closeSync(newPath)
+  // })
 }

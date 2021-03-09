@@ -32,7 +32,7 @@
                 <v-btn
                   class="mx-4 my-2"
                   color="primary"
-                  @click="showChart(item.userScore)"
+                  @click="showChart(item.userScore, item.visualization)"
                 >
                   Visualization
                   <v-icon right>mdi-eye-check</v-icon>
@@ -217,15 +217,15 @@ export default {
           calculatedScore: value.calculatedScore,
           date: value.date,
           sync: value.uid == '' ? 'No' : 'Yes',
-          visualization: '',
+          visualization: value.visualization,
         })
       })
       this.showRecord = !this.showRecord
     },
 
     async saveRecord() {
-      let time = format(new Date(), 'YYYY-MM-DD hh:mm:ss')
-      let fileName = this.name + ' ' + time
+      let fileName = this.name + Date.now()
+      fileName = fileName.replace(/\s*/g,"")
       this.$electron.ipcRenderer.on('renamed' + fileName, () => {
         insertRecord({
           uid: '',
@@ -234,27 +234,27 @@ export default {
           visualization: fileName,
           userScore: this.rating,
           calculatedScore: 0,
-          date: time,
+          date: format(new Date(), 'YYYY-MM-DD hh:mm:ss'),
         })
         this.eventBus.$emit('newRecord')
         this.eventBus.$emit('updateRecord')
-        this.showChart()
+        this.showChart(false, fileName)
       })
       this.$electron.ipcRenderer.send('rename', fileName)
     },
 
-    showChart(score) {
+    showChart(score, fileName) {
       if (score) {
         this.rating = score
       }
       this.eventBus.$emit('startProgress')
-      this.$electron.ipcRenderer.on('mapLoaded' + this.name, (event, arg) => {
+      this.$electron.ipcRenderer.on('mapLoaded' + fileName, (event, arg) => {
         this.$router.push({
           name: 'Visualization',
           params: { name: this.name, score: this.rating, map: arg },
         })
       })
-      this.$electron.ipcRenderer.send('loadMap', this.name)
+      this.$electron.ipcRenderer.send('loadMap', fileName)
     },
   },
 }
