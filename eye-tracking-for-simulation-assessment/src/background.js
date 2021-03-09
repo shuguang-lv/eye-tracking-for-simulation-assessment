@@ -136,6 +136,11 @@ ipcMain.on('loadMap', (event, source) => {
   readMapFile(event, source)
 })
 
+ipcMain.on('rename', (event, name) => {
+  renameFile(name)
+  event.reply('renamed' + name)
+})
+
 function sendToPython() {
   // var cp = require('child_process')
   // const path = require('path')
@@ -246,17 +251,13 @@ function playSimulation(source) {
     url = path.join('./resources/simulation/')
   }
   const { execSync } = require('child_process')
-  execSync(
-    simulation + '.bat',
-    { cwd: url },
-    (err, stdout, stderr) => {
-      if (err) {
-        console.error(err)
-        return
-      }
-      console.log(stdout)
+  execSync(simulation + '.bat', { cwd: url }, (err, stdout, stderr) => {
+    if (err) {
+      console.error(err)
+      return
     }
-  )
+    console.log(stdout)
+  })
 }
 
 function readMapFile(event, source) {
@@ -284,5 +285,33 @@ function readMapFile(event, source) {
     }
 
     event.reply('mapLoaded' + source, result)
+  })
+}
+
+function renameFile(name) {
+  let dir
+  if (process.env.WEBPACK_DEV_SERVER_URL) {
+    dir = path.join('./', 'simulation/')
+  } else {
+    dir = path.join('./resources/', 'simulation/')
+  }
+  let oldPath = path.join(dir, 'map.csv')
+  let newPath = path.join(dir, name + '.csv')
+
+  fs.readdir(dir, (err, files) => {
+    
+  })
+
+  // fs.mkdirSync(newPath)
+  // fs.renameSync(oldPath, newPath)
+  fs.openSync(newPath)
+  fs.readFile(oldPath, (err, data) => {
+    if (err) {
+      console.log(err.stack)
+      return
+    }
+
+    fs.writeFileSync(newPath, data)
+    fs.closeSync(newPath)
   })
 }

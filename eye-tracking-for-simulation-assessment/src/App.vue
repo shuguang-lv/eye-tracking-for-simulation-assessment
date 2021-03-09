@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Navbar />
+    <Navbar app />
     <!-- Sizes your content based upon application components -->
     <v-main>
       <!-- <scrollbar> -->

@@ -1,12 +1,7 @@
 <template>
   <div>
     <v-card class="elevation-1" dark height="300" @click="dialog = true">
-      <v-img
-        class=""
-        height="200px"
-        :src.sync="thumbnail"
-      >
-      </v-img>
+      <v-img class="" height="200px" :src.sync="thumbnail"> </v-img>
       <v-card-title class="mt-4">
         {{ name }}
       </v-card-title>
@@ -14,12 +9,7 @@
 
     <v-dialog v-model="dialog" width="1000" persistent>
       <v-card>
-        <v-img
-          class=""
-          height="400px"
-          :src.sync="thumbnail"
-        >
-        </v-img>
+        <v-img class="" height="400px" :src.sync="thumbnail"> </v-img>
         <v-card-title class="mt-4 text-h4">
           {{ name }}
         </v-card-title>
@@ -155,8 +145,8 @@ export default {
 
   computed: {
     thumbnail() {
-      return process.env.BASE_URL + this.name + '.png' 
-    }
+      return process.env.BASE_URL + this.name + '.png'
+    },
   },
 
   mounted() {
@@ -234,18 +224,23 @@ export default {
     },
 
     async saveRecord() {
-      await insertRecord({
-        uid: '',
-        user: localStorage.getItem('userName'),
-        simulation: this.name,
-        visualization: '',
-        userScore: this.rating,
-        calculatedScore: 0,
-        date: format(new Date(), 'YYYY-MM-DD hh:mm:ss'),
+      let time = format(new Date(), 'YYYY-MM-DD hh:mm:ss')
+      let fileName = this.name + ' ' + time
+      this.$electron.ipcRenderer.on('renamed' + fileName, () => {
+        insertRecord({
+          uid: '',
+          user: localStorage.getItem('userName'),
+          simulation: this.name,
+          visualization: fileName,
+          userScore: this.rating,
+          calculatedScore: 0,
+          date: time,
+        })
+        this.eventBus.$emit('newRecord')
+        this.eventBus.$emit('updateRecord')
+        this.showChart()
       })
-      this.eventBus.$emit('newRecord')
-      this.eventBus.$emit('updateRecord')
-      this.showChart()
+      this.$electron.ipcRenderer.send('rename', fileName)
     },
 
     showChart(score) {
