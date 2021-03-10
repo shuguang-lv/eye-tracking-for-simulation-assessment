@@ -98,7 +98,7 @@ export default {
           calculatedScore: value.calculatedScore,
           date: value.date,
           sync: value.uid == '' ? 'No' : 'Yes',
-          visualization: '',
+          visualization: value.visualization,
           id: value.id
         })
       })
@@ -109,7 +109,7 @@ export default {
       this.selectedScore = item.userScore
       this.selectedName = item.simulation
       this.$electron.ipcRenderer.on(
-        'mapLoaded' + item.id,
+        'mapLoaded' + item.visualization,
         (event, arg) => {
           this.$router.push({
             name: 'Visualization',
@@ -121,7 +121,7 @@ export default {
           })
         }
       )
-      this.$electron.ipcRenderer.send('loadMap', item.id)
+      this.$electron.ipcRenderer.send('loadMap', item.visualization)
     },
   },
 }

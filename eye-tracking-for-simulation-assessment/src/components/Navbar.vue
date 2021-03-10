@@ -1,7 +1,7 @@
 <template>
   <nav>
     <TopBar />
-    <Drawer />
+    <Drawer app />
     <RegisterForm />
     <LoginForm />
     <Logout />

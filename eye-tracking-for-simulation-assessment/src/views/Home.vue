@@ -1,11 +1,11 @@
 <template>
-  <v-row>
-    <v-col cols="12" class="my-16 d-flex justify-center">
+  <v-row class="home-stage py-16">
+    <v-col cols="12" class="d-flex justify-center">
       <v-hover v-slot="{ hover }">
         <v-img
           src="../assets/logo.png"
-          max-width="500"
-          max-height="500"
+          max-width="400"
+          max-height="400"
           class="logo-hover"
         >
           <v-expand-transition>
@@ -20,7 +20,7 @@
         >
       </v-hover>
     </v-col>
-    <v-col cols="12" class="my-16 d-flex justify-center">
+    <v-col cols="12" class="d-flex justify-center">
       <div
         class="display-3 font-weight-bold"
         elevation="5"
@@ -128,6 +128,17 @@ export default {
 .background {
   width: 100vw;
   height: 100vh;
+}
+
+.home-stage {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .button-start {

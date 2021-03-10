@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer app v-model="drawer" class="py-12" absolute temporary>
+  <v-navigation-drawer app v-model="drawer" class="py-12" temporary>
     <v-list>
       <v-list-item>
         <v-list-item-avatar>

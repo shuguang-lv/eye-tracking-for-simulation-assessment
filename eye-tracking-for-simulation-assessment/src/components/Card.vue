@@ -1,12 +1,7 @@
 <template>
   <div>
     <v-card class="elevation-1" dark height="300" @click="dialog = true">
-      <v-img
-        class=""
-        height="200px"
-        :src.sync="thumbnail"
-      >
-      </v-img>
+      <v-img class="" height="200px" :src.sync="thumbnail"> </v-img>
       <v-card-title class="mt-4">
         {{ name }}
       </v-card-title>
@@ -14,12 +9,7 @@
 
     <v-dialog v-model="dialog" width="1000" persistent>
       <v-card>
-        <v-img
-          class=""
-          height="400px"
-          :src.sync="thumbnail"
-        >
-        </v-img>
+        <v-img class="" height="400px" :src.sync="thumbnail"> </v-img>
         <v-card-title class="mt-4 text-h4">
           {{ name }}
         </v-card-title>
@@ -42,7 +32,7 @@
                 <v-btn
                   class="mx-4 my-2"
                   color="primary"
-                  @click="showChart(item.userScore)"
+                  @click="showChart(item.userScore, item.visualization)"
                 >
                   Visualization
                   <v-icon right>mdi-eye-check</v-icon>
@@ -155,8 +145,8 @@ export default {
 
   computed: {
     thumbnail() {
-      return process.env.BASE_URL + this.name + '.png' 
-    }
+      return process.env.BASE_URL + this.name + '.png'
+    },
   },
 
   mounted() {
@@ -227,39 +217,44 @@ export default {
           calculatedScore: value.calculatedScore,
           date: value.date,
           sync: value.uid == '' ? 'No' : 'Yes',
-          visualization: '',
+          visualization: value.visualization,
         })
       })
       this.showRecord = !this.showRecord
     },
 
     async saveRecord() {
-      await insertRecord({
-        uid: '',
-        user: localStorage.getItem('userName'),
-        simulation: this.name,
-        visualization: '',
-        userScore: this.rating,
-        calculatedScore: 0,
-        date: format(new Date(), 'YYYY-MM-DD hh:mm:ss'),
+      let fileName = this.name + Date.now()
+      fileName = fileName.replace(/\s*/g,"")
+      this.$electron.ipcRenderer.on('renamed' + fileName, () => {
+        insertRecord({
+          uid: '',
+          user: localStorage.getItem('userName'),
+          simulation: this.name,
+          visualization: fileName,
+          userScore: this.rating,
+          calculatedScore: 0,
+          date: format(new Date(), 'YYYY-MM-DD hh:mm:ss'),
+        })
+        this.eventBus.$emit('newRecord')
+        this.eventBus.$emit('updateRecord')
+        this.showChart(false, fileName)
       })
-      this.eventBus.$emit('newRecord')
-      this.eventBus.$emit('updateRecord')
-      this.showChart()
+      this.$electron.ipcRenderer.send('rename', fileName)
     },
 
-    showChart(score) {
+    showChart(score, fileName) {
       if (score) {
         this.rating = score
       }
       this.eventBus.$emit('startProgress')
-      this.$electron.ipcRenderer.on('mapLoaded' + this.name, (event, arg) => {
+      this.$electron.ipcRenderer.on('mapLoaded' + fileName, (event, arg) => {
         this.$router.push({
           name: 'Visualization',
           params: { name: this.name, score: this.rating, map: arg },
         })
       })
-      this.$electron.ipcRenderer.send('loadMap', this.name)
+      this.$electron.ipcRenderer.send('loadMap', fileName)
     },
   },
 }
