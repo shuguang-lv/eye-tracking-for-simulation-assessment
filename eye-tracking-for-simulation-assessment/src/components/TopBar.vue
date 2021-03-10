@@ -7,7 +7,7 @@
       <v-tab class="no-drag" :to="{ path: '/visualization' }"
         >Visualization</v-tab
       >
-      <v-tab class="no-drag" :to="{ path: '/eyeTracking' }">Eye Tracking</v-tab>
+      <!-- <v-tab class="no-drag" :to="{ path: '/eyeTracking' }">Eye Tracking</v-tab> -->
     </v-tabs>
     <v-spacer></v-spacer>
 

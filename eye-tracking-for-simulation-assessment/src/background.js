@@ -249,8 +249,17 @@ function playSimulation(source) {
   } else {
     url = path.join('./resources/simulation/')
   }
+  // const { execSync } = require('child_process')
+  // execSync(simulation + '.bat', { cwd: url }, (err, stdout, stderr) => {
+  //   if (err) {
+  //     console.error(err)
+  //     return
+  //   }
+  //   console.log(stdout)
+  // })
+
   const { execSync } = require('child_process')
-  execSync(simulation + '.bat', { cwd: url }, (err, stdout, stderr) => {
+  execSync('java Main ' + simulation, { cwd: url }, (err, stdout, stderr) => {
     if (err) {
       console.error(err)
       return
@@ -295,11 +304,20 @@ function renameFile(event, name) {
   } else {
     dir = path.resolve('./resources/simulation/')
   }
-  let oldPath = path.join(dir, 'map.csv')
-  let newPath = path.join(dir, name + '.csv')
+  let oldPath = path.join(dir, 'std.csv')
+  let newPath = path.join(dir, name + 'STD' + '.csv')
 
   console.log(oldPath)
   console.log(newPath)
+  fs.rename(oldPath, newPath, (err) => {
+    if (err) {
+      console.log(err.stack)
+      return
+    }
+  })
+
+  oldPath = path.join(dir, 'count.csv')
+  newPath = path.join(dir, name + '.csv')
   fs.rename(oldPath, newPath, (err) => {
     if (err) {
       console.log(err.stack)
