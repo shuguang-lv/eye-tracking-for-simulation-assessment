@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 2021/03/12-12:15:33.782 2310 Reusing MANIFEST E:\GRP\eye-tracking-for-simulation-assessment\eye-tracking-for-simulation-assessment\simulation\chromium\userData\Default\Site Characteristics Database/MANIFEST-000001
 2021/03/12-12:15:33.782 2310 Recovering log #3
 2021/03/12-12:15:33.783 2310 Reusing old log E:\GRP\eye-tracking-for-simulation-assessment\eye-tracking-for-simulation-assessment\simulation\chromium\userData\Default\Site Characteristics Database/000003.log 
+=======
+2021/03/11-22:32:14.959 728 Reusing MANIFEST E:\GRP\project\eye-tracking-for-simulation-assessment\simulation\chromium\userData\Default\Site Characteristics Database/MANIFEST-000001
+2021/03/11-22:32:14.960 728 Recovering log #3
+2021/03/11-22:32:14.961 728 Reusing old log E:\GRP\project\eye-tracking-for-simulation-assessment\simulation\chromium\userData\Default\Site Characteristics Database/000003.log 
+>>>>>>> 8586f554d47b86793f72a21898a1ce7a03c17e0c

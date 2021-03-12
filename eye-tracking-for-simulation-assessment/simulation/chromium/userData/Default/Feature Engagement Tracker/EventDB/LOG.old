@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 2021/03/12-12:10:33.336 372c Reusing MANIFEST E:\GRP\eye-tracking-for-simulation-assessment\eye-tracking-for-simulation-assessment\simulation\chromium\userData\Default\Feature Engagement Tracker\EventDB/MANIFEST-000001
 2021/03/12-12:10:33.336 372c Recovering log #3
 2021/03/12-12:10:33.337 372c Reusing old log E:\GRP\eye-tracking-for-simulation-assessment\eye-tracking-for-simulation-assessment\simulation\chromium\userData\Default\Feature Engagement Tracker\EventDB/000003.log 
+=======
+2021/03/11-22:11:57.928 54bc Reusing MANIFEST E:\GRP\project\eye-tracking-for-simulation-assessment\simulation\chromium\userData\Default\Feature Engagement Tracker\EventDB/MANIFEST-000001
+2021/03/11-22:11:57.929 54bc Recovering log #3
+2021/03/11-22:11:57.929 54bc Reusing old log E:\GRP\project\eye-tracking-for-simulation-assessment\simulation\chromium\userData\Default\Feature Engagement Tracker\EventDB/000003.log 
+>>>>>>> 8586f554d47b86793f72a21898a1ce7a03c17e0c

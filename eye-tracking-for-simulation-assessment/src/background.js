@@ -384,11 +384,13 @@ function copyMapFile(event, file) {
     filePath = path.join('./resources/simulation/', file + '.csv')
   }
 
-  fs.readFile(filePath, (err, data) => {
-    if (err) {
-      console.log(err.stack)
-      return
-    }
-    event.reply('mapCopied' + file, data)
-  })
+  event.reply('mapCopied' + file, path.resolve(filePath))
+
+  // fs.readFile(filePath, (err, data) => {
+  //   if (err) {
+  //     console.log(err.stack)
+  //     return
+  //   }
+  //   event.reply('mapCopied' + file, data)
+  // })
 }

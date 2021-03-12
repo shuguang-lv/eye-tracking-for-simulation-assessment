@@ -126,11 +126,12 @@ export default {
             }
           )
           this.uploadFile(value.visualization)
+          this.upload--
         }
       })
-      while (this.upload > 0) {
-        continue
-      }
+      // while (this.upload > 0) {
+      //   continue
+      // }
       this.dialogUpload = false
       this.eventBus.$emit('updateRecord')
       this.eventBus.$emit('finishProgress')
@@ -138,10 +139,15 @@ export default {
 
     uploadFile(fileName) {
       this.$electron.ipcRenderer.on('mapCopied' + fileName, (event, arg) => {
-        const file = new this.leanCloud.File(fileName + '.csv', arg, 'text/csv')
+        console.log(arg)
+        const data = { blob: { uri: arg } }
+        const file = new this.leanCloud.File(
+          fileName + '.csv',
+          data,
+          'text/csv'
+        )
         file.save().then(
           (file) => {
-            this.upload--
             console.log(`文件上传完成。objectId：${file.id}`)
           },
           (error) => {
@@ -171,12 +177,13 @@ export default {
               calculatedScore: value.get('calculatedScore'),
               date: value.get('date'),
             })
-            downloadFile(value.get('visualization'))
+            this.downloadFile(value.get('visualization'))
+            this.download--
           }
         })
-        while (this.download > 0) {
-          continue
-        }
+        // while (this.download > 0) {
+        //   continue
+        // }
         this.dialogDownload = false
         this.eventBus.$emit('updateRecord')
         this.eventBus.$emit('finishProgress')
@@ -188,13 +195,16 @@ export default {
       const query = new this.leanCloud.Query('_File')
       query.equalTo('name', fileName)
       query.find().then((records) => {
-        url = records[0].attributes.url
+        if (records[0]) {
+          url = records[0].attributes.url
+        }
       })
+      if (!url) {
+        return
+      }
       this.$electron.ipcRenderer.on(
         'mapDownloaded' + fileName,
-        (event, arg) => {
-          this.download--
-        }
+        (event, arg) => {}
       )
       this.$electron.ipcRenderer.send('downloadMap', url, fileName)
     },

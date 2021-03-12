@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 2021/03/12-12:10:33.419 2264 Reusing MANIFEST E:\GRP\eye-tracking-for-simulation-assessment\eye-tracking-for-simulation-assessment\simulation\chromium\userData\Default\shared_proto_db\metadata/MANIFEST-000001
 2021/03/12-12:10:33.420 2264 Recovering log #3
 2021/03/12-12:10:33.420 2264 Reusing old log E:\GRP\eye-tracking-for-simulation-assessment\eye-tracking-for-simulation-assessment\simulation\chromium\userData\Default\shared_proto_db\metadata/000003.log 
+=======
+2021/03/11-22:11:58.041 54bc Reusing MANIFEST E:\GRP\project\eye-tracking-for-simulation-assessment\simulation\chromium\userData\Default\shared_proto_db\metadata/MANIFEST-000001
+2021/03/11-22:11:58.042 54bc Recovering log #3
+2021/03/11-22:11:58.042 54bc Reusing old log E:\GRP\project\eye-tracking-for-simulation-assessment\simulation\chromium\userData\Default\shared_proto_db\metadata/000003.log 
+>>>>>>> 8586f554d47b86793f72a21898a1ce7a03c17e0c

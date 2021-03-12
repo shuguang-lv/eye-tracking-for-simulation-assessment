@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 2021/03/12-12:10:33.368 372c Reusing MANIFEST E:\GRP\eye-tracking-for-simulation-assessment\eye-tracking-for-simulation-assessment\simulation\chromium\userData\Default\AutofillStrikeDatabase/MANIFEST-000001
 2021/03/12-12:10:33.369 372c Recovering log #3
 2021/03/12-12:10:33.369 372c Reusing old log E:\GRP\eye-tracking-for-simulation-assessment\eye-tracking-for-simulation-assessment\simulation\chromium\userData\Default\AutofillStrikeDatabase/000003.log 
+=======
+2021/03/11-22:11:57.954 15e0 Reusing MANIFEST E:\GRP\project\eye-tracking-for-simulation-assessment\simulation\chromium\userData\Default\AutofillStrikeDatabase/MANIFEST-000001
+2021/03/11-22:11:57.955 15e0 Recovering log #3
+2021/03/11-22:11:57.956 15e0 Reusing old log E:\GRP\project\eye-tracking-for-simulation-assessment\simulation\chromium\userData\Default\AutofillStrikeDatabase/000003.log 
+>>>>>>> 8586f554d47b86793f72a21898a1ce7a03c17e0c
