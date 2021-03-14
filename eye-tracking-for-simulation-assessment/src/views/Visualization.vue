@@ -97,7 +97,6 @@ export default {
         vm.$refs.gauge.option.series[0].data[0].value = to.params.score / 100
       }
       if (to.params.map) {
-        console.log(to.params.map)
         vm.$refs.heatmap.option.series[0].data = to.params.map.map(function(
           item
         ) {

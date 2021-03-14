@@ -140,12 +140,8 @@ export default {
     uploadFile(fileName) {
       this.$electron.ipcRenderer.on('mapCopied' + fileName, (event, arg) => {
         console.log(arg)
-        const data = { blob: { uri: arg } }
-        const file = new this.leanCloud.File(
-          fileName + '.csv',
-          data,
-          'text/csv'
-        )
+        const data = { base64: arg }
+        const file = new this.leanCloud.File(fileName + '.txt', data)
         file.save().then(
           (file) => {
             console.log(`文件上传完成。objectId：${file.id}`)
@@ -191,22 +187,28 @@ export default {
     },
 
     downloadFile(fileName) {
-      let url
+      var url
       const query = new this.leanCloud.Query('_File')
-      query.equalTo('name', fileName)
+      query.equalTo('name', fileName + '.txt')
       query.find().then((records) => {
         if (records[0]) {
           url = records[0].attributes.url
+          this.$electron.ipcRenderer.on(
+            'mapDownloaded' + fileName,
+            (event, arg) => {}
+          )
+          this.$electron.ipcRenderer.send('downloadMap', url, fileName)
         }
       })
-      if (!url) {
-        return
-      }
-      this.$electron.ipcRenderer.on(
-        'mapDownloaded' + fileName,
-        (event, arg) => {}
-      )
-      this.$electron.ipcRenderer.send('downloadMap', url, fileName)
+      // console.log(url);
+      // if (!url) {
+      //   return
+      // }
+      // this.$electron.ipcRenderer.on(
+      //   'mapDownloaded' + fileName,
+      //   (event, arg) => {}
+      // )
+      // this.$electron.ipcRenderer.send('downloadMap', url, fileName)
     },
   },
 }

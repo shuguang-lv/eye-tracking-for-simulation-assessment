@@ -14,8 +14,7 @@ import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import fs from 'fs'
 import path from 'path'
-import request from 'request'
-import store from './store'
+import http from 'http'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -200,13 +199,28 @@ function downloadMapFile(event, url, fileName) {
   if (fs.existsSync(filePath)) {
     console.log('文件已存在')
   } else {
-    let stream = fs.createWriteStream(filePath)
-    request(url)
-      .pipe(stream)
-      .on('close', (err) => {
-        console.log('文件下载完毕')
-        event.reply('mapDownloaded' + fileName)
+    http
+      .get(url, (res) => {
+        res.setEncoding('utf8')
+        let data = ''
+        res.on('data', (chunk) => {
+          data += chunk
+        })
+        res.on('end', () => {
+          fs.writeFileSync(filePath, data)
+        })
       })
+      .on('error', (e) => {
+        console.log(`Got error: ${e.message}`)
+      })
+
+    // let stream = fs.createWriteStream(filePath)
+    // request(url)
+    //   .pipe(stream)
+    //   .on('close', (err) => {
+    //     console.log('文件下载完毕')
+    //     event.reply('mapDownloaded' + fileName)
+    //   })
   }
 }
 
@@ -291,25 +305,20 @@ function readMapFile(event, file) {
     return
   }
 
-  fs.readFile(filePath, (err, data) => {
-    if (err) {
-      console.log(err.stack)
-      return
+  let data = fs.readFileSync(filePath)
+
+  let table = []
+  data = data.toString()
+  table = data.match(/\d+(.\d+)?/g)
+
+  let result = []
+  for (let row = 0; row < 10; row++) {
+    for (let col = 0; col < 24; col++) {
+      result.push([row, col, parseInt(table[(9 - row) * 24 + col + 1])])
     }
+  }
 
-    let table = []
-    data = data.toString()
-    table = data.match(/\d+(.\d+)?/g)
-
-    let result = []
-    for (let row = 0; row < 10; row++) {
-      for (let col = 0; col < 24; col++) {
-        result.push([row, col, parseInt(table[(9 - row) * 24 + col + 1])])
-      }
-    }
-
-    event.reply('mapLoaded' + file, result)
-  })
+  event.reply('mapLoaded' + file, result)
 }
 
 function renameFile(event, name) {
@@ -329,12 +338,7 @@ function renameFile(event, name) {
     return
   }
 
-  fs.rename(oldPath, newPath, (err) => {
-    if (err) {
-      console.log(err.stack)
-      return
-    }
-  })
+  fs.renameSync(oldPath, newPath)
 
   oldPath = path.join(dir, 'count.csv')
   newPath = path.join(dir, name + '.csv')
@@ -345,14 +349,8 @@ function renameFile(event, name) {
     return
   }
 
-  fs.rename(oldPath, newPath, (err) => {
-    if (err) {
-      console.log(err.stack)
-      return
-    }
-
-    event.reply('renamed' + name)
-  })
+  fs.renameSync(oldPath, newPath)
+  event.reply('renamed' + name)
 
   // fs.readdir(dir, (err, files) => {
   //   files.forEach((value) => {
@@ -384,13 +382,10 @@ function copyMapFile(event, file) {
     filePath = path.join('./resources/simulation/', file + '.csv')
   }
 
-  event.reply('mapCopied' + file, path.resolve(filePath))
+  // event.reply('mapCopied' + file, path.resolve(filePath))
 
-  // fs.readFile(filePath, (err, data) => {
-  //   if (err) {
-  //     console.log(err.stack)
-  //     return
-  //   }
-  //   event.reply('mapCopied' + file, data)
-  // })
+  let data = fs.readFileSync(filePath)
+  data = new Buffer(data).toString('base64')
+  event.reply('mapCopied' + file, data)
 }
+
