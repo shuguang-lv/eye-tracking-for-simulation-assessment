@@ -14,8 +14,7 @@ import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import fs from 'fs'
 import path from 'path'
-import request from 'request'
-import store from './store'
+import http from 'http'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -122,14 +121,12 @@ ipcMain.on('run', (event) => {
   event.reply('success')
 })
 
-ipcMain.on('download', (event, url) => {
-  downloadPython(url)
-  event.reply('success')
+ipcMain.on('downloadMap', (event, url, fileName) => {
+  downloadMapFile(event, url, fileName)
 })
 
 ipcMain.on('play', (event, source) => {
-  playSimulation(source)
-  event.reply('success' + source)
+  playSimulation(event, source)
 })
 
 ipcMain.on('loadMap', (event, file) => {
@@ -138,6 +135,10 @@ ipcMain.on('loadMap', (event, file) => {
 
 ipcMain.on('rename', (event, name) => {
   renameFile(event, name)
+})
+
+ipcMain.on('copyMap', (event, file) => {
+  copyMapFile(event, file)
 })
 
 function sendToPython() {
@@ -188,22 +189,42 @@ function sendToPython() {
   // ////////////////////////////////////////////////////////////
 }
 
-function downloadPython(url) {
-  let filePath = path.join('./', 'calc.py')
+function downloadMapFile(event, url, fileName) {
+  let filePath
+  if (process.env.WEBPACK_DEV_SERVER_URL) {
+    filePath = path.join('./simulation/', fileName + '.csv')
+  } else {
+    filePath = path.join('./resources/simulation/', fileName + '.csv')
+  }
   if (fs.existsSync(filePath)) {
     console.log('文件已存在')
   } else {
-    let stream = fs.createWriteStream(filePath)
-    request(url)
-      .pipe(stream)
-      .on('close', (err) => {
-        console.log('文件下载完毕')
+    http
+      .get(url, (res) => {
+        res.setEncoding('utf8')
+        let data = ''
+        res.on('data', (chunk) => {
+          data += chunk
+        })
+        res.on('end', () => {
+          fs.writeFileSync(filePath, data)
+        })
       })
+      .on('error', (e) => {
+        console.log(`Got error: ${e.message}`)
+      })
+
+    // let stream = fs.createWriteStream(filePath)
+    // request(url)
+    //   .pipe(stream)
+    //   .on('close', (err) => {
+    //     console.log('文件下载完毕')
+    //     event.reply('mapDownloaded' + fileName)
+    //   })
   }
-  sendToPython()
 }
 
-function playSimulation(source) {
+function playSimulation(event, source) {
   let simulation
   switch (source) {
     case 'Air Defense':
@@ -266,6 +287,8 @@ function playSimulation(source) {
     }
     console.log(stdout)
   })
+
+  event.reply('success' + source)
 }
 
 function readMapFile(event, file) {
@@ -276,25 +299,26 @@ function readMapFile(event, file) {
     filePath = path.join('./resources/simulation/', file + '.csv')
   }
 
-  fs.readFile(filePath, (err, data) => {
-    if (err) {
-      console.log(err.stack)
-      return
+  if (!fs.existsSync(filePath)) {
+    console.log('csv文件不存在')
+    event.reply('mapLoaded' + file, [])
+    return
+  }
+
+  let data = fs.readFileSync(filePath)
+
+  let table = []
+  data = data.toString()
+  table = data.match(/\d+(.\d+)?/g)
+
+  let result = []
+  for (let row = 0; row < 10; row++) {
+    for (let col = 0; col < 24; col++) {
+      result.push([row, col, parseInt(table[(9 - row) * 24 + col + 1])])
     }
+  }
 
-    let table = []
-    data = data.toString()
-    table = data.match(/\d+(.\d+)?/g)
-
-    let result = []
-    for (let row = 0; row < 10; row++) {
-      for (let col = 0; col < 24; col++) {
-        result.push([row, col, parseInt(table[(9 - row) * 24 + col + 1])])
-      }
-    }
-
-    event.reply('mapLoaded' + file, result)
-  })
+  event.reply('mapLoaded' + file, result)
 }
 
 function renameFile(event, name) {
@@ -304,28 +328,29 @@ function renameFile(event, name) {
   } else {
     dir = path.resolve('./resources/simulation/')
   }
+
   let oldPath = path.join(dir, 'std.csv')
   let newPath = path.join(dir, name + 'STD' + '.csv')
 
-  console.log(oldPath)
-  console.log(newPath)
-  fs.rename(oldPath, newPath, (err) => {
-    if (err) {
-      console.log(err.stack)
-      return
-    }
-  })
+  if (!fs.existsSync(oldPath)) {
+    console.log('csv文件不存在')
+    event.reply('renamed' + name)
+    return
+  }
+
+  fs.renameSync(oldPath, newPath)
 
   oldPath = path.join(dir, 'count.csv')
   newPath = path.join(dir, name + '.csv')
-  fs.rename(oldPath, newPath, (err) => {
-    if (err) {
-      console.log(err.stack)
-      return
-    }
 
+  if (!fs.existsSync(oldPath)) {
+    console.log('csv文件不存在')
     event.reply('renamed' + name)
-  })
+    return
+  }
+
+  fs.renameSync(oldPath, newPath)
+  event.reply('renamed' + name)
 
   // fs.readdir(dir, (err, files) => {
   //   files.forEach((value) => {
@@ -348,3 +373,19 @@ function renameFile(event, name) {
   //   fs.closeSync(newPath)
   // })
 }
+
+function copyMapFile(event, file) {
+  let filePath
+  if (process.env.WEBPACK_DEV_SERVER_URL) {
+    filePath = path.join('./simulation/', file + '.csv')
+  } else {
+    filePath = path.join('./resources/simulation/', file + '.csv')
+  }
+
+  // event.reply('mapCopied' + file, path.resolve(filePath))
+
+  let data = fs.readFileSync(filePath)
+  data = new Buffer(data).toString('base64')
+  event.reply('mapCopied' + file, data)
+}
+

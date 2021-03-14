@@ -16,10 +16,9 @@
             User Score
           </p>
           <p class="subtitle-1 text--secondary">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias,
-            illum debitis. Architecto, doloribus voluptatum nulla itaque facilis
-            dolor quas provident laudantium asperiores non. Maxime vel
-            aspernatur commodi deserunt assumenda perspiciatis.
+            The user score is supposed to be given by the user after simulation
+            watching. Generally, the higher the user score is, the more
+            interests the user may show in a particular simulation.
           </p>
           <div class="d-flex justify-center">
             <GaugeChart ref="gauge" />
@@ -52,10 +51,11 @@
             Heatmap of Eye Movements
           </p>
           <p class="subtitle-1 text--secondary">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias,
-            illum debitis. Architecto, doloribus voluptatum nulla itaque facilis
-            dolor quas provident laudantium asperiores non. Maxime vel
-            aspernatur commodi deserunt assumenda perspiciatis.
+            The heatmap below depicts the duration of eye gazing at different
+            areas on the screen. The screen is abstracted into a 24x10 grid,
+            each small colored block of which indicates how long the user has
+            looked at that area. Generally, the darker the block is, the longer
+            the user has gazed at that point.
           </p>
           <div class="d-flex justify-center">
             <Heatmap ref="heatmap" />
@@ -97,7 +97,6 @@ export default {
         vm.$refs.gauge.option.series[0].data[0].value = to.params.score / 100
       }
       if (to.params.map) {
-        console.log(to.params.map)
         vm.$refs.heatmap.option.series[0].data = to.params.map.map(function(
           item
         ) {

@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <TopBar />
+    <TopBar app />
     <Drawer app />
     <RegisterForm />
     <LoginForm />

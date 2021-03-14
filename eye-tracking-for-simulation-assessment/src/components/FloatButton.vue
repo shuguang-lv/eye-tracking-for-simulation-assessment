@@ -65,7 +65,7 @@ import {
   getUnsyncedRecords,
   getSyncedRecords,
   syncRecord,
-  insertRecord
+  insertRecord,
 } from '../utils/indexedDB.js'
 
 export default {
@@ -120,17 +120,38 @@ export default {
               // 成功保存之后，执行其他逻辑
               console.log('upload success')
               syncRecord(value.id, eyeTracking.id)
-              this.upload--
             },
             (error) => {
               console.log('upload failed')
             }
           )
+          this.uploadFile(value.visualization)
+          this.upload--
         }
       })
+      // while (this.upload > 0) {
+      //   continue
+      // }
       this.dialogUpload = false
       this.eventBus.$emit('updateRecord')
       this.eventBus.$emit('finishProgress')
+    },
+
+    uploadFile(fileName) {
+      this.$electron.ipcRenderer.on('mapCopied' + fileName, (event, arg) => {
+        console.log(arg)
+        const data = { base64: arg }
+        const file = new this.leanCloud.File(fileName + '.txt', data)
+        file.save().then(
+          (file) => {
+            console.log(`文件上传完成。objectId：${file.id}`)
+          },
+          (error) => {
+            console.log(`上传失败: ${error}`)
+          }
+        )
+      })
+      this.$electron.ipcRenderer.send('copyMap', fileName)
     },
 
     async downloadRecords() {
@@ -152,13 +173,42 @@ export default {
               calculatedScore: value.get('calculatedScore'),
               date: value.get('date'),
             })
+            this.downloadFile(value.get('visualization'))
+            this.download--
           }
         })
-        this.download = 0
+        // while (this.download > 0) {
+        //   continue
+        // }
         this.dialogDownload = false
         this.eventBus.$emit('updateRecord')
         this.eventBus.$emit('finishProgress')
       })
+    },
+
+    downloadFile(fileName) {
+      var url
+      const query = new this.leanCloud.Query('_File')
+      query.equalTo('name', fileName + '.txt')
+      query.find().then((records) => {
+        if (records[0]) {
+          url = records[0].attributes.url
+          this.$electron.ipcRenderer.on(
+            'mapDownloaded' + fileName,
+            (event, arg) => {}
+          )
+          this.$electron.ipcRenderer.send('downloadMap', url, fileName)
+        }
+      })
+      // console.log(url);
+      // if (!url) {
+      //   return
+      // }
+      // this.$electron.ipcRenderer.on(
+      //   'mapDownloaded' + fileName,
+      //   (event, arg) => {}
+      // )
+      // this.$electron.ipcRenderer.send('downloadMap', url, fileName)
     },
   },
 }

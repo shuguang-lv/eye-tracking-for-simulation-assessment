@@ -1,10 +1,11 @@
 <template>
   <v-app-bar app dense dark class="primary">
-    <v-app-bar-nav-icon @click="openDrawer"> </v-app-bar-nav-icon>
-    <v-tabs center-active dark class="drag">
-      <v-tab class="no-drag" :to="{ path: '/' }">Home</v-tab>
-      <v-tab class="no-drag" :to="{ path: '/simulation' }">Simulation</v-tab>
-      <v-tab class="no-drag" :to="{ path: '/visualization' }"
+    <v-app-bar-nav-icon class="mr-8" @click="openDrawer"> </v-app-bar-nav-icon>
+    <v-tabs center-active class="drag">
+      <v-tabs-slider color="white"></v-tabs-slider>
+      <v-tab class="no-drag" active-class="font-weight-bold" :to="{ path: '/' }">Home</v-tab>
+      <v-tab class="no-drag" active-class="font-weight-bold" :to="{ path: '/simulation' }">Simulation</v-tab>
+      <v-tab class="no-drag" active-class="font-weight-bold" :to="{ path: '/visualization' }"
         >Visualization</v-tab
       >
       <!-- <v-tab class="no-drag" :to="{ path: '/eyeTracking' }">Eye Tracking</v-tab> -->
