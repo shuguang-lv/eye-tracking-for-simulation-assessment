@@ -285,6 +285,12 @@ function readMapFile(event, file) {
     filePath = path.join('./resources/simulation/', file + '.csv')
   }
 
+  if (!fs.existsSync(filePath)) {
+    console.log('csv文件不存在')
+    event.reply('mapLoaded' + file, [])
+    return
+  }
+
   fs.readFile(filePath, (err, data) => {
     if (err) {
       console.log(err.stack)
@@ -313,11 +319,16 @@ function renameFile(event, name) {
   } else {
     dir = path.resolve('./resources/simulation/')
   }
+
   let oldPath = path.join(dir, 'std.csv')
   let newPath = path.join(dir, name + 'STD' + '.csv')
 
-  console.log(oldPath)
-  console.log(newPath)
+  if (!fs.existsSync(oldPath)) {
+    console.log('csv文件不存在')
+    event.reply('renamed' + name)
+    return
+  }
+
   fs.rename(oldPath, newPath, (err) => {
     if (err) {
       console.log(err.stack)
@@ -327,6 +338,13 @@ function renameFile(event, name) {
 
   oldPath = path.join(dir, 'count.csv')
   newPath = path.join(dir, name + '.csv')
+
+  if (!fs.existsSync(oldPath)) {
+    console.log('csv文件不存在')
+    event.reply('renamed' + name)
+    return
+  }
+
   fs.rename(oldPath, newPath, (err) => {
     if (err) {
       console.log(err.stack)

@@ -43,10 +43,34 @@ export default {
   methods: {
     logout() {
       this.user.logOut()
+      this.initUser()
       localStorage.setItem('userName', '')
       localStorage.setItem('userEmail', '')
       this.eventBus.$emit('updateUserInfo')
       this.dialog = false
+    },
+
+    initUser() {
+      const currentUser = this.user.current()
+      if (currentUser != null) {
+        currentUser.isAuthenticated().then((authenticated) => {
+          if (authenticated) {
+            console.log('session token 有效')
+            this.user.become(currentUser.getSessionToken()).then(
+              (user) => {
+                console.log(user)
+              },
+              (error) => {
+                console.log(error)
+                this.user.logOut()
+              }
+            )
+          } else {
+            console.log('session token 无效')
+            this.user.logOut()
+          }
+        })
+      }
     },
   },
 }

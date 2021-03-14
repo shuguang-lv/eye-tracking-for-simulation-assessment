@@ -7,7 +7,7 @@
       </v-card-title>
     </v-card>
 
-    <v-dialog v-model="dialog" width="1000" persistent>
+    <v-dialog v-model="dialog" width="900" persistent>
       <v-card>
         <v-img class="" height="400px" :src.sync="thumbnail"> </v-img>
         <v-card-title class="mt-4 text-h4">

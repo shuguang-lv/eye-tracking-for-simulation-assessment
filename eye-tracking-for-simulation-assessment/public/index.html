@@ -7,6 +7,12 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
     <title><%= htmlWebpackPlugin.options.title %></title>
     <style type="text/css">
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
       *::-webkit-scrollbar {
         display: none;
       }
@@ -107,7 +113,7 @@
       href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,500,700:100,300,400,500,700,900|Eczar:400:100,300,400,500,700,900&display=swap"
     />
   </head>
-  <body>
+  <body autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
     <noscript>
       <strong
         >We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work
