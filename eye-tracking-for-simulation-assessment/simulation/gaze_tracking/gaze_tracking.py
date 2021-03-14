@@ -120,26 +120,30 @@ class GazeTracking(object):
             y = self.eye_right.pupil.y
             return (x, y)
 
+    def set_gazepoints_x(self):
+        x_point = int((self.left_gaze_x() + self.right_gaze_x())/4 -450)
+        y_point = int((self.left_gaze_y() + self.right_gaze_y() / 5 - 1000))
+        return (x_point,y_point)
+
     def annotated_frame(self):
         """Returns the main frame with pupils highlighted"""
         frame = self.frame.copy()
 
         if self.pupils_located:
-            # color = (0, 255, 0)
-            # x_left, y_left = self.eye_left.origin[0] + self.eye_left.pupil.x, self.eye_left.origin[
-            #     1] + self.eye_left.pupil.y
-            # x_right, y_right = self.eye_right.origin[0] + self.eye_right.pupil.x, self.eye_right.origin[
-            #     1] + self.eye_right.pupil.y
-            # cv2.line(frame, (x_left - 5, y_left), (x_left + 5, y_left), color)
-            # cv2.line(frame, (x_left, y_left - 5), (x_left, y_left + 5), color)
-            # cv2.line(frame, (x_right - 5, y_right), (x_right + 5, y_right), color)
-            # cv2.line(frame, (x_right, y_right - 5), (x_right, y_right + 5), color)
+            color = (0, 255, 0)
+            x_left, y_left = self.eye_left.origin[0] + self.eye_left.pupil.x, self.eye_left.origin[
+                1] + self.eye_left.pupil.y
+            x_right, y_right = self.eye_right.origin[0] + self.eye_right.pupil.x, self.eye_right.origin[
+                1] + self.eye_right.pupil.y
+            cv2.line(frame, (x_left - 5, y_left), (x_left + 5, y_left), color)
+            cv2.line(frame, (x_left, y_left - 5), (x_left, y_left + 5), color)
+            cv2.line(frame, (x_right - 5, y_right), (x_right + 5, y_right), color)
+            cv2.line(frame, (x_right, y_right - 5), (x_right, y_right + 5), color)
 
-            x_point = (self.left_gaze_x() + self.right_gaze_x())/2
-            y_point = (self.left_gaze_y() + self.right_gaze_y())/2
-            x_point = int(x_point / 4)
-            y_point = int(460 - y_point / 4)
-            # cv2.line(frame, (x_point - 5, y_point), (x_point + 5, y_point), (0, 255, 255))
-            # cv2.line(frame, (x_point, y_point - 5), (x_point, y_point + 5), (0, 255, 255))
+            #x_point = int((self.left_gaze_x() + self.right_gaze_x())/4 -450)
+            #y_point = int((self.left_gaze_y() + self.right_gaze_y()/5 - 1000))
+            self.set_gazepoints_x()
+            #cv2.line(frame, (x_point - 5, y_point), (x_point + 5, y_point), (0, 255, 255))
+            #cv2.line(frame, (x_point, y_point - 5), (x_point, y_point + 5), (0, 255, 255))
 
         return frame

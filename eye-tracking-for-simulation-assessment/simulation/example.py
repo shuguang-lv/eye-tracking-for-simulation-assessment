@@ -29,15 +29,18 @@ watchingTime = [[0] * 24 for i in range(10)]
 def count_points(point_x, point_y):
     """
     show the times that gazing points are located in different area
-    the screen is divided into 9x24 areas
+    the screen is divided into 10x24 areas
     Arguments:
         point_x: x coordinate of gazing point
         point_y: y coordinate of gazing point
     """
-    if point_x is not None and point_y is not None:
-        a = (int)(point_x / 100)
-        b = (int)(10 - point_y / 120)
+    if 100 <= point_x < 450 and 200 <= point_y < 450:
+        a = (int)((point_x-100) / 15)
+        b = (int)((point_y-200) / 25)
+        print(a)
+        print(b)
         watchingTime[b][a] = watchingTime[b][a] + 1
+
         path = "count.csv"
         with open(path, 'w', newline='') as f:
             csv_write = csv.writer(f, lineterminator='\n')
@@ -62,6 +65,7 @@ def rw_csv():
     x_min = min(all_x)
     y_min = min(all_y)
     write_std(x_std, y_std, x_max, y_max, x_min, y_min)
+
 
 
 def write_std(x_std, y_std, x_max, y_max, x_min, y_min):
@@ -104,11 +108,15 @@ while True:
     gaze.refresh(frame)
     frame = gaze.annotated_frame()
 
+    cv2.namedWindow("Demo", 0)
+    cv2.resizeWindow("Demo", 1920, 1080)
+    cv2.imshow("Demo", frame)
     # if pupils have been detected, calculate the gazing point
     if (gaze.left_gaze_x() is not None and gaze.right_gaze_x() is not None
             and gaze.left_gaze_y() is not None and gaze.right_gaze_y() is not None):
-        gaze_point_x = (gaze.left_gaze_x() + gaze.right_gaze_x()) / 2
-        gaze_point_y = (gaze.left_gaze_y() + gaze.right_gaze_y()) / 2
+        #gaze_point_x = (gaze.left_gaze_x() + gaze.right_gaze_x()) / 2
+        #gaze_point_y = (gaze.left_gaze_y() + gaze.right_gaze_y()) / 2
+        gaze_point_x,gaze_point_y = gaze.set_gazepoints_x()
 
     # get the current time
     curtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
@@ -119,12 +127,12 @@ while True:
     # if pass to the next sec, calculate the mean of stored coordinates
     if curtime != init_time:
         init_time = curtime
-        av_x = round(mean(list_x), 2)
-        av_y = round(mean(list_y), 2)
+        av_x = round((float)(mean(list_x)), 2)
+        av_y = round((float)(mean(list_y)), 2)
         # write into csv file
         write_csv(av_x, av_y, curtime)
-        # count the times of gazing on different area
-        count_points(av_x, av_y)
+        #count the times of gazing on different area
+        count_points(av_x,av_y)
         # initialize lists
         list_x = []
         list_y = []

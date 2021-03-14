@@ -92,6 +92,7 @@ export default {
             localStorage.setItem('userName', this.user.current().getUsername())
             localStorage.setItem('userEmail', this.user.current().getEmail())
             this.eventBus.$emit('updateUserInfo')
+            this.eventBus.$emit('showSnackbar', 'Login successfully!')
             this.dialog = false
           },
           (error) => {

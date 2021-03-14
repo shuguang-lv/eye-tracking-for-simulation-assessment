@@ -135,6 +135,7 @@ export default {
       this.dialogUpload = false
       this.eventBus.$emit('updateRecord')
       this.eventBus.$emit('finishProgress')
+      this.eventBus.$emit('showSnackbar', 'Upload records successfully!')
     },
 
     uploadFile(fileName) {
@@ -183,6 +184,7 @@ export default {
         this.dialogDownload = false
         this.eventBus.$emit('updateRecord')
         this.eventBus.$emit('finishProgress')
+        this.eventBus.$emit('showSnackbar', 'Download records successfully!')
       })
     },
 

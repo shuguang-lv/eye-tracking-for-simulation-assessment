@@ -6,6 +6,23 @@
     <LoginForm />
     <Logout />
 
+    <v-snackbar
+      rounded
+      right
+      v-model="snackbar"
+      timeout="3000"
+      elevation="3"
+      transition="slide-x-reverse-transition"
+      class="mb-2 mr-2"
+    >
+      {{ text }}
+      <template v-slot:action="{ attrs }">
+        <v-btn color="primary" text v-bind="attrs" @click="snackbar = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
+
     <!-- <v-bottom-navigation
       v-model="value"
       :input-value="bottomNavActive"
@@ -39,22 +56,28 @@ export default {
     Drawer,
     RegisterForm,
     LoginForm,
-    Logout
+    Logout,
   },
 
   data() {
     return {
       bottomNavActive: true,
       progress: false,
+      snackbar: false,
+      text: '',
     }
   },
 
-  mounted () {
+  mounted() {
     this.eventBus.$on('startProgress', () => {
       this.progress = true
     })
     this.eventBus.$on('finishProgress', () => {
       this.progress = false
+    })
+    this.eventBus.$on('showSnackbar', (text) => {
+      this.text = text
+      this.snackbar = true
     })
   },
 

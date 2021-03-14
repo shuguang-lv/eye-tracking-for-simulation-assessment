@@ -113,6 +113,7 @@ export default {
               localStorage.setItem('userName', this.name)
               localStorage.setItem('userEmail', this.email)
               this.eventBus.$emit('updateUserInfo')
+              this.eventBus.$emit('showSnackbar', 'Register successfully!')
               this.dialog = false
             },
             (error) => {
@@ -136,6 +137,7 @@ export default {
               localStorage.setItem('userName', this.name)
               localStorage.setItem('userEmail', this.email)
               this.eventBus.$emit('updateUserInfo')
+              this.eventBus.$emit('showSnackbar', 'Register successfully!')
               this.dialog = false
             },
             (error) => {
