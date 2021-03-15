@@ -28,10 +28,19 @@ export default {
 
   data: () => ({}),
 
-  mounted() {},
+  mounted() {
+    // error handling
+    this.eventBus.$on('error', (msg) => {
+      this.eventBus.$emit('showSnackbar', msg)
+    })
+    this.$electron.ipcRenderer.on('error', (event, msg) => {
+      this.eventBus.$emit('showSnackbarError', msg)
+    })
+  },
 
   created() {
     this.initUser()
+    // hide loading page
     document.getElementById('Loading').style.display = 'none'
     // await this.$cloudbase
     //   .auth({ persistence: 'local' })
@@ -46,23 +55,28 @@ export default {
   },
 
   methods: {
+    /**
+     * initialize user login module in leancloud
+     */
     initUser() {
       const currentUser = this.user.current()
       if (currentUser != null) {
         currentUser.isAuthenticated().then((authenticated) => {
           if (authenticated) {
-            console.log('session token 有效')
+            console.log('session token is valid')
             this.user.become(currentUser.getSessionToken()).then(
               (user) => {
                 console.log(user)
               },
               (error) => {
                 console.log(error)
+                this.eventBus.$emit('error', error)
                 this.user.logOut()
               }
             )
           } else {
-            console.log('session token 无效')
+            console.log('session token invalid')
+            this.eventBus.$emit('error', 'Invalid session token')
             this.user.logOut()
           }
         })
@@ -87,6 +101,7 @@ export default {
   background-color: #1eb9801e;
 }
 
+/* smooth scrolling */
 * {
   scroll-behavior: smooth;
   user-select: none;

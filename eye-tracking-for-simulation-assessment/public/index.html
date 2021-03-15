@@ -7,12 +7,14 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
     <title><%= htmlWebpackPlugin.options.title %></title>
     <style type="text/css">
+      /* normalize */
       html,
       body {
         margin: 0;
         padding: 0;
       }
 
+      /* hide scrollbar */
       *::-webkit-scrollbar {
         display: none;
       }
@@ -113,7 +115,12 @@
       href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,500,700:100,300,400,500,700,900|Eczar:400:100,300,400,500,700,900&display=swap"
     />
   </head>
-  <body autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <body
+    autocomplete="off"
+    autocorrect="off"
+    autocapitalize="off"
+    spellcheck="false"
+  >
     <noscript>
       <strong
         >We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work
@@ -121,6 +128,7 @@
         continue.</strong
       >
     </noscript>
+    <!-- loading image -->
     <div class="sk-cube-grid" id="Loading">
       <div class="sk-cube sk-cube1"></div>
       <div class="sk-cube sk-cube2"></div>

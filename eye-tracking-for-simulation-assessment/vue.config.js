@@ -1,16 +1,16 @@
 module.exports = {
-  // 基本路径
+  // basic url
   publicPath: './',
   transpileDependencies: ['vuetify'],
   pluginOptions: {
     electronBuilder: {
       // List native deps here if they don't work
       externals: ['python-shell'],
-      nodeIntegration: true,
+      nodeIntegration: true, // important for node to work
       builderOptions: {
         productName: 'Eye Tracking for Simulation Assessment',
         appId: "com.unnc.grp",
-        extraResources: ["./simulation/**"],
+        extraResources: ["./simulation/**"], // pack the simulation codes
       },
     },
   },

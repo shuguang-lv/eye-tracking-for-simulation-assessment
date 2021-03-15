@@ -7,6 +7,7 @@
       <v-divider></v-divider>
       <v-card-text>
         <v-form ref="form" v-model="valid" lazy-validation>
+          <!-- username -->
           <v-text-field
             v-model="name"
             :counter="10"
@@ -16,6 +17,7 @@
             clearable
             prepend-icon="mdi-account"
           ></v-text-field>
+          <!-- password -->
           <v-text-field
             v-model="password"
             :rules="passwordRules"
@@ -82,13 +84,17 @@ export default {
   },
 
   methods: {
+    /**
+     * check login information
+     */
     validate() {
       if (this.$refs.form.validate()) {
-        this.user.logOut()
+        // logout before login
+        this.user.logOut() 
         this.warning = false
         this.user.logIn(this.name, this.password).then(
           (user) => {
-            console.log('登录成功')
+            console.log('login successfully')
             localStorage.setItem('userName', this.user.current().getUsername())
             localStorage.setItem('userEmail', this.user.current().getEmail())
             this.eventBus.$emit('updateUserInfo')
@@ -96,7 +102,7 @@ export default {
             this.dialog = false
           },
           (error) => {
-            console.log('登录失败（可能是密码错误）')
+            console.log('login failed')
             this.warning = true
           }
         )

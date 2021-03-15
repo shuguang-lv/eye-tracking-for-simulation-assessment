@@ -1,5 +1,6 @@
 <template>
   <v-row class="mb-4">
+    <!-- page title -->
     <v-col cols="12" class="mb-8 d-flex">
       <h1 class="page-title px-5">
         Simulation
@@ -9,6 +10,7 @@
       </h1>
       <v-spacer></v-spacer>
     </v-col>
+    <!-- card list -->
     <v-col v-for="item in simulation" :key="item.name" cols="4">
       <Card :name="item.name" :description="item.description" />
     </v-col>

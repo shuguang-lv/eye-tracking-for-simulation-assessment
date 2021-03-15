@@ -85,6 +85,7 @@ export default {
   },
 
   mounted() {
+    // fetch user information
     this.userName =
       this.currentUser == null || this.currentUser.isAnonymous()
         ? 'unknown'

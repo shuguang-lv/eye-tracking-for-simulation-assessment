@@ -1,5 +1,6 @@
 <template>
   <v-row class="mb-4">
+    <!-- page title -->
     <v-col cols="12" class="d-flex mb-8">
       <h1 class="page-title px-5">
         {{ name }}
@@ -9,6 +10,7 @@
       </h1>
       <v-spacer></v-spacer>
     </v-col>
+    <!-- user score -->
     <v-col cols="6" class="d-flex justify-center">
       <v-card class="pa-4 overflow-hidden elevation-1" max-height="700">
         <v-card-text>
@@ -26,6 +28,7 @@
         </v-card-text>
       </v-card>
     </v-col>
+    <!-- calculated score -->
     <v-col cols="6" class="d-flex justify-center">
       <v-card class="pa-4 overflow-hidden elevation-1" max-height="700">
         <v-card-text>
@@ -44,6 +47,7 @@
         </v-card-text>
       </v-card>
     </v-col>
+    <!-- heatmap -->
     <v-col cols="12" class="d-flex justify-center">
       <v-card class="pa-4 overflow-hidden elevation-1" max-height="900">
         <v-card-text>
@@ -100,6 +104,7 @@ export default {
         vm.$refs.heatmap.option.series[0].data = to.params.map.map(function(
           item
         ) {
+          // formatting map data
           return [item[1], item[0], item[2] || '-']
         })
       }

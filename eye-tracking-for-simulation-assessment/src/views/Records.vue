@@ -66,6 +66,7 @@ export default {
     selectedScore: 0,
     selectedName: '',
     search: '',
+    // table header
     headers: [
       { text: 'No.', value: 'number' },
       { text: 'Simulation', value: 'simulation' },
@@ -75,6 +76,7 @@ export default {
       { text: 'Uploaded', value: 'sync' },
       { text: '', value: 'data-table-expand' },
     ],
+    // record list
     items: [],
   }),
 
@@ -86,6 +88,9 @@ export default {
   },
 
   methods: {
+    /**
+     * update records data
+     */
     async update() {
       this.items = []
       let count = 1
@@ -104,10 +109,15 @@ export default {
       })
     },
 
+    /**
+     * show the charts of selected record
+     */
     showChart(item) {
       this.eventBus.$emit('startProgress')
       this.selectedScore = item.userScore
       this.selectedName = item.simulation
+
+      // listen for ipcMain event
       this.$electron.ipcRenderer.on(
         'mapLoaded' + item.visualization,
         (event, arg) => {

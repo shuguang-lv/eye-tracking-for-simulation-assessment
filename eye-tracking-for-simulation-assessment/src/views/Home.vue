@@ -1,5 +1,6 @@
 <template>
   <v-row class="home-stage py-16">
+    <!-- big logo -->
     <v-col cols="12" class="d-flex justify-center">
       <v-hover v-slot="{ hover }">
         <v-img
@@ -20,6 +21,7 @@
         >
       </v-hover>
     </v-col>
+    <!-- big title -->
     <v-col cols="12" class="d-flex justify-center">
       <div
         class="display-3 font-weight-bold"
@@ -29,6 +31,7 @@
         Eye Tracking for Simulation Assessment
       </div>
     </v-col>
+    <!-- start button -->
     <v-col cols="12" class="d-flex justify-center"
       ><v-btn
         depressed

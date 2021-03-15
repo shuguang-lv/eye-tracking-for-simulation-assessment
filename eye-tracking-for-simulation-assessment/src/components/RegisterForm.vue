@@ -7,6 +7,7 @@
       <v-divider></v-divider>
       <v-card-text>
         <v-form ref="form" v-model="valid" lazy-validation>
+          <!-- username -->
           <v-text-field
             v-model="name"
             :counter="10"
@@ -16,6 +17,7 @@
             clearable
             prepend-icon="mdi-account"
           ></v-text-field>
+          <!-- password -->
           <v-text-field
             v-model="password"
             :rules="passwordRules"
@@ -28,6 +30,7 @@
             counter
             @click:append="showPwd = !showPwd"
           ></v-text-field>
+          <!-- email -->
           <v-text-field
             v-model="email"
             :rules="emailRules"
@@ -101,15 +104,18 @@ export default {
   },
 
   methods: {
+    /**
+     * validate registration
+     */
     validate() {
       if (this.$refs.form.validate()) {
-        if (this.currentUser != null) {
+        if (this.currentUser != null) { // anonymous user
           this.currentUser.setUsername(this.name)
           this.currentUser.setPassword(this.password)
           this.currentUser.setEmail(this.email)
           this.currentUser.signUp().then(
             (user) => {
-              console.log('currentUser 已经转化为普通用户')
+              console.log('currentUser has become a formal user')
               localStorage.setItem('userName', this.name)
               localStorage.setItem('userEmail', this.email)
               this.eventBus.$emit('updateUserInfo')
@@ -117,14 +123,13 @@ export default {
               this.dialog = false
             },
             (error) => {
-              console.log('注册失败（通常是因为用户名已被使用）')
+              console.log('register failed')
+              this.warning = true
             }
           )
         } else {
-          // 创建实例
+          // create new user instance
           const newUser = new this.user()
-
-          // 等同于 user.set('username', 'Tom')
           newUser.setUsername(this.name)
           newUser.setPassword(this.password)
           newUser.setEmail(this.email)
@@ -132,7 +137,7 @@ export default {
           this.warning = false
           newUser.signUp().then(
             (user) => {
-              // 注册成功
+              // register successfully
               console.log(`注册成功。objectId：${newUser.id}`)
               localStorage.setItem('userName', this.name)
               localStorage.setItem('userEmail', this.email)
@@ -141,7 +146,7 @@ export default {
               this.dialog = false
             },
             (error) => {
-              console.log('注册失败（通常是因为用户名已被使用）')
+              console.log('register failed')
               this.warning = true
             }
           )

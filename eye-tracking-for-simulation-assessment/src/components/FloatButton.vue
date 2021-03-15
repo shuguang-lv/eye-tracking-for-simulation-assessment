@@ -1,17 +1,20 @@
 <template>
   <div class="d-flex">
+    <!-- upload button -->
     <v-badge color="warning" :value="upload" dot overlap class="mr-3">
       <v-btn small icon @click="dialogUpload = true"
         ><v-icon>mdi-cloud-upload</v-icon></v-btn
       >
       <!-- <v-icon @click="dialog = true">mdi-cloud-upload</v-icon> -->
     </v-badge>
+    <!-- download button -->
     <v-badge color="warning" :value="download" dot overlap>
       <v-btn small icon @click="dialogDownload = true"
         ><v-icon>mdi-cloud-download</v-icon></v-btn
       >
       <!-- <v-icon @click="dialog = true">mdi-cloud-upload</v-icon> -->
     </v-badge>
+    <!-- upload dialog -->
     <v-dialog v-model="dialogUpload" max-width="500" persistent>
       <v-card>
         <v-card-title class="headline">
@@ -35,6 +38,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <!-- download dialog -->
     <v-dialog v-model="dialogDownload" max-width="500" persistent>
       <v-card>
         <v-card-title class="headline">
@@ -83,9 +87,11 @@ export default {
       this.upload++
     })
 
+    // calculate number of records to be uploaded
     let records = await getUnsyncedRecords()
     this.upload = records.length
 
+    // calculate number of records to be downloaded
     let recordId = (await getSyncedRecords()).map(function(item) {
       return item.uid
     })
@@ -106,7 +112,7 @@ export default {
       let records = await getUnsyncedRecords()
       records.forEach((value, index, array) => {
         if (value.uid == '') {
-          // 构建对象
+          // create record instance
           const eyeTracking = new this.leanCloud.Object('EyeTracking')
           eyeTracking.set('userId', value.user)
           eyeTracking.set('simulation', value.simulation)
@@ -114,15 +120,15 @@ export default {
           eyeTracking.set('userScore', value.userScore)
           eyeTracking.set('calculatedScore', value.calculatedScore)
           eyeTracking.set('date', value.date)
-          // 将对象保存到云端
+          // save instance into leancloud
           eyeTracking.save().then(
             (eyeTracking) => {
-              // 成功保存之后，执行其他逻辑
               console.log('upload success')
               syncRecord(value.id, eyeTracking.id)
             },
             (error) => {
               console.log('upload failed')
+              this.eventBus.$emit('showSnackbarError', 'Upload failed')
             }
           )
           this.uploadFile(value.visualization)
@@ -139,16 +145,17 @@ export default {
     },
 
     uploadFile(fileName) {
+      // listen to ipcMain event
       this.$electron.ipcRenderer.on('mapCopied' + fileName, (event, arg) => {
-        console.log(arg)
         const data = { base64: arg }
         const file = new this.leanCloud.File(fileName + '.txt', data)
         file.save().then(
           (file) => {
-            console.log(`文件上传完成。objectId：${file.id}`)
+            console.log(`File uploaded. objectId：${file.id}`)
           },
           (error) => {
-            console.log(`上传失败: ${error}`)
+            console.log(`File uploading failed: ${error}`)
+            this.eventBus.$emit('showSnackbarError', 'File uploading failed')
           }
         )
       })
@@ -160,6 +167,8 @@ export default {
       let recordId = (await getSyncedRecords()).map(function(item) {
         return item.uid
       })
+
+      // configure query
       const query = new this.leanCloud.Query('EyeTracking')
       query.equalTo('userId', localStorage.getItem('userName'))
       query.find().then((records) => {
@@ -195,6 +204,7 @@ export default {
       query.find().then((records) => {
         if (records[0]) {
           url = records[0].attributes.url
+          // listen to ipcMain event
           this.$electron.ipcRenderer.on(
             'mapDownloaded' + fileName,
             (event, arg) => {}

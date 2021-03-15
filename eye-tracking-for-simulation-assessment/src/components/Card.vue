@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- thumbnail card -->
     <v-card class="elevation-1" dark height="300" @click="dialog = true">
       <v-img class="" height="200px" :src.sync="thumbnail"> </v-img>
       <v-card-title class="mt-4">
@@ -7,6 +8,7 @@
       </v-card-title>
     </v-card>
 
+    <!-- detail dialog -->
     <v-dialog v-model="dialog" width="900" persistent>
       <v-card>
         <v-img class="" height="400px" :src.sync="thumbnail"> </v-img>
@@ -17,6 +19,7 @@
           {{ description }}
         </v-card-text>
         <v-expand-transition>
+          <!-- record table -->
           <v-data-table
             dark
             v-if="showRecord"
@@ -67,6 +70,7 @@
       </v-card>
     </v-dialog>
 
+    <!-- rating dialog -->
     <v-dialog v-model="rateDialog" persistent>
       <v-card class="elevation-16 pa-4 mx-auto" width="500">
         <v-card-title class="headline">
@@ -144,6 +148,7 @@ export default {
   },
 
   computed: {
+    // url of thumbnail image
     thumbnail() {
       return process.env.BASE_URL + this.name + '.png'
     },
@@ -154,9 +159,13 @@ export default {
   },
 
   methods: {
+    /**
+     * play selected simulation
+     */
     play() {
       this.loading = true
       this.eventBus.$emit('startProgress')
+      // listen to ipcMain event
       this.$electron.ipcRenderer.on('success' + this.name, () => {
         this.loading = false
         this.eventBus.$emit('finishProgress')
@@ -206,6 +215,9 @@ export default {
       //     .catch(error)
     },
 
+    /**
+     * load records of selected simulation
+     */
     async showRecords() {
       this.items = []
       let records = await getRecordsBySimulation(this.name)
@@ -224,8 +236,10 @@ export default {
     },
 
     async saveRecord() {
+      // generate unique filename
       let fileName = this.name + Date.now()
       fileName = fileName.replace(/\s*/g,"")
+      // listen to ipcMain event
       this.$electron.ipcRenderer.on('renamed' + fileName, () => {
         insertRecord({
           uid: '',
@@ -243,11 +257,15 @@ export default {
       this.$electron.ipcRenderer.send('rename', fileName)
     },
 
+    /**
+     * show visualization of selected record
+     */
     showChart(score, fileName) {
       if (score) {
         this.rating = score
       }
       this.eventBus.$emit('startProgress')
+      // listen to ipcMain event
       this.$electron.ipcRenderer.on('mapLoaded' + fileName, (event, arg) => {
         this.$router.push({
           name: 'Visualization',

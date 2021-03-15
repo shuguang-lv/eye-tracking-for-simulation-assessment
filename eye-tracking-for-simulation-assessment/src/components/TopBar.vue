@@ -3,9 +3,19 @@
     <v-app-bar-nav-icon class="mr-8" @click="openDrawer"> </v-app-bar-nav-icon>
     <v-tabs center-active class="drag">
       <v-tabs-slider color="white"></v-tabs-slider>
-      <v-tab class="no-drag" active-class="font-weight-bold" :to="{ path: '/' }">Home</v-tab>
-      <v-tab class="no-drag" active-class="font-weight-bold" :to="{ path: '/simulation' }">Simulation</v-tab>
-      <v-tab class="no-drag" active-class="font-weight-bold" :to="{ path: '/visualization' }"
+      <v-tab class="no-drag" active-class="font-weight-bold" :to="{ path: '/' }"
+        >Home</v-tab
+      >
+      <v-tab
+        class="no-drag"
+        active-class="font-weight-bold"
+        :to="{ path: '/simulation' }"
+        >Simulation</v-tab
+      >
+      <v-tab
+        class="no-drag"
+        active-class="font-weight-bold"
+        :to="{ path: '/visualization' }"
         >Visualization</v-tab
       >
       <!-- <v-tab class="no-drag" :to="{ path: '/eyeTracking' }">Eye Tracking</v-tab> -->
@@ -60,10 +70,12 @@ export default {
   },
 
   mounted() {
+    // fetch user name
     this.userName =
       this.currentUser == null || this.currentUser.isAnonymous()
         ? ''
         : 'Hi, ' + this.currentUser.getUsername()
+
     this.eventBus.$on('updateUserInfo', () => {
       let name = localStorage.getItem('userName')
       this.userName = name == '' ? '' : 'Hi, ' + name

@@ -11,15 +11,13 @@ import '@mdi/font/css/materialdesignicons.css'
 import './assets/tailwind.css'
 
 Vue.config.productionTip = false
+
 Vue.use(VueElectron)
-Vue.use(Cloudbase, {
-  env: 'grp2020-4glv8fo5cd87cf9a',
-  // appSign: 'com.unnc.grp',
-  // appSecret: {
-  //   appAccessKeyId: 1,
-  //   appAccessKey: '9c8723d84299331cde9af9613157f89b'
-  // }
-})
+
+// Vue.use(Cloudbase, {
+//   env: 'grp2020-4glv8fo5cd87cf9a',
+// })
+
 // You can set global config here.
 // Vue.use(vuescroll, {
 //   ops: {
@@ -76,7 +74,7 @@ new Vue({
   render: (h) => h(App),
 }).$mount('#app')
 
-///////////////////////////////////////////////////////////////
+/********************************************************/
 
 // import cloudbase from '@cloudbase/js-sdk'
 

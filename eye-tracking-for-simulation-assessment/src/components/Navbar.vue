@@ -23,6 +23,23 @@
       </template>
     </v-snackbar>
 
+    <v-snackbar
+      rounded
+      right
+      v-model="snackbarError"
+      timeout="3000"
+      elevation="3"
+      transition="slide-x-reverse-transition"
+      class="mb-2 mr-2"
+    >
+      {{ text }}
+      <template v-slot:action="{ attrs }">
+        <v-btn color="error" text v-bind="attrs" @click="snackbarError = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
+
     <!-- <v-bottom-navigation
       v-model="value"
       :input-value="bottomNavActive"
@@ -33,6 +50,8 @@
       grow
     >
     </v-bottom-navigation> -->
+
+    <!-- progress bar -->
     <v-footer padless app height="20">
       <v-progress-linear
         :indeterminate="progress"
@@ -64,6 +83,7 @@ export default {
       bottomNavActive: true,
       progress: false,
       snackbar: false,
+      snackbarError: false,
       text: '',
     }
   },
@@ -78,6 +98,10 @@ export default {
     this.eventBus.$on('showSnackbar', (text) => {
       this.text = text
       this.snackbar = true
+    })
+    this.eventBus.$on('showSnackbarError', (text) => {
+      this.text = text
+      this.snackbarError = true
     })
   },
 
