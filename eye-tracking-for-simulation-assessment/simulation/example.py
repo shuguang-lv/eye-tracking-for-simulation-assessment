@@ -108,9 +108,9 @@ while True:
     gaze.refresh(frame)
     frame = gaze.annotated_frame()
 
-    cv2.namedWindow("Demo", 0)
-    cv2.resizeWindow("Demo", 1920, 1080)
-    cv2.imshow("Demo", frame)
+    # cv2.namedWindow("Demo", 0)
+    # cv2.resizeWindow("Demo", 1920, 1080)
+    # cv2.imshow("Demo", frame)
     # if pupils have been detected, calculate the gazing point
     if (gaze.left_gaze_x() is not None and gaze.right_gaze_x() is not None
             and gaze.left_gaze_y() is not None and gaze.right_gaze_y() is not None):

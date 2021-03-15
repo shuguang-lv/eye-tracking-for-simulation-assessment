@@ -388,6 +388,12 @@ function copyMapFile(event, file) {
     filePath = path.join('./resources/simulation/', file + '.csv')
   }
 
+  if (!fs.existsSync(filePath)) {
+    console.log('csv文件不存在')
+    event.reply('error', 'Map file cannot be found')
+    return
+  }
+
   // event.reply('mapCopied' + file, path.resolve(filePath))
 
   let data = fs.readFileSync(filePath)
