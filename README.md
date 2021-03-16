@@ -11,6 +11,8 @@ npm config set SASS_BINARY_SITE='https://npm.taobao.org/mirrors/node-sass'
 
 ## Project setup
 ```
+npm cache clean -f
+
 npm install
 ```
 
