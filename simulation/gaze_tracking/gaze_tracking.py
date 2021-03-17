@@ -121,8 +121,8 @@ class GazeTracking(object):
             return (x, y)
 
     def set_gazepoints_x(self):
-        x_point = int((self.left_gaze_x() + self.right_gaze_x())/4 -700)
-        y_point = int((self.left_gaze_y() + self.right_gaze_y() / 5 - 1000))
+        x_point = int((self.left_gaze_x() + self.right_gaze_x()) / 5 - 540)
+        y_point = int((self.left_gaze_y() + self.right_gaze_y()) / 6 - 300)
         return (x_point,y_point)
 
     def annotated_frame(self):
@@ -135,15 +135,16 @@ class GazeTracking(object):
                 1] + self.eye_left.pupil.y
             x_right, y_right = self.eye_right.origin[0] + self.eye_right.pupil.x, self.eye_right.origin[
                 1] + self.eye_right.pupil.y
-            cv2.line(frame, (x_left - 5, y_left), (x_left + 5, y_left), color)
-            cv2.line(frame, (x_left, y_left - 5), (x_left, y_left + 5), color)
-            cv2.line(frame, (x_right - 5, y_right), (x_right + 5, y_right), color)
-            cv2.line(frame, (x_right, y_right - 5), (x_right, y_right + 5), color)
+            # cv2.line(frame, (x_left - 5, y_left), (x_left + 5, y_left), color)
+            # cv2.line(frame, (x_left, y_left - 5), (x_left, y_left + 5), color)
+            # cv2.line(frame, (x_right - 5, y_right), (x_right + 5, y_right), color)
+            # cv2.line(frame, (x_right, y_right - 5), (x_right, y_right + 5), color)
 
-            #x_point = int((self.left_gaze_x() + self.right_gaze_x())/4 -450)
-            #y_point = int((self.left_gaze_y() + self.right_gaze_y()/5 - 1000))
+            # x_point = int((self.left_gaze_x() + self.right_gaze_x())/5 - 540)
+            # y_point = int((self.left_gaze_y() + self.right_gaze_y())/6 - 300)
+
             self.set_gazepoints_x()
-            #cv2.line(frame, (x_point - 5, y_point), (x_point + 5, y_point), (0, 255, 255))
-            #cv2.line(frame, (x_point, y_point - 5), (x_point, y_point + 5), (0, 255, 255))
+            # cv2.line(frame, (x_point - 5, y_point), (x_point + 5, y_point), (0, 255, 255))
+            # cv2.line(frame, (x_point, y_point - 5), (x_point, y_point + 5), (0, 255, 255))
 
         return frame

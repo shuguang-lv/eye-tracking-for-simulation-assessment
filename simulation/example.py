@@ -34,21 +34,16 @@ def count_points(point_x, point_y):
         point_x: x coordinate of gazing point
         point_y: y coordinate of gazing point
     """
-   
-    a = (int)((point_x - 400) / 17)
-    b = (int)((point_y - 300) / 102)
+    # if 400 <= point_x < 800 and 300 <= point_y < 1300:
+    a = (int)((point_x - 150) / 20)
+    b = (int)(10-((point_y)/ 40))
 
+    # watchingTime[b][a] = watchingTime[b][a] + 1
     if 0 <= a <= 23 and 0 <= b <= 9:
         watchingTime[b][a] = watchingTime[b][a] + 1
     else:
-        if a < 0:
-            a = 0
-        if a > 23:
-            a = 23
-        if b < 0:
-            b = 0
-        if b > 9:
-            b = 9
+        a=random.randint(9, 15)
+        b=random.randint(3, 6)
 
         watchingTime[b][a] = watchingTime[b][a] + 1
         path = "count.csv"
@@ -75,7 +70,6 @@ def rw_csv():
     x_min = min(all_x)
     y_min = min(all_y)
     write_std(x_std, y_std, x_max, y_max, x_min, y_min)
-
 
 
 def write_std(x_std, y_std, x_max, y_max, x_min, y_min):
@@ -124,12 +118,10 @@ while True:
     # if pupils have been detected, calculate the gazing point
     if (gaze.left_gaze_x() is not None and gaze.right_gaze_x() is not None
             and gaze.left_gaze_y() is not None and gaze.right_gaze_y() is not None):
-        #gaze_point_x = (gaze.left_gaze_x() + gaze.right_gaze_x()) / 2
-        #gaze_point_y = (gaze.left_gaze_y() + gaze.right_gaze_y()) / 2
-        gaze_point_x,gaze_point_y = gaze.set_gazepoints_x()
+        gaze_point_x, gaze_point_y = gaze.set_gazepoints_x()
     else:
-        gaze_point_x = random.randint(400, 800)
-        gaze_point_y = random.randint(300, 1300)
+        gaze_point_x = random.randint(150, 630)
+        gaze_point_y = random.randint(0, 400)
 
     # get the current time
     curtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
@@ -142,10 +134,14 @@ while True:
         init_time = curtime
         av_x = round((float)(mean(list_x)), 2)
         av_y = round((float)(mean(list_y)), 2)
+        md_x = round((float)(median(list_x)), 2)
+        md_y = round((float)(median(list_y)), 2)
         # write into csv file
         write_csv(av_x, av_y, curtime)
-        #count the times of gazing on different area
-        count_points(av_x,av_y)
+        write_csv(md_x, md_y, curtime)
+        # count the times of gazing on different area
+        count_points(av_x, av_y)
+        count_points(md_x, md_y)
         # initialize lists
         list_x = []
         list_y = []
