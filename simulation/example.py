@@ -34,13 +34,23 @@ def count_points(point_x, point_y):
         point_x: x coordinate of gazing point
         point_y: y coordinate of gazing point
     """
-    if 100 <= point_x < 450 and 200 <= point_y < 450:
-        a = (int)((point_x-100) / 15)
-        b = (int)((point_y-200) / 25)
-        print(a)
-        print(b)
-        watchingTime[b][a] = watchingTime[b][a] + 1
+   
+    a = (int)((point_x - 400) / 17)
+    b = (int)((point_y - 300) / 102)
 
+    if 0 <= a <= 23 and 0 <= b <= 9:
+        watchingTime[b][a] = watchingTime[b][a] + 1
+    else:
+        if a < 0:
+            a = 0
+        if a > 23:
+            a = 23
+        if b < 0:
+            b = 0
+        if b > 9:
+            b = 9
+
+        watchingTime[b][a] = watchingTime[b][a] + 1
         path = "count.csv"
         with open(path, 'w', newline='') as f:
             csv_write = csv.writer(f, lineterminator='\n')
@@ -117,6 +127,9 @@ while True:
         #gaze_point_x = (gaze.left_gaze_x() + gaze.right_gaze_x()) / 2
         #gaze_point_y = (gaze.left_gaze_y() + gaze.right_gaze_y()) / 2
         gaze_point_x,gaze_point_y = gaze.set_gazepoints_x()
+    else:
+        gaze_point_x = random.randint(400, 800)
+        gaze_point_y = random.randint(300, 1300)
 
     # get the current time
     curtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
