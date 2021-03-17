@@ -121,7 +121,7 @@ class GazeTracking(object):
             return (x, y)
 
     def set_gazepoints_x(self):
-        x_point = int((self.left_gaze_x() + self.right_gaze_x())/4 -450)
+        x_point = int((self.left_gaze_x() + self.right_gaze_x())/4 -700)
         y_point = int((self.left_gaze_y() + self.right_gaze_y() / 5 - 1000))
         return (x_point,y_point)
 

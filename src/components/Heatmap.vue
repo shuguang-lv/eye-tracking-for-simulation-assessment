@@ -83,7 +83,7 @@ export default {
         },
         visualMap: {
           min: 0,
-          max: 10,
+          max: 15,
           calculable: true,
           orient: 'horizontal',
           left: 'center',
