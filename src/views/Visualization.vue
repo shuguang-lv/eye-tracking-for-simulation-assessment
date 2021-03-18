@@ -36,10 +36,9 @@
             Calculated Score
           </p>
           <p class="subtitle-1 text--secondary">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias,
-            illum debitis. Architecto, doloribus voluptatum nulla itaque facilis
-            dolor quas provident laudantium asperiores non. Maxime vel
-            aspernatur commodi deserunt assumenda perspiciatis.
+            The calculated score is computed by the program according to an
+            algorithm. Generally, the higher the calculated score is, the higher
+            the quality of the simulation is supposed to be.
           </p>
           <div class="d-flex justify-center">
             <GaugeChart ref="gauge2" />

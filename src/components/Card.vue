@@ -35,7 +35,7 @@
                 <v-btn
                   class="mx-4 my-2"
                   color="primary"
-                  @click="showChart(item.userScore, item.visualization)"
+                  @click="showChart(item.userScore, item.calculatedScore, item.visualization)"
                 >
                   Visualization
                   <v-icon right>mdi-eye-check</v-icon>
@@ -254,7 +254,7 @@ export default {
         })
         this.eventBus.$emit('newRecord')
         this.eventBus.$emit('updateRecord')
-        this.showChart(false, fileName)
+        this.showChart(false, false, fileName)
       })
       this.$electron.ipcRenderer.send('rename', fileName)
     },
@@ -262,9 +262,12 @@ export default {
     /**
      * show visualization of selected record
      */
-    showChart(score, fileName) {
+    showChart(rating, score, fileName) {
+      if (rating) {
+        this.rating = rating
+      }
       if (score) {
-        this.rating = score
+        this.score = score
       }
       this.eventBus.$emit('startProgress')
       // listen to ipcMain event

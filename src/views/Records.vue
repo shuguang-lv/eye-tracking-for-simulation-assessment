@@ -63,8 +63,6 @@ import { getRecords } from '../utils/indexedDB.js'
 
 export default {
   data: () => ({
-    selectedScore: 0,
-    selectedName: '',
     search: '',
     // table header
     headers: [
@@ -114,8 +112,6 @@ export default {
      */
     showChart(item) {
       this.eventBus.$emit('startProgress')
-      this.selectedScore = item.userScore
-      this.selectedName = item.simulation
 
       // listen for ipcMain event
       this.$electron.ipcRenderer.on(
@@ -124,8 +120,9 @@ export default {
           this.$router.push({
             name: 'Visualization',
             params: {
-              name: this.selectedName,
-              score: this.selectedScore,
+              name: item.simulation,
+              rating: item.userScore,
+              score: item.calculatedScore,
               map: arg,
             },
           })
