@@ -145,6 +145,8 @@ export default {
     },
 
     uploadFile(fileName) {
+      let waiting = true
+
       // listen to ipcMain event
       this.$electron.ipcRenderer.on('mapCopied' + fileName, (event, arg) => {
         const data = { base64: arg }
@@ -152,14 +154,20 @@ export default {
         file.save().then(
           (file) => {
             console.log(`File uploaded. objectId：${file.id}`)
+            waiting = false
           },
           (error) => {
             console.log(`File uploading failed: ${error}`)
             this.eventBus.$emit('showSnackbarError', 'File uploading failed')
+            waiting = false
           }
         )
       })
       this.$electron.ipcRenderer.send('copyMap', fileName)
+
+      while (waiting) {
+        continue
+      }
     },
 
     async downloadRecords() {
@@ -198,6 +206,8 @@ export default {
     },
 
     downloadFile(fileName) {
+      let waiting = true
+
       var url
       const query = new this.leanCloud.Query('_File')
       query.equalTo('name', fileName + '.txt')
@@ -207,11 +217,20 @@ export default {
           // listen to ipcMain event
           this.$electron.ipcRenderer.on(
             'mapDownloaded' + fileName,
-            (event, arg) => {}
+            (event, arg) => {
+              waiting = false
+            }
           )
           this.$electron.ipcRenderer.send('downloadMap', url, fileName)
+        } else {
+          waiting = false
         }
       })
+
+      while (waiting) {
+        continue
+      }
+
       // console.log(url);
       // if (!url) {
       //   return
