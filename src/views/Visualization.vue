@@ -36,13 +36,12 @@
             Calculated Score
           </p>
           <p class="subtitle-1 text--secondary">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias,
-            illum debitis. Architecto, doloribus voluptatum nulla itaque facilis
-            dolor quas provident laudantium asperiores non. Maxime vel
-            aspernatur commodi deserunt assumenda perspiciatis.
+            The calculated score is computed by the program according to an
+            algorithm. Generally, the higher the calculated score is, the higher
+            the quality of the simulation is supposed to be.
           </p>
           <div class="d-flex justify-center">
-            <GaugeChart />
+            <GaugeChart ref="gauge2" />
           </div>
         </v-card-text>
       </v-card>
@@ -97,8 +96,11 @@ export default {
       if (to.params.name) {
         vm.name = `Visualization for ${to.params.name}`
       }
+      if (to.params.rating) {
+        vm.$refs.gauge.option.series[0].data[0].value = to.params.rating / 100
+      }
       if (to.params.score) {
-        vm.$refs.gauge.option.series[0].data[0].value = to.params.score / 100
+        vm.$refs.gauge2.option.series[0].data[0].value = to.params.score / 100
       }
       if (to.params.map) {
         vm.$refs.heatmap.option.series[0].data = to.params.map.map(function(

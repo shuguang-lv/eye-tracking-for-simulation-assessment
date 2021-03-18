@@ -135,9 +135,6 @@ export default {
           this.upload--
         }
       })
-      // while (this.upload > 0) {
-      //   continue
-      // }
       this.dialogUpload = false
       this.eventBus.$emit('updateRecord')
       this.eventBus.$emit('finishProgress')
@@ -147,17 +144,13 @@ export default {
     uploadFile(fileName) {
       // listen to ipcMain event
       this.$electron.ipcRenderer.on('mapCopied' + fileName, (event, arg) => {
-        const data = { base64: arg }
-        const file = new this.leanCloud.File(fileName + '.txt', data)
-        file.save().then(
-          (file) => {
-            console.log(`File uploaded. objectId：${file.id}`)
-          },
-          (error) => {
-            console.log(`File uploading failed: ${error}`)
-            this.eventBus.$emit('showSnackbarError', 'File uploading failed')
-          }
-        )
+        try {
+          const data = { base64: arg }
+          const file = new this.leanCloud.File(fileName + '.txt', data)
+          file.save()
+        } catch (error) {
+          this.eventBus.$emit('showSnackbarError', 'File uploading failed')
+        }
       })
       this.$electron.ipcRenderer.send('copyMap', fileName)
     },
@@ -168,10 +161,12 @@ export default {
         return item.uid
       })
 
-      // configure query
-      const query = new this.leanCloud.Query('EyeTracking')
-      query.equalTo('userId', localStorage.getItem('userName'))
-      query.find().then((records) => {
+      try {
+        // configure query
+        const query = new this.leanCloud.Query('EyeTracking')
+        query.equalTo('userId', localStorage.getItem('userName'))
+        const records = await query.find()
+        let fileRecords = []
         records.forEach((value, index, array) => {
           if (!recordId.includes(value.id)) {
             insertRecord({
@@ -183,44 +178,45 @@ export default {
               calculatedScore: value.get('calculatedScore'),
               date: value.get('date'),
             })
-            this.downloadFile(value.get('visualization'))
+            fileRecords.push(value.get('visualization'))
             this.download--
           }
         })
-        // while (this.download > 0) {
-        //   continue
-        // }
+        this.downloadFile(fileRecords)
         this.dialogDownload = false
         this.eventBus.$emit('updateRecord')
         this.eventBus.$emit('finishProgress')
         this.eventBus.$emit('showSnackbar', 'Download records successfully!')
-      })
+      } catch (error) {
+        this.eventBus.$emit('showSnackbar', error)
+      }
     },
 
-    downloadFile(fileName) {
-      var url
-      const query = new this.leanCloud.Query('_File')
-      query.equalTo('name', fileName + '.txt')
-      query.find().then((records) => {
-        if (records[0]) {
-          url = records[0].attributes.url
+    async downloadFile(fileRecords) {
+      try {
+        const queries = []
+        fileRecords.forEach((value) => {
+          const query = new this.leanCloud.Query('_File')
+          query.equalTo('name', value + '.txt')
+          queries.push(query)
+        })
+        const query = this.leanCloud.Query.or(...queries)
+        const records = await query.find()
+
+        records.forEach((value) => {
+          let fileUrl = value.attributes.url
+          let fileName = value.attributes.name
+          fileName = fileName.substring(0, fileName.indexOf('.'))
           // listen to ipcMain event
           this.$electron.ipcRenderer.on(
             'mapDownloaded' + fileName,
             (event, arg) => {}
           )
-          this.$electron.ipcRenderer.send('downloadMap', url, fileName)
-        }
-      })
-      // console.log(url);
-      // if (!url) {
-      //   return
-      // }
-      // this.$electron.ipcRenderer.on(
-      //   'mapDownloaded' + fileName,
-      //   (event, arg) => {}
-      // )
-      // this.$electron.ipcRenderer.send('downloadMap', url, fileName)
+          this.$electron.ipcRenderer.send('downloadMap', fileUrl, fileName)
+        })
+      } catch (error) {
+        this.eventBus.$emit('showSnackbar', error)
+      }
     },
   },
 }
