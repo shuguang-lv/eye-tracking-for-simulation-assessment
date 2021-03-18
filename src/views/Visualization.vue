@@ -42,7 +42,7 @@
             aspernatur commodi deserunt assumenda perspiciatis.
           </p>
           <div class="d-flex justify-center">
-            <GaugeChart />
+            <GaugeChart ref="gauge2" />
           </div>
         </v-card-text>
       </v-card>
@@ -97,8 +97,11 @@ export default {
       if (to.params.name) {
         vm.name = `Visualization for ${to.params.name}`
       }
+      if (to.params.rating) {
+        vm.$refs.gauge.option.series[0].data[0].value = to.params.rating / 100
+      }
       if (to.params.score) {
-        vm.$refs.gauge.option.series[0].data[0].value = to.params.score / 100
+        vm.$refs.gauge2.option.series[0].data[0].value = to.params.score / 100
       }
       if (to.params.map) {
         vm.$refs.heatmap.option.series[0].data = to.params.map.map(function(

@@ -129,6 +129,7 @@ export default {
   data() {
     return {
       rating: 0,
+      score: 0,
 
       dialog: false,
       rateDialog: false,
@@ -166,9 +167,10 @@ export default {
       this.loading = true
       this.eventBus.$emit('startProgress')
       // listen to ipcMain event
-      this.$electron.ipcRenderer.on('success' + this.name, () => {
+      this.$electron.ipcRenderer.on('success' + this.name, (event, score) => {
         this.loading = false
         this.eventBus.$emit('finishProgress')
+        this.score = score
         this.rateDialog = true
       })
       this.$electron.ipcRenderer.send('play', this.name)
@@ -247,7 +249,7 @@ export default {
           simulation: this.name,
           visualization: fileName,
           userScore: this.rating,
-          calculatedScore: 0,
+          calculatedScore: this.score,
           date: format(new Date(), 'YYYY-MM-DD hh:mm:ss'),
         })
         this.eventBus.$emit('newRecord')
@@ -269,7 +271,7 @@ export default {
       this.$electron.ipcRenderer.on('mapLoaded' + fileName, (event, arg) => {
         this.$router.push({
           name: 'Visualization',
-          params: { name: this.name, score: this.rating, map: arg },
+          params: { name: this.name, rating: this.rating, score: this.score, map: arg },
         })
       })
       this.$electron.ipcRenderer.send('loadMap', fileName)

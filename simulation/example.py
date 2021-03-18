@@ -72,6 +72,27 @@ def rw_csv():
     write_std(x_std, y_std, x_max, y_max, x_min, y_min)
 
 
+def cal_mark():
+    with open('std.csv', 'r') as f:
+        reader = csv.reader(f)
+        for i in reader:
+            std_x = i[0];
+            std_y = i[1];
+
+    std_x = float(std_x)
+    std_y = float(std_y)
+    mark = int((std_y + std_x) / 20)
+    if mark > 10:
+        mark = 10
+    elif mark < 0:
+        mark = 0
+
+    with open("mark.csv", 'w', newline='') as f:
+        csv_write = csv.writer(f, lineterminator='\n')
+        data_row = [mark]
+        csv_write.writerow(data_row)
+
+
 def write_std(x_std, y_std, x_max, y_max, x_min, y_min):
     """
     write std of x and y into csv file
@@ -115,6 +136,7 @@ while True:
     # cv2.namedWindow("Demo", 0)
     # cv2.resizeWindow("Demo", 1920, 1080)
     # cv2.imshow("Demo", frame)
+
     # if pupils have been detected, calculate the gazing point
     if (gaze.left_gaze_x() is not None and gaze.right_gaze_x() is not None
             and gaze.left_gaze_y() is not None and gaze.right_gaze_y() is not None):
@@ -148,6 +170,8 @@ while True:
 
     # calculate standard deviation and write into a csv file
     rw_csv()
+
+    cal_mark()
 
     if cv2.waitKey(1) == 27:
         break

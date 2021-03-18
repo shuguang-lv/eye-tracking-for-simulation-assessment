@@ -270,7 +270,24 @@ function playSimulation(event, source) {
     console.log(stdout)
   })
 
-  event.reply('success' + source)
+  let filePath
+  if (isDevelopment) {
+    filePath = path.join('./simulation/', 'mark.csv')
+  } else {
+    filePath = path.join('./resources/simulation/', 'mark.csv')
+  }
+
+  if (!fs.existsSync(filePath)) {
+    console.log('csv文件不存在')
+    event.reply('success' + source, 0)
+    event.reply('error', 'Score file cannot be found')
+    return
+  }
+
+  // read calculated score
+  let score = fs.readFileSync(filePath)
+
+  event.reply('success' + source, score * 1)
 }
 
 /**
