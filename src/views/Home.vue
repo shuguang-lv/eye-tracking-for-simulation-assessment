@@ -96,33 +96,33 @@ export default {
 
   data() {
     return {
-      colors: [
-        'indigo',
-        'warning',
-        'pink darken-2',
-        'red lighten-1',
-        'deep-purple accent-4',
-      ],
-      slides: ['First', 'Second', 'Third', 'Fourth', 'Fifth'],
+      // colors: [
+      //   'indigo',
+      //   'warning',
+      //   'pink darken-2',
+      //   'red lighten-1',
+      //   'deep-purple accent-4',
+      // ],
+      // slides: ['First', 'Second', 'Third', 'Fourth', 'Fifth'],
     }
   },
 
   mounted() {},
 
   methods: {
-    test() {
-      const data = { base64: 'TGVhbkNsb3Vk' }
-      // resume.txt 是文件名
-      const file = new this.leanCloud.File('resume.txt', data)
-      file.save().then(
-        (file) => {
-          console.log(`文件保存完成。objectId：${file.id}`)
-        },
-        (error) => {
-          // 保存失败，可能是文件无法被读取，或者上传过程中出现问题
-        }
-      )
-    },
+    // test() {
+    //   const data = { base64: 'TGVhbkNsb3Vk' }
+    //   // resume.txt 是文件名
+    //   const file = new this.leanCloud.File('resume.txt', data)
+    //   file.save().then(
+    //     (file) => {
+    //       console.log(`文件保存完成。objectId：${file.id}`)
+    //     },
+    //     (error) => {
+    //       // 保存失败，可能是文件无法被读取，或者上传过程中出现问题
+    //     }
+    //   )
+    // },
   },
 }
 </script>

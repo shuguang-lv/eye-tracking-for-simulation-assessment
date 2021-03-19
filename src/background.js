@@ -28,7 +28,6 @@ async function createWindow() {
     // minWidth: 800,
     // maxWidth: 3840,
     // useContentSize: true,
-    resizable: true,
     title: 'Eye Tracking for Simulation Assessment',
     frame: false,
     center: true,
