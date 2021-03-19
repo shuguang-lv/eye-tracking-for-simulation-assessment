@@ -73,7 +73,7 @@ export default {
         (v) => v.length >= 8 || 'Min 8 characters',
       ],
       showPwd: false,
-      warning: false
+      warning: false,
     }
   },
 
@@ -90,7 +90,7 @@ export default {
     validate() {
       if (this.$refs.form.validate()) {
         // logout before login
-        this.user.logOut() 
+        this.user.logOut()
         this.warning = false
         this.user.logIn(this.name, this.password).then(
           (user) => {
@@ -98,6 +98,7 @@ export default {
             localStorage.setItem('userName', this.user.current().getUsername())
             localStorage.setItem('userEmail', this.user.current().getEmail())
             this.eventBus.$emit('updateUserInfo')
+            this.eventBus.$emit('checkUpdate')
             this.eventBus.$emit('showSnackbar', 'Login successfully!')
             this.dialog = false
           },

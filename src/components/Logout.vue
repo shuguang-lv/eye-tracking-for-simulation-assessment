@@ -43,40 +43,12 @@ export default {
   methods: {
     logout() {
       this.user.logOut()
-      this.initUser()
       localStorage.setItem('userName', '')
       localStorage.setItem('userEmail', '')
       this.eventBus.$emit('updateUserInfo')
+      this.eventBus.$emit('checkUpdate')
       this.eventBus.$emit('showSnackbar', 'You have logged out')
       this.dialog = false
-    },
-
-    /**
-     * initialize user login module in leancloud
-     */
-    initUser() {
-      const currentUser = this.user.current()
-      if (currentUser != null) {
-        currentUser.isAuthenticated().then((authenticated) => {
-          if (authenticated) {
-            console.log('session token is valid')
-            this.user.become(currentUser.getSessionToken()).then(
-              (user) => {
-                console.log(user)
-              },
-              (error) => {
-                console.log(error)
-                this.eventBus.$emit('error', error)
-                this.user.logOut()
-              }
-            )
-          } else {
-            console.log('session token invalid')
-            this.eventBus.$emit('error', 'Invalid session token')
-            this.user.logOut()
-          }
-        })
-      }
     },
   },
 }

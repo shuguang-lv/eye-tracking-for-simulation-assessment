@@ -2,14 +2,14 @@
   <div class="d-flex">
     <!-- upload button -->
     <v-badge color="warning" :value="upload" dot overlap class="mr-3">
-      <v-btn small icon @click="dialogUpload = true"
+      <v-btn small icon @click="checkUser(0)"
         ><v-icon>mdi-cloud-upload</v-icon></v-btn
       >
       <!-- <v-icon @click="dialog = true">mdi-cloud-upload</v-icon> -->
     </v-badge>
     <!-- download button -->
     <v-badge color="warning" :value="download" dot overlap>
-      <v-btn small icon @click="dialogDownload = true"
+      <v-btn small icon @click="checkUser(1)"
         ><v-icon>mdi-cloud-download</v-icon></v-btn
       >
       <!-- <v-icon @click="dialog = true">mdi-cloud-upload</v-icon> -->
@@ -86,27 +86,34 @@ export default {
     this.eventBus.$on('newRecord', () => {
       this.upload++
     })
-
-    // calculate number of records to be uploaded
-    let records = await getUnsyncedRecords()
-    this.upload = records.length
-
-    // calculate number of records to be downloaded
-    let recordId = (await getSyncedRecords()).map(function(item) {
-      return item.uid
+    this.eventBus.$on('checkUpdate', () => {
+      this.update()
     })
-    const query = new this.leanCloud.Query('EyeTracking')
-    query.equalTo('userId', localStorage.getItem('userName'))
-    query.find().then((records) => {
-      records.forEach((value, index, array) => {
-        if (!recordId.includes(value.id)) {
-          this.download++
-        }
-      })
-    })
+
+    this.update()
   },
 
   methods: {
+    async update() {
+      // calculate number of records to be uploaded
+      let records = await getUnsyncedRecords()
+      this.upload = records.length
+
+      // calculate number of records to be downloaded
+      let recordId = (await getSyncedRecords()).map(function(item) {
+        return item.uid
+      })
+      const query = new this.leanCloud.Query('EyeTracking')
+      query.equalTo('userId', localStorage.getItem('userName'))
+      query.find().then((records) => {
+        records.forEach((value, index, array) => {
+          if (!recordId.includes(value.id)) {
+            this.download++
+          }
+        })
+      })
+    },
+
     async uploadRecords() {
       this.eventBus.$emit('startProgress')
       let records = await getUnsyncedRecords()
@@ -188,7 +195,7 @@ export default {
         this.eventBus.$emit('finishProgress')
         this.eventBus.$emit('showSnackbar', 'Download records successfully!')
       } catch (error) {
-        this.eventBus.$emit('showSnackbar', error)
+        this.eventBus.$emit('showSnackbarError', error)
       }
     },
 
@@ -215,7 +222,20 @@ export default {
           this.$electron.ipcRenderer.send('downloadMap', fileUrl, fileName)
         })
       } catch (error) {
-        this.eventBus.$emit('showSnackbar', error)
+        this.eventBus.$emit('showSnackbarError', error)
+      }
+    },
+
+    /**
+     * type: 0 upload, 1 download
+     */
+    checkUser(type) {
+      const currentUser = this.user.current()
+      if (currentUser == null) {
+        this.eventBus.$emit('showSnackbarError', 'Please login/signup first!')
+        return
+      } else {
+        type == 0 ? (this.dialogUpload = true) : (this.dialogDownload = true)
       }
     },
   },
