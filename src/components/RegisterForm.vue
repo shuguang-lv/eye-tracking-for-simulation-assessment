@@ -93,7 +93,7 @@ export default {
         (v) => v.length >= 8 || 'Min 8 characters',
       ],
       showPwd: false,
-      warning: false
+      warning: false,
     }
   },
 
@@ -101,6 +101,7 @@ export default {
     this.eventBus.$on('signUp', () => {
       this.dialog = true
     })
+    this.initUser()
   },
 
   methods: {
@@ -109,7 +110,8 @@ export default {
      */
     validate() {
       if (this.$refs.form.validate()) {
-        if (this.currentUser != null) { // anonymous user
+        if (this.currentUser != null) {
+          // anonymous user
           this.currentUser.setUsername(this.name)
           this.currentUser.setPassword(this.password)
           this.currentUser.setEmail(this.email)
@@ -153,6 +155,35 @@ export default {
         }
       }
     },
+
+    /**
+     * initialize user login module in leancloud
+     */
+    initUser() {
+      const currentUser = this.user.current()
+      if (currentUser != null) {
+        currentUser.isAuthenticated().then((authenticated) => {
+          if (authenticated) {
+            console.log('session token is valid')
+            this.user.become(currentUser.getSessionToken()).then(
+              (user) => {
+                console.log(user)
+              },
+              (error) => {
+                console.log(error)
+                this.eventBus.$emit('error', error)
+                this.user.logOut()
+              }
+            )
+          } else {
+            console.log('session token invalid')
+            this.eventBus.$emit('error', 'Invalid session token')
+            this.user.logOut()
+          }
+        })
+      }
+    },
+
     reset() {
       this.$refs.form.reset()
     },

@@ -81,9 +81,9 @@ def cal_mark():
 
     std_x = float(std_x)
     std_y = float(std_y)
-    mark = int((std_y + std_x) / 20)
-    if mark > 10:
-        mark = 10
+    mark = int((std_y + std_x) / 2)
+    if mark > 100:
+        mark = 100
     elif mark < 0:
         mark = 0
 
