@@ -93,7 +93,7 @@ export default {
         (v) => v.length >= 8 || 'Min 8 characters',
       ],
       showPwd: false,
-      warning: false
+      warning: false,
     }
   },
 
@@ -109,50 +109,32 @@ export default {
      */
     validate() {
       if (this.$refs.form.validate()) {
-        if (this.currentUser != null) { // anonymous user
-          this.currentUser.setUsername(this.name)
-          this.currentUser.setPassword(this.password)
-          this.currentUser.setEmail(this.email)
-          this.currentUser.signUp().then(
-            (user) => {
-              console.log('currentUser has become a formal user')
-              localStorage.setItem('userName', this.name)
-              localStorage.setItem('userEmail', this.email)
-              this.eventBus.$emit('updateUserInfo')
-              this.eventBus.$emit('showSnackbar', 'Register successfully!')
-              this.dialog = false
-            },
-            (error) => {
-              console.log('register failed')
-              this.warning = true
-            }
-          )
-        } else {
-          // create new user instance
-          const newUser = new this.user()
-          newUser.setUsername(this.name)
-          newUser.setPassword(this.password)
-          newUser.setEmail(this.email)
+        // create new user instance
+        const newUser = new this.user()
+        newUser.setUsername(this.name)
+        newUser.setPassword(this.password)
+        newUser.setEmail(this.email)
 
-          this.warning = false
-          newUser.signUp().then(
-            (user) => {
-              // register successfully
-              console.log(`注册成功。objectId：${newUser.id}`)
-              localStorage.setItem('userName', this.name)
-              localStorage.setItem('userEmail', this.email)
-              this.eventBus.$emit('updateUserInfo')
-              this.eventBus.$emit('showSnackbar', 'Register successfully!')
-              this.dialog = false
-            },
-            (error) => {
-              console.log('register failed')
-              this.warning = true
-            }
-          )
-        }
+        this.warning = false
+        newUser.signUp().then(
+          (user) => {
+            // register successfully
+            console.log(`注册成功。objectId：${newUser.id}`)
+            localStorage.setItem('userName', this.name)
+            localStorage.setItem('userEmail', this.email)
+            this.eventBus.$emit('updateUserInfo')
+            this.eventBus.$emit('checkUpdate')
+            this.eventBus.$emit('showSnackbar', 'Register successfully!')
+            this.dialog = false
+          },
+          (error) => {
+            console.log('register failed')
+            this.warning = true
+          }
+        )
       }
     },
+
     reset() {
       this.$refs.form.reset()
     },

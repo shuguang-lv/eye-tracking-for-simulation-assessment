@@ -35,6 +35,15 @@ export async function getSyncedRecords() {
 
 /**
  * 
+ * @param {String} id
+ * @returns 
+ */
+ export async function getRecordById(id) {
+  return (await db).getAllFromIndex('records', 'id', id)
+}
+
+/**
+ * 
  * @param {String} name record of specified name
  * @returns 
  */

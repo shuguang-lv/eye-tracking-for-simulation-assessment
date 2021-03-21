@@ -32,9 +32,14 @@
             Visualization
             <v-icon right>mdi-eye-check</v-icon>
           </v-btn>
+          <v-btn class="mx-4 my-2" color="primary" @click="upload(item)">
+            Upload
+            <v-icon right>mdi-cloud-upload</v-icon>
+          </v-btn>
         </td>
       </template>
     </v-data-table>
+
     <!-- <v-col v-for="card in cards" :key="card" cols="12">
         <v-card>
           <v-subheader>{{ card }}</v-subheader>
@@ -60,6 +65,7 @@
 
 <script>
 import { getRecords } from '../utils/indexedDB.js'
+import uploadUtil from '../utils/upload.js'
 
 export default {
   data: () => ({
@@ -67,6 +73,7 @@ export default {
     // table header
     headers: [
       { text: 'No.', value: 'number' },
+      { text: 'User', value: 'user' },
       { text: 'Simulation', value: 'simulation' },
       { text: 'User Score', value: 'userScore' },
       { text: 'Calculated Score', value: 'calculatedScore' },
@@ -77,6 +84,8 @@ export default {
     // record list
     items: [],
   }),
+  
+  mixins: [uploadUtil],
 
   mounted() {
     this.eventBus.$on('updateRecord', () => {
@@ -96,13 +105,14 @@ export default {
       records.forEach((value, index, array) => {
         this.items.push({
           number: count++,
+          user: value.user,
           simulation: value.simulation,
           userScore: value.userScore,
           calculatedScore: value.calculatedScore,
           date: value.date,
           sync: value.uid == '' ? 'No' : 'Yes',
           visualization: value.visualization,
-          id: value.id
+          id: value.id,
         })
       })
     },

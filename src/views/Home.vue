@@ -12,13 +12,15 @@
           <v-expand-transition>
             <div
               v-if="hover"
-              class="d-flex primary display-1 justify-center align-center"
+              class="d-flex flex-column background display-1 justify-center align-center"
               style="height: 100%;"
             >
-              xxx<br>xxx<br>xxx
+              <div class="text-uppercase">Immersive</div>
+              <div class="my-10 text-uppercase">Intelligent</div>
+              <div class="text-uppercase">Informative</div>
             </div>
-          </v-expand-transition></v-img
-        >
+          </v-expand-transition>
+        </v-img>
       </v-hover>
     </v-col>
     <!-- big title -->
@@ -44,7 +46,10 @@
         elevation="5"
         class="rounded-lg"
       >
-        <div class="headline font-weight-medium mr-5" style="word-spacing: 0.3em;">
+        <div
+          class="headline font-weight-medium mr-5"
+          style="word-spacing: 0.3em;"
+        >
           start now
         </div>
         <v-icon>mdi-send</v-icon>
@@ -96,41 +101,47 @@ export default {
 
   data() {
     return {
-      colors: [
-        'indigo',
-        'warning',
-        'pink darken-2',
-        'red lighten-1',
-        'deep-purple accent-4',
-      ],
-      slides: ['First', 'Second', 'Third', 'Fourth', 'Fifth'],
+      // colors: [
+      //   'indigo',
+      //   'warning',
+      //   'pink darken-2',
+      //   'red lighten-1',
+      //   'deep-purple accent-4',
+      // ],
+      // slides: ['First', 'Second', 'Third', 'Fourth', 'Fifth'],
     }
   },
 
   mounted() {},
 
   methods: {
-    test() {
-      const data = { base64: 'TGVhbkNsb3Vk' }
-      // resume.txt 是文件名
-      const file = new this.leanCloud.File('resume.txt', data)
-      file.save().then(
-        (file) => {
-          console.log(`文件保存完成。objectId：${file.id}`)
-        },
-        (error) => {
-          // 保存失败，可能是文件无法被读取，或者上传过程中出现问题
-        }
-      )
-    },
+    // test() {
+    //   const data = { base64: 'TGVhbkNsb3Vk' }
+    //   // resume.txt 是文件名
+    //   const file = new this.leanCloud.File('resume.txt', data)
+    //   file.save().then(
+    //     (file) => {
+    //       console.log(`文件保存完成。objectId：${file.id}`)
+    //     },
+    //     (error) => {
+    //       // 保存失败，可能是文件无法被读取，或者上传过程中出现问题
+    //     }
+    //   )
+    // },
   },
 }
 </script>
 
 <style scoped>
 .background {
-  width: 100vw;
-  height: 100vh;
+  background: linear-gradient(30deg, #ffcf44, #1eb980, #045d56);
+  animation: hueRotate 20s infinite alternate;
+}
+
+@keyframes hueRotate {
+  100% {
+    filter: hue-rotate(360deg);
+  }
 }
 
 .home-stage {

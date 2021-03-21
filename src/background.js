@@ -8,6 +8,10 @@ import path from 'path'
 import http from 'http'
 import { execSync } from 'child_process'
 
+if (process.platform === 'win32') {
+  app.setAppUserModelId('com.unnc.grp')
+}
+
 // examine the environment
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -28,7 +32,6 @@ async function createWindow() {
     // minWidth: 800,
     // maxWidth: 3840,
     // useContentSize: true,
-    resizable: true,
     title: 'Eye Tracking for Simulation Assessment',
     frame: false,
     center: true,
@@ -464,6 +467,7 @@ function sendToPython() {
   //   console.log('finished');
   // });
 }
+
 
 
 
