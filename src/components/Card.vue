@@ -35,10 +35,20 @@
                 <v-btn
                   class="mx-4 my-2"
                   color="primary"
-                  @click="showChart(item.userScore, item.calculatedScore, item.visualization)"
+                  @click="
+                    showChart(
+                      item.userScore,
+                      item.calculatedScore,
+                      item.visualization
+                    )
+                  "
                 >
                   Visualization
                   <v-icon right>mdi-eye-check</v-icon>
+                </v-btn>
+                <v-btn class="mx-4 my-2" color="primary" @click="upload(item)">
+                  Upload
+                  <v-icon right>mdi-cloud-upload</v-icon>
                 </v-btn>
               </td>
             </template>
@@ -112,6 +122,7 @@
 
 <script>
 import { insertRecord, getRecordsBySimulation } from '../utils/indexedDB.js'
+import uploadUtil from '../utils/upload.js'
 import { format } from 'fecha'
 
 export default {
@@ -138,6 +149,8 @@ export default {
 
       headers: [
         { text: 'No.', value: 'number' },
+        { text: 'User', value: 'user' },
+        { text: 'Simulation', value: 'simulation' },
         { text: 'User Score', value: 'userScore' },
         { text: 'Calculated Score', value: 'calculatedScore' },
         { text: 'Date', value: 'date' },
@@ -147,6 +160,8 @@ export default {
       items: [],
     }
   },
+
+  mixins: [uploadUtil],
 
   computed: {
     // url of thumbnail image
@@ -227,11 +242,13 @@ export default {
       records.forEach((value, index, array) => {
         this.items.push({
           number: count++,
+          user: value.user,
           userScore: value.userScore,
           calculatedScore: value.calculatedScore,
           date: value.date,
           sync: value.uid == '' ? 'No' : 'Yes',
           visualization: value.visualization,
+          id: value.id,
         })
       })
       this.showRecord = !this.showRecord
@@ -240,7 +257,7 @@ export default {
     async saveRecord() {
       // generate unique filename
       let fileName = this.name + Date.now()
-      fileName = fileName.replace(/\s*/g,"")
+      fileName = fileName.replace(/\s*/g, '')
       // listen to ipcMain event
       this.$electron.ipcRenderer.on('renamed' + fileName, () => {
         insertRecord({
@@ -274,7 +291,12 @@ export default {
       this.$electron.ipcRenderer.on('mapLoaded' + fileName, (event, arg) => {
         this.$router.push({
           name: 'Visualization',
-          params: { name: this.name, rating: this.rating, score: this.score, map: arg },
+          params: {
+            name: this.name,
+            rating: this.rating,
+            score: this.score,
+            map: arg,
+          },
         })
       })
       this.$electron.ipcRenderer.send('loadMap', fileName)

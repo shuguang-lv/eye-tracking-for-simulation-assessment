@@ -154,7 +154,14 @@ export default {
         try {
           const data = { base64: arg }
           const file = new this.leanCloud.File(fileName + '.txt', data)
-          file.save()
+          file.save().then(
+            (file) => {
+              console.log(`文件保存完成。objectId：${file.id}`)
+            },
+            (error) => {
+              this.eventBus.$emit('showSnackbarError', 'File uploading failed')
+            }
+          )
         } catch (error) {
           this.eventBus.$emit('showSnackbarError', 'File uploading failed')
         }

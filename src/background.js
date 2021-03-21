@@ -8,6 +8,10 @@ import path from 'path'
 import http from 'http'
 import { execSync } from 'child_process'
 
+if (process.platform === 'win32') {
+  app.setAppUserModelId('com.unnc.grp')
+}
+
 // examine the environment
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -463,6 +467,7 @@ function sendToPython() {
   //   console.log('finished');
   // });
 }
+
 
 
 
