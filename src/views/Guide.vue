@@ -1,11 +1,95 @@
 <template>
-  <v-layout class="">
-    <markdown-it-vue class="md-body" :content="content" />
-  </v-layout>
+  <v-row class="mb-4 px-16">
+    <!-- page title -->
+    <v-col cols="12" class="px-16 mb-4 d-flex">
+      <h1 class="page-title px-5">
+        User Guide
+        <v-icon class="ml-2">
+          mdi-book
+        </v-icon>
+      </h1>
+      <v-spacer></v-spacer>
+    </v-col>
+    <!-- card list -->
+    <v-col cols="12" class="px-16 d-flex flex-column">
+      <v-card class="elevation-1 pa-8 my-8" dark>
+        <h2 class="mb-8">Login</h2>
+        <v-img :src.sync="login"> </v-img>
+      </v-card>
+      <v-card class="elevation-1 pa-8 my-8" dark>
+        <h2 class="mb-8">Logout</h2>
+        <v-img :src.sync="logout"> </v-img>
+      </v-card>
+      <v-card class="elevation-1 pa-8 my-8" dark>
+        <h2 class="mb-8">Sign up</h2>
+        <v-img :src.sync="signup"> </v-img>
+      </v-card>
+      <v-card class="elevation-1 pa-8 my-8" dark>
+        <h2 class="mb-8">Procedure of watching a simulation</h2>
+        <v-img :src.sync="watch"> </v-img>
+      </v-card>
+      <v-card class="elevation-1 pa-8 my-8" dark>
+        <h2 class="mb-8">View records in a simulation card</h2>
+        <v-img :src.sync="card"> </v-img>
+      </v-card>
+      <v-card class="elevation-1 pa-8 my-8" dark>
+        <h2 class="mb-8">View records in a simulation card</h2>
+        <v-img :src.sync="card"> </v-img>
+      </v-card>
+      <v-card class="elevation-1 pa-8 my-8" dark>
+        <h2 class="mb-8">Download records from cloud storage</h2>
+        <v-img :src.sync="download"> </v-img>
+      </v-card>
+      <v-card class="elevation-1 pa-8 my-8" dark>
+        <h2 class="mb-8">Upload records to cloud storage</h2>
+        <v-img :src.sync="upload"> </v-img>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
-export default {}
+import MarkdownItVue from 'markdown-it-vue'
+
+export default {
+  components: {
+    MarkdownItVue,
+  },
+
+  data() {
+    return {
+      content: '# your markdown content',
+    }
+  },
+
+  computed: {
+    // url of thumbnail image
+    login() {
+      return process.env.BASE_URL + 'login.gif'
+    },
+    logout() {
+      return process.env.BASE_URL + 'logout.gif'
+    },
+    signup() {
+      return process.env.BASE_URL + 'signup.gif'
+    },
+    watch() {
+      return process.env.BASE_URL + 'watch.gif'
+    },
+    record() {
+      return process.env.BASE_URL + 'record.gif'
+    },
+    card() {
+      return process.env.BASE_URL + 'card.gif'
+    },
+    download() {
+      return process.env.BASE_URL + 'download.gif'
+    },
+    upload() {
+      return process.env.BASE_URL + 'upload.gif'
+    },
+  },
+}
 </script>
 
 <style scoped></style>

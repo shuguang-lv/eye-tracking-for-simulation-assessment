@@ -25,8 +25,8 @@ async function createWindow() {
   const win = new BrowserWindow({
     // show: false,
     backgroundColor: '#FFF',
-    // height: 720,
-    // width: 1280,
+    // height: 1080,
+    // width: 1920,
     // minHeight: 600,
     // maxHeight: 2160,
     // minWidth: 800,
