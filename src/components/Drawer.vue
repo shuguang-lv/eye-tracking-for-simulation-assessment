@@ -76,7 +76,7 @@ export default {
         { text: 'Records', icon: 'mdi-history', link: 'records' },
         { text: 'My Files', icon: 'mdi-folder' },
         { text: 'About', icon: 'mdi-information', link: 'about' },
-        { text: 'Guide', icon: 'mdi-book', link: 'faq' },
+        { text: 'Guide', icon: 'mdi-book', link: 'guide' },
       ],
       value: 1,
       userName: '',

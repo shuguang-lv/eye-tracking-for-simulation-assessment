@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import VueElectron from 'vue-electron'
+import VueMarkdown from 'vue-markdown'
 import Cloudbase from '@cloudbase/vue-provider'
 // import vuescroll from 'vuescroll'
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
@@ -71,6 +72,7 @@ new Vue({
   router,
   store,
   vuetify,
+  VueMarkdown,
   render: (h) => h(App),
 }).$mount('#app')
 
