@@ -112,7 +112,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .drag {
   -webkit-app-region: drag !important;
 }
