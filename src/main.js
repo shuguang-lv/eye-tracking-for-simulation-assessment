@@ -68,11 +68,12 @@ Vue.prototype.user = AV.User
 Vue.prototype.currentUser = AV.User.current()
 
 new Vue({
+  el: '#app',
   router,
   store,
   vuetify,
   render: (h) => h(App),
-}).$mount('#app')
+})
 
 /********************************************************/
 

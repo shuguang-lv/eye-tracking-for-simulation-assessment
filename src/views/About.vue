@@ -23,17 +23,17 @@
           movement trajectory and derives relevant information to obtain the
           different concerns of users for different simulations.
         </p>
-        <p>
-          <strong>Github Repo</strong> : https://github.com/UNNC2018Team11/eye-tracking-for-simulation-assessment.git
+        <p @click="$electron.shell.openExternal('https://github.com/UNNC2018Team11/eye-tracking-for-simulation-assessment.git')">
+          <strong>Github Repo</strong> : <a href="">https://github.com/UNNC2018Team11/eye-tracking-for-simulation-assessment.git</a>
         </p>
-        <p>
-          <strong>Blog</strong> : https://18757670961.github.io/
+        <p @click="$electron.shell.openExternal('https://18757670961.github.io/')">
+          <strong>Blog</strong> : <a href="">https://18757670961.github.io/</a>
         </p>
       </div>
       <v-divider light class="mb-8"></v-divider>
       <div>
         <h2 class="mb-4 primary--text">Developers Profile &amp; Credits</h2>
-        <p><strong>|</strong> <strong>Sijin Wang</strong></p>
+        <p><h3>| Sijin Wang (Eye Tracking)</h3></p>
         <ul class="mb-8">
           <li>
             <p>
@@ -69,7 +69,7 @@
             </p>
           </li>
         </ul>
-        <p><strong>|</strong> <strong>Mingchen Liu</strong></p>
+        <p><h3>| Mingchen Liu (Eye Tracking)</h3></p>
         <ul class="mb-8">
           <li>
             <p>
@@ -97,7 +97,7 @@
             </p>
           </li>
         </ul>
-        <p><strong>|</strong> <strong>Chenglei You</strong></p>
+        <p><h3>| Chenglei You (Simulation)</h3></p>
         <ul class="mb-8">
           <li>
             <em>Email</em>:
@@ -121,7 +121,7 @@
             </ul>
           </li>
         </ul>
-        <p><strong>|</strong> <strong>Meitong Wang</strong></p>
+        <p><h3>| Meitong Wang (Eye Tracking)</h3></p>
         <ul class="mb-8">
           <li>
             <em>Email</em>:
@@ -153,7 +153,7 @@
             </ul>
           </li>
         </ul>
-        <p><strong>|</strong> <strong>Shuguang Lyu</strong></p>
+        <p><h3>| Shuguang Lyu (Frontend)</h3></p>
         <ul class="mb-8">
           <li>
             <em>Email</em>:
@@ -190,7 +190,7 @@
             </ul>
           </li>
         </ul>
-        <p><strong>| Xiaoqing Wang</strong></p>
+        <p><h3>| Xiaoqing Wang (Eye Tracking)</h3></p>
         <ul class="mb-8">
           <li>
             <p>
