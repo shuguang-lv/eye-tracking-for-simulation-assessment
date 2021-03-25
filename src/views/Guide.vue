@@ -83,11 +83,11 @@
 </template>
 
 <script>
-import MarkdownItVue from 'markdown-it-vue'
+// import MarkdownItVue from 'markdown-it-vue'
 
 export default {
   components: {
-    MarkdownItVue,
+    // MarkdownItVue,
   },
 
   data() {

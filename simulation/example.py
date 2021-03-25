@@ -42,8 +42,8 @@ def count_points(point_x, point_y):
     if 0 <= a <= 23 and 0 <= b <= 9:
         watchingTime[b][a] = watchingTime[b][a] + 1
     else:
-        a=random.randint(9, 15)
-        b=random.randint(3, 6)
+        a=random.randint(1, 22)
+        b=random.randint(1, 8)
 
         watchingTime[b][a] = watchingTime[b][a] + 1
         path = "count.csv"
