@@ -105,12 +105,40 @@ if (isDevelopment) {
   }
 }
 
+let url
+  if (isDevelopment) {
+    url = path.join('./simulation/')
+  } else {
+    url = path.join('./resources/simulation/')
+  }
+
+execSync('javac Main.java', { cwd: url }, (err, stdout, stderr) => {
+  if (err) {
+    console.error(err)
+  }
+  console.log(stdout)
+})
+
+execSync('javac SimulationLauncher.java', { cwd: url }, (err, stdout, stderr) => {
+  if (err) {
+    console.error(err)
+  }
+  console.log(stdout)
+})
+
+execSync('javac PythonLauncher.java', { cwd: url }, (err, stdout, stderr) => {
+  if (err) {
+    console.error(err)
+  }
+  console.log(stdout)
+})
+
 // Example of usage of Vuex Store from the main process
 // Results of action will be automatically passed to all renderer processes
 // setInterval(() => {
 //   store.dispatch('decrement')
 // }, 5000)
-
+ 
 /********************************************************************************/
 
 // ipcMain.on('run', (event) => {

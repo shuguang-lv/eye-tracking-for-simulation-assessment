@@ -57,14 +57,14 @@ export default {
         this.ctrack.draw(this.overlay)
 
         // Get the eyes rectangle and draw it in red:
-        const eyesRect = this.getEyesRectangle(currentPosition)
-        this.overlayCC.strokeStyle = 'red'
-        this.overlayCC.strokeRect(
-          eyesRect[0],
-          eyesRect[1],
-          eyesRect[2],
-          eyesRect[3]
-        )
+        // const eyesRect = this.getEyesRectangle(currentPosition)
+        // this.overlayCC.strokeStyle = 'red'
+        // this.overlayCC.strokeRect(
+        //   eyesRect[0],
+        //   eyesRect[1],
+        //   eyesRect[2],
+        //   eyesRect[3]
+        // )
 
         // The video might internally have a different size, so we need these
         // factors to rescale the eyes rectangle before cropping:
