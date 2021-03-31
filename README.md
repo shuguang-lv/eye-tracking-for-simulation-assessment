@@ -105,3 +105,10 @@ npm run lint
 ### Customize configuration
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+## Install Python dependencies (NumPy, OpenCV, Dlib):
+
+```
+pip install -r python_requirements.txt
+```
