@@ -105,3 +105,26 @@ npm run lint
 ### Customize configuration
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+## Install Python dependencies (NumPy, OpenCV, Dlib):
+
+```
+pip install -r python_requirements.txt
+```
+
+## Project structure
+
+```
+|-- simulation
+    |-- example.py   // the main function
+    |-- gaze_tracking
+        |-- calibration.py
+        |-- eye.py   // detect eyes
+        |-- gaze_tracking.py   
+        |-- pupil.py   // detect pupil
+        |-- trained_models   // a trained model provided by dlib
+        |   |-- shape_predictor_68_face_landmarks.dat
+
+```
+
