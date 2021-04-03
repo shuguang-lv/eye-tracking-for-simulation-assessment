@@ -135,6 +135,13 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 pip install -r python_requirements.txt
 ```
 
+**We use cv2.VideoCapture(0) to call the laptop camera in this version.**
+
+If you want to call external camera, please change simulation/example.py (line 11) into 
+```
+webcam = cv2.VideoCapture(1)
+```
+
 ---
 
 ## Test
