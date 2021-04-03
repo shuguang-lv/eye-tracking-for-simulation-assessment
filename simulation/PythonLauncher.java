@@ -37,4 +37,8 @@ public class PythonLauncher extends Thread {
     public void des() {
         process.destroy();
     }
+
+    public Process getProcess() {
+        return process;
+    }
 }

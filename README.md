@@ -8,9 +8,13 @@ fixation point positioning, the researcher analyzes the user's eye
 movement trajectory and derives relevant information to obtain the
 different concerns of users for different simulations.
 
-Team Blog: https://18757670961.github.io/
+Team's Blog: https://18757670961.github.io/
 
-## Project structure (frontend)
+---
+
+## Frontend
+
+### Project Structure
 
 ```
 src
@@ -66,7 +70,7 @@ src
         Visualization.vue
 ```
 
-## NPM source setup
+## NPM Source Setup
 
 ```
 npm config set registry https://registry.npm.taobao.org/
@@ -76,7 +80,7 @@ npm config set ELECTRON_MIRROR http://npm.taobao.org/mirrors/electron/
 npm config set SASS_BINARY_SITE='https://npm.taobao.org/mirrors/node-sass'
 ```
 
-## Project setup
+## Project Setup
 
 ```
 npm cache clean -f
@@ -84,36 +88,33 @@ npm cache clean -f
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Compiles and Hot-reloads for development
 
 ```
 npm run electron:serve
 ```
 
-### Compiles and minifies for production
+### Compiles and Minifies for production
 
 ```
 npm run electron:build
 ```
 
-### Lints and fixes files
+### Lints and Fixes Files
 
 ```
 npm run lint
 ```
 
-### Customize configuration
+### Customize Configuration
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
+---
 
-## Install Python dependencies (NumPy, OpenCV, Dlib):
+## Backend
 
-```
-pip install -r python_requirements.txt
-```
-
-## Project structure
+### Project Structure
 
 ```
 |-- simulation
@@ -124,7 +125,26 @@ pip install -r python_requirements.txt
         |-- gaze_tracking.py   
         |-- pupil.py   // detect pupil
         |-- trained_models   // a trained model provided by dlib
-        |   |-- shape_predictor_68_face_landmarks.dat
+            |-- shape_predictor_68_face_landmarks.dat
 
 ```
 
+### Install Python Dependencies (NumPy, OpenCV, Dlib):
+
+```
+pip install -r python_requirements.txt
+```
+
+---
+
+## Test
+### Component Test by Junit
+```
+src/simulation/PythonLauncherTest.java
+src/simulation/SimulationLauncherTest.java
+```
+**Please DON'T run these 2 testing files directly.**
+
+If you want to run these tests, please open the files given above in the Intellij IDEA or Eclipse with Junit imported.
+
+To import Junit package, you can use the 'junit-4.9.jar' provided in the 'simulation' folder, or you can let the IDE automatically import **Junit4** for you (please refer to the instructions of the IDE you are using)
