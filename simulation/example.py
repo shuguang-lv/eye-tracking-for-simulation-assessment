@@ -1,8 +1,3 @@
-"""
-Demonstration of the GazeTracking library.
-Check the README.md for complete documentation.
-"""
-
 import csv
 import time
 
@@ -56,7 +51,8 @@ def count_points(point_x, point_y):
 def rw_csv():
     """
     read 'coor.csv' which contains the coordinates of all the gazing points
-    calculate the standard deviation and write std into another csv file
+    calculate the standard deviation and some other results,
+     and write them into 'std.csv' file
     """
     with open('coor.csv', 'r') as f:
         reader = csv.reader(f)
@@ -73,20 +69,28 @@ def rw_csv():
 
 
 def cal_mark():
+    """
+    read 'std.csv' which contains standard deviation and other results
+    calculate the automatic score
+    write the score into 'mark.csv'
+    """
+    # read from 'std.csv'
     with open('std.csv', 'r') as f:
         reader = csv.reader(f)
         for i in reader:
-            std_x = i[0];
-            std_y = i[1];
+            std_x = i[0]
+            std_y = i[1]
 
     std_x = float(std_x)
     std_y = float(std_y)
+    # calculate the automatic mark
     mark = int((std_y + std_x) / 2)
     if mark > 100:
         mark = 100
     elif mark < 0:
         mark = 0
 
+    # write into 'mark.csv'
     with open("mark.csv", 'w', newline='') as f:
         csv_write = csv.writer(f, lineterminator='\n')
         data_row = [mark]
@@ -171,6 +175,7 @@ while True:
     # calculate standard deviation and write into a csv file
     rw_csv()
 
+    # 
     cal_mark()
 
     if cv2.waitKey(1) == 27:
