@@ -21,6 +21,8 @@ Team's Blog: https://18757670961.github.io/
   - Hard disk: 512GB or above
   - RAM: 8G or above 
   - Webcam: 720P or above
+ 
+ 
  **You may have problem in 'npm install' if you cannot reach these configurations. Please contact us if you cannot run successfully.**
 ### Software
 - Node.js 12.x and above
