@@ -1,3 +1,8 @@
+"""
+function pupil_located(), _analyse() and refresh() are written by https://github.com/antoinelame/GazeTracking
+other functions are written by the team
+"""
+
 from __future__ import division
 import os
 import cv2
