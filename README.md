@@ -184,6 +184,7 @@ If you want to run these tests, please open the files given above in the Intelli
 
 To import Junit package, you can use the 'junit-4.9.jar' provided in the 'simulation' folder, or you can let the IDE automatically import **Junit4** for you (please refer to the instructions of the IDE you are using)
 
+---
 
-### Others
+## Others
 If you want to maintain our code, please refer to 
