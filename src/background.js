@@ -144,7 +144,7 @@ execSync('javac PythonLauncher.java', { cwd: url }, (err, stdout, stderr) => {
 // ipcMain.on('run', (event) => {
 //   sendToPython()
 //   event.reply('success')
-// })
+// }) 
 
 // event listener: play simulation
 ipcMain.on('play', (event, source) => {
@@ -435,7 +435,7 @@ function copyMapFile(event, file) {
   } else {
     filePath = path.join('./resources/simulation/', file + '.csv')
   }
-
+ 
   if (!fs.existsSync(filePath)) {
     console.log('csv文件不存在')
     event.reply('error', 'Map file cannot be found')
@@ -447,7 +447,7 @@ function copyMapFile(event, file) {
   let data = fs.readFileSync(filePath)
   // encode data into base64 for uploading
   data = new Buffer(data).toString('base64')
-  event.reply('mapCopied' + file, data)
+  event.returnValue = data
 }
 
 function sendToPython() {

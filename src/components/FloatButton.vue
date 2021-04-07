@@ -1,12 +1,11 @@
 <template>
   <div class="d-flex">
     <!-- upload button -->
-    <v-badge color="warning" :value="upload" dot overlap class="mr-3">
+    <!-- <v-badge color="warning" :value="upload" dot overlap class="mr-3">
       <v-btn small icon @click="checkUser(0)"
         ><v-icon>mdi-cloud-upload</v-icon></v-btn
       >
-      <!-- <v-icon @click="dialog = true">mdi-cloud-upload</v-icon> -->
-    </v-badge>
+    </v-badge> -->
     <!-- download button -->
     <v-badge color="warning" :value="download" dot overlap>
       <v-btn small icon @click="checkUser(1)"
@@ -148,25 +147,25 @@ export default {
       this.eventBus.$emit('showSnackbar', 'Upload records successfully!')
     },
 
-    uploadFile(fileName) {
-      // listen to ipcMain event
-      this.$electron.ipcRenderer.on('mapCopied' + fileName, (event, arg) => {
-        try {
-          const data = { base64: arg }
-          const file = new this.leanCloud.File(fileName + '.txt', data)
-          file.save().then(
-            (file) => {
-              console.log(`文件保存完成。objectId：${file.id}`)
-            },
-            (error) => {
-              this.eventBus.$emit('showSnackbarError', 'File uploading failed')
-            }
-          )
-        } catch (error) {
-          this.eventBus.$emit('showSnackbarError', 'File uploading failed')
-        }
-      })
-      this.$electron.ipcRenderer.send('copyMap', fileName)
+    async uploadFile(fileName) {
+      try {
+        const arg = this.$electron.ipcRenderer.sendSync('copyMap', fileName)
+        const data = { base64: arg }
+        const file = new this.leanCloud.File(fileName + '.txt', data)
+        await file.save()
+      } catch (error) {
+        this.eventBus.$emit('showSnackbarError', 'File uploading failed')
+      }
+      this.sleep(5000)
+    },
+
+    sleep(numberMillis) {
+      var now = new Date()
+      var exitTime = now.getTime() + numberMillis
+      while (true) {
+        now = new Date()
+        if (now.getTime() > exitTime) return
+      }
     },
 
     async downloadRecords() {
