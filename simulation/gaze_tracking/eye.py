@@ -1,3 +1,7 @@
+"""
+function _analyse() and _isolate() are written by https://github.com/antoinelame/GazeTracking
+other functions are written by the team
+"""
 import math
 import numpy as np
 import cv2
