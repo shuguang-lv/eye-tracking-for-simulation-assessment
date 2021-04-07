@@ -13,6 +13,12 @@ Team's Blog: https://18757670961.github.io/
 ---
 
 ## Prerequisite
+
+### Note:
+
+* **If you find the number of points in the heatmap is quite small, it mignt be the result of bad light condition. Please change a place where your face coud be clearly identified, because eye tracking accuracy is largely affected by light condition.**
+* **When you are using this application, please make sure ONLY your whole face is in front of the camera.**
+
 ### Hardware
 - The recommended computer configurations: 
   - CPU: Intel i7/ AMD Ryzen7 4800H or above
