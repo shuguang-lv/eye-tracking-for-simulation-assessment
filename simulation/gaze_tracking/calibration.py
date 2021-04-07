@@ -1,3 +1,6 @@
+"""
+This file is from https://github.com/antoinelame/GazeTracking
+"""
 from __future__ import division
 import cv2
 from .pupil import Pupil
