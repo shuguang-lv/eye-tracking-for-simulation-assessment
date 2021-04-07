@@ -14,18 +14,20 @@ Team's Blog: https://18757670961.github.io/
 
 ## Prerequisite
 ### Hardware
-- This App is proven to run successfully under **Windows 10** environment. However, other operating systems such as Linux, macOS haven't been proven to support this App. Please contact us before running this App if you are a user of those operating.
 - The recommended computer configurations: 
   - CPU: Intel i7/ AMD Ryzen7 4800H or above
   - GPU: NVIDIA 2060 or above
   - Hard disk: 512GB or above
   - RAM: 8G or above 
   - Webcam: 720P or above
- 
- 
+
+
  **You may have problem in 'npm install' if you cannot reach these configurations. Please contact us if you cannot run successfully.**
 ### Software
-- Node.js 12.x and above
+
+* This App is proven to run successfully under **Windows 10** environment. However, other operating systems such as Linux, macOS haven't been proven to support this App. Please contact us before running this App if you are a user of those operating.
+
+- Node.js 12.x and above (https://nodejs.org/en/)
 - Java SE8 and above
 - Python 3.8 and above
 
@@ -187,4 +189,9 @@ To import Junit package, you can use the 'junit-4.9.jar' provided in the 'simula
 ---
 
 ## Others
-If you want to maintain our code, please refer to 
+If you want to maintain our code, please refer to [Maintenance Manual](./doc/Team11_maintenance_manual.pdf)
+
+```
+doc/Team11_maintenance_manual.pdf
+```
+
