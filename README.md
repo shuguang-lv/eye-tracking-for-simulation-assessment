@@ -12,6 +12,13 @@ Team's Blog: https://18757670961.github.io/
 
 ---
 
+## Prerequisite
+- Node.js 12.x and above
+- Java SE8 and above
+- Python 3.8 and above
+
+---
+
 ## Frontend
 
 ### Project Structure
@@ -70,7 +77,7 @@ src
         Visualization.vue
 ```
 
-## NPM Source Setup
+### NPM Source Setup
 
 ```
 npm config set registry https://registry.npm.taobao.org/
@@ -80,7 +87,7 @@ npm config set ELECTRON_MIRROR http://npm.taobao.org/mirrors/electron/
 npm config set SASS_BINARY_SITE='https://npm.taobao.org/mirrors/node-sass'
 ```
 
-## Project Setup
+### Project Setup
 
 ```
 npm cache clean -f
@@ -138,6 +145,15 @@ pip install -r python_requirements.txt
 ---
 
 ## Test
+
+### Unit Test
+```
+src/simulation/test_exm.py
+```
+If you want to run the unit tests, please run the following command first
+```
+pip install pytest
+```
 ### Component Test by Junit
 ```
 src/simulation/PythonLauncherTest.java
