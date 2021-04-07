@@ -14,12 +14,13 @@ Team's Blog: https://18757670961.github.io/
 
 ## Prerequisite
 ### Hardware
-- This App is proven to run successfully under #Windows 10# environment. However, other operating systems such as Linux, macOS haven't been proven to support this App. Please contact us before running this App if you are a user of those operating.
+- This App is proven to run successfully under Windows 10 environment. However, other operating systems such as Linux, macOS haven't been proven to support this App. Please contact us before running this App if you are a user of those operating.
 - The recommended computer configurations: 
   1. CPU:Intel i7/ AMD Ryzen7 4800H or above
   2. GPU: NVIDIA 2060 or above
   3. Hard disk: 512GB or above
   4. RAM: 8G or above 
+  5. Webcam: 720P or above
  # You may have problem in 'npm install' if you cannot reach these configurations. Please contact us if you cannot run successfully.#
 ### Software
 - Node.js 12.x and above
