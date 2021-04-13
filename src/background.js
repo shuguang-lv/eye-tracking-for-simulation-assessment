@@ -106,11 +106,11 @@ if (isDevelopment) {
 }
 
 let url
-  if (isDevelopment) {
-    url = path.join('./simulation/')
-  } else {
-    url = path.join('./resources/simulation/')
-  }
+if (isDevelopment) {
+  url = path.join('./simulation/')
+} else {
+  url = path.join('./resources/simulation/')
+}
 
 execSync('javac Main.java', { cwd: url }, (err, stdout, stderr) => {
   if (err) {
@@ -119,12 +119,16 @@ execSync('javac Main.java', { cwd: url }, (err, stdout, stderr) => {
   console.log(stdout)
 })
 
-execSync('javac SimulationLauncher.java', { cwd: url }, (err, stdout, stderr) => {
-  if (err) {
-    console.error(err)
+execSync(
+  'javac SimulationLauncher.java',
+  { cwd: url },
+  (err, stdout, stderr) => {
+    if (err) {
+      console.error(err)
+    }
+    console.log(stdout)
   }
-  console.log(stdout)
-})
+)
 
 execSync('javac PythonLauncher.java', { cwd: url }, (err, stdout, stderr) => {
   if (err) {
@@ -138,17 +142,17 @@ execSync('javac PythonLauncher.java', { cwd: url }, (err, stdout, stderr) => {
 // setInterval(() => {
 //   store.dispatch('decrement')
 // }, 5000)
- 
+
 /********************************************************************************/
 
 // ipcMain.on('run', (event) => {
 //   sendToPython()
 //   event.reply('success')
-// }) 
+// })
 
 // event listener: play simulation
-ipcMain.on('play', (event, source) => {
-  playSimulation(event, source)
+ipcMain.on('play', (event, source, file) => {
+  playSimulation(event, source, file)
 })
 
 // event listener: download map file from the cloud
@@ -318,6 +322,7 @@ function playSimulation(event, source, file) {
   // read calculated score
   let score = fs.readFileSync(filePath)
 
+  console.log(file)
   renameFile('', file)
 
   event.reply('success' + source, score * 1)
@@ -382,7 +387,7 @@ function renameFile(event, name) {
   let newPath = path.join(dir, name + 'STD' + '.csv')
 
   if (!fs.existsSync(oldPath)) {
-    console.log('csv文件不存在') 
+    console.log('std.csv文件不存在')
     ipcMain.emit('error', 'Necessary file cannot be found')
     // event.reply('error', 'Necessary file cannot be found')
     return
@@ -394,7 +399,7 @@ function renameFile(event, name) {
   newPath = path.join(dir, name + '.csv')
 
   if (!fs.existsSync(oldPath)) {
-    console.log('csv文件不存在')
+    console.log('count.csv文件不存在')
     ipcMain.emit('error', 'Necessary file cannot be found')
     // event.reply('error', 'Necessary file cannot be found')
     return
@@ -438,12 +443,12 @@ function copyMapFile(event, file) {
   } else {
     filePath = path.join('./resources/simulation/', file + '.csv')
   }
- 
+
   if (!fs.existsSync(filePath)) {
     console.log('csv文件不存在')
     event.reply('error', 'Map file cannot be found')
     return
-  } 
+  }
 
   // event.reply('mapCopied' + file, path.resolve(filePath))
 
@@ -498,7 +503,3 @@ function sendToPython() {
   //   console.log('finished');
   // });
 }
-
-
-
-
