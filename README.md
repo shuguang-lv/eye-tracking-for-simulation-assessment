@@ -13,7 +13,8 @@ Team's Blog: https://18757670961.github.io/
 ---
 
 ## Prerequisite
-- Node.js 12.x and above
+- Operating System: Windows10
+- Node.js 12.x and above (https://nodejs.org/en/)
 - Java SE8 and above
 - Python 3.8 and above
 
