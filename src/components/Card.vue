@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- thumbnail card -->
-    <v-card class="elevation-1" dark height="300" @click="dialog = true">
+    <v-card class="elevation-1" color="#2a2a2e" height="300" @click="dialog = true">
       <v-img class="" height="200px" :src.sync="thumbnail"> </v-img>
       <v-card-title class="mt-4">
         {{ name }}
