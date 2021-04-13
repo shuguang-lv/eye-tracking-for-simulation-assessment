@@ -143,6 +143,13 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 pip install -r python_requirements.txt
 ```
 
+**We use cv2.VideoCapture(0) to call the laptop camera in this version.**
+
+If you want to call **external camera**, please change **simulation/example.py (line 11)** into 
+```
+webcam = cv2.VideoCapture(1)
+```
+
 ---
 
 ## Test
@@ -160,7 +167,7 @@ pip install pytest
 src/simulation/PythonLauncherTest.java
 src/simulation/SimulationLauncherTest.java
 ```
-**Please DON'T run these 2 testing files directly.**
+**Please DO NOT run these 2 testing files directly.**
 
 If you want to run these tests, please open the files given above in the Intellij IDEA or Eclipse with Junit imported.
 
