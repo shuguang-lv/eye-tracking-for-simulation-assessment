@@ -195,7 +195,7 @@ To import Junit package, you can use the 'junit-4.9.jar' provided in the 'simula
 ---
 
 ## Others
-If you want to maintain our code, please refer to [Maintenance Manual](./doc/Team11_maintenance_manual.pdf)
+If you want to maintain our code, please refer to [Maintenance Manual](./Team11_maintenance_manual.pdf)
 
 ```
 doc/Team11_maintenance_manual.pdf
